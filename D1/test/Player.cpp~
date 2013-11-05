@@ -1,0 +1,64 @@
+#include <string>
+#include "display.h"
+#include "Card.h"
+#include "Hand.h"
+#include "Player.h"
+
+using namespace std;
+
+Player::Player(int displayPos, int initialMoneY) : 
+	displayPosition(displayPos),
+	money(initialMoney),
+	moneyInPot(0),
+	hasFolded(false),
+	hand()
+	{
+}
+
+void Player::giveCard(Card &card) {
+    hand->addCard(card);
+}
+
+Hand* Player::getHand() {
+    return hand;
+}
+
+void Player::setHand(Hand *newHand) {
+    hand = newHand;
+}
+
+int Player::getMoney() {
+    return money;
+}
+
+int Player::getMoneyInPot() {
+    return moneyInPot;
+}
+
+int Player::giveMoney(int amount) {
+    money += amount;
+    return money;
+}
+
+void Player::setMoney(int amount) {
+    money = amount;
+}
+
+bool Player::folded() {
+    return hasFolded;
+}
+
+void Player::setDisplayPosition(int position) {
+    displayPosition = position;
+}
+
+int Player::getDisplayPosition() {
+    return displayPosition;
+}
+
+int Player::ante(int anteAmount) {
+    int ante = (money > anteAmount) ? anteAmount : money;
+    money -= ante;
+    moneyInPot += ante;
+    return ante;
+}

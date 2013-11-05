@@ -1,0 +1,7 @@
+class HumanPlayerStub: public Player {
+
+    public:
+	HumanPlayer(int displayPos, int initialMoney);
+        int bet(int minimumBid, display gameDisplay);
+        int discard(display gameDisplay);
+};
