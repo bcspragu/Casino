@@ -15,7 +15,7 @@ time_t Timer::checkIn(void) {
 
 time_t Timer::checkOut(void) {
 	timeOut = time(NULL);
-	secondsPlayed = secondsPlayed + difftime(timeOut, timeIn);
+	secondsPlayed += difftime(timeOut, timeIn);
 	return timeOut;
 };
 
