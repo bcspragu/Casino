@@ -16,3 +16,4 @@ public:
 	double getSecondsPlayed(void);
 };
 #endif /*TIMER_H_*/
+

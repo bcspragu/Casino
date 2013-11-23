@@ -5,7 +5,6 @@
  *      Author: Kyle Despins
  */
 
-
 #include "Bet.h" 
 
 #include <string>
@@ -13,38 +12,53 @@
 
 using namespace std;
 
-Bet::Bet(){
-	action = -2;
+/*
+ * Default constructor
+ */
+Bet::Bet() {
+	action = INVALID;
 	amount = 0;
 }
 
-Bet::Bet(int betType, int amt) {
-	action = betType;  // -1 fold 0-check 1-call 2-Raise
-	amount = amt;
+/*
+ * Constructor
+ */
+Bet::Bet(BetAction betAction, int betAmount) {
+	action = betAction;
+	amount = betAmount;
 }
 
-int Bet::getAction() {
+/*
+ * Returns the bet action
+ */
+BetAction Bet::getAction() {
 	return action;
 }
 
+/*
+ * Returns the amount bet
+ */
 int Bet::getAmount() {
 	return amount;
 }
 
+/*
+ * Returns a string describing the bet
+ */
 string Bet::print() {
 	stringstream ss;
 
 	switch (action) {
-	case -1:
+	case FOLD:
 		ss << "folded.";
 		break;
-	case 0:
-		ss << "checked.";
+	case CALL:
+		if (amount == 0)
+			ss << "checked.";
+		else
+			ss << "called.";
 		break;
-	case 1:
-		ss << "called ";
-		break;
-	case 2:
+	case RAISE:
 		ss << "raised " << amount << ".";
 		break;
 	default:

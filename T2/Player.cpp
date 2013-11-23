@@ -13,13 +13,17 @@
 using namespace std;
 
 Player::Player() {
-	playerNum = -1;
+	next = NULL;
+	prev = NULL;
+	playerNum = 0;
 	folded = false;
 	money = 500;
 	pocket = new SmallDeck();
 }
 
 Player::Player(int num) {
+	next = NULL;
+	prev = NULL;
 	playerNum = num;
 	folded = false;
 	money = 500;
@@ -30,25 +34,13 @@ Player::~Player() {
 
 }
 
-bool Player::inRound() {
-	return !folded;
-}
-
 void Player::giveCard(Card * card) {
 	pocket->add(card);
-}
-
-SmallDeck * Player::getPocket() {
-	return pocket;
 }
 
 SmallDeck * Player::fold() {
 	folded = true;
 	return pocket;
-}
-
-int Player::getMoney() {
-	return money;
 }
 
 void Player::takePot(int pot) {
@@ -59,8 +51,8 @@ void Player::unFold() {
 	folded = false;
 }
 
-Bet Player::makeBet(SmallDeck comm, int minBet) {
-	Bet bet(1, 50000000);
+Bet Player::makeBet(SmallDeck comm, int minBet, GameState state) {
+	Bet bet(CALL, 0);
 	return bet;
 }
 
@@ -68,11 +60,11 @@ Bet Player::makeBig(int minBet) {
 
 	// if player cannot pay, they fold and put the rest of their money in
 	if (minBet > money) {
-		Bet bet(-1, money);
+		Bet bet(FOLD, money);
 		money = 0;
 		return bet;
 	} else {
-		Bet bet(0, minBet);
+		Bet bet(CALL, minBet);
 		money = money - minBet;
 		return bet;
 	}
@@ -83,17 +75,17 @@ Bet Player::makeLittle(int minBet) {
 	int betAmt = minBet / 2;
 	// if player cannot pay, they fold and put the rest of their money in
 	if (betAmt > money) {
-		Bet bet(-1, money);
+		Bet bet(FOLD, money);
 		money = 0;
 		return bet;
 	} else {
-		Bet bet(0, betAmt);
+		Bet bet(CALL, betAmt);
 		money = money - betAmt;
 		return bet;
 	}
 }
 
 void Player::print() {
-	//cout << "P" << playerNum << ": " << money << " ";
-	//deck->print();
+	cout << "[P " << playerNum << " ] Money: " << money << " Cards: ";
+	pocket->print();
 }

@@ -4,6 +4,9 @@
  *
  */
 
+#ifndef DEALER_H
+#define DEALER_H
+
 #include "Card.h"
 #include "Deck.h"
 #include "MainDeck.h"
@@ -26,3 +29,5 @@ private:
 	MainDeck * mainDeck;
 	Deck * discardDeck;
 };
+
+#endif

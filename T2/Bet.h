@@ -12,17 +12,19 @@
 
 using namespace std;
 
+enum BetAction { INVALID, FOLD, CALL, RAISE };
+
 class Bet
 {
 	private:
-	int action;
+	BetAction action;
 	int amount;
 
 	public:
 	Bet();
-	Bet(int BetType, int Amt);
+	Bet(BetAction BetType, int Amt);
 	string print();
-	int getAction();
+	BetAction getAction();
 	int getAmount();
 };
 

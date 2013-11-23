@@ -15,3 +15,4 @@ int Balance::subBalance(int amt) {
 };
 
 int Balance::getBalance() {return balance;};
+

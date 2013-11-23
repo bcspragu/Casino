@@ -17,8 +17,10 @@ using namespace std;
 
 class HumanPlayer : public Player {
 public:
-	HumanPlayer(int num);
-	Bet makeBet(SmallDeck comm, int minBet);
+	HumanPlayer(int num, Gui gameGui, int startMoney);
+	Bet makeBet(SmallDeck comm, int minBet, GameState state);
+private:
+	Gui gui;
 };
 
 #endif /* HUMANPLAYER_H_ */

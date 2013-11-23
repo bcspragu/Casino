@@ -65,12 +65,16 @@ Display::Display(void) {
 	lineBoundaryOffset = 1;
 
 	// Settings for card colors (these can be set outside of the display class)
-	init_pair(1, COLOR_CYAN, COLOR_BLACK); // for card outline
-	init_pair(2, COLOR_BLUE, COLOR_BLACK); // for spades and clubs
-	init_pair(3, COLOR_RED, COLOR_BLACK);  // for hearts and diamonds
-	init_pair(4, COLOR_GREEN, COLOR_BLACK); // for turned over card
-	init_pair(5, COLOR_GREEN, COLOR_BLACK); // for box drawing
-	init_pair(6, COLOR_GREEN, COLOR_BLACK); // for banner display
+	init_pair(0, COLOR_WHITE, COLOR_BLACK);	// white - normal text
+	init_pair(1, COLOR_BLUE, COLOR_BLACK);	// blue - normal text
+	init_pair(2, COLOR_GREEN, COLOR_BLACK);	// green - highlighted text
+	init_pair(3, COLOR_RED, COLOR_BLACK);	// red - current player
+	init_pair(4, COLOR_BLACK, COLOR_WHITE);	// for spades and clubs
+	init_pair(5, COLOR_RED, COLOR_WHITE);	// for hearts and diamonds
+	init_pair(6, COLOR_GREEN, COLOR_BLUE);	// for face down card
+	init_pair(7, COLOR_BLUE, COLOR_BLACK);	// for face down card edges
+	init_pair(8, COLOR_BLUE, COLOR_WHITE);	// For banners
+
 }
 
 /* Function: This is the destructor.
@@ -145,230 +149,26 @@ void Display::handleResize(int sig) {
 	resizeterm(lines, cols); // sets the ncurses window size correctly
 }
 
-void Display::displayPot(Point p, string name, int amount, int printAtt) {
+void Display::displayText(Point p, string text, Just justify, int color) {
 
-	// get coordinates from point
-	int x = p.getX();
-	int y = p.getY();
-	string titleLine;
-	string nameLine;
-	string amtLine;
-	stringstream ss;
+	int length = text.length();
 
-	// make sure name will fit:
-	if (name.length() > 7) {
-		name = name.substr(0, 7);
+	attron(color);
+
+	if (justify == LEFT) {
+		mvprintw(p.getY(), p.getX(), text.c_str());
+	} else if (justify == RIGHT) {
+		p.move(-length, 0);
+		mvprintw(p.getY(), p.getX(), text.c_str());
+	} else {
+		p.move(-length / 2, 0);
+		mvprintw(p.getY(), p.getX(), text.c_str());
 	}
 
-	// create the line for displaying the name
-	ss << "\u2502" << setw(7) << setfill(' ') << name << " \u2502";
-	nameLine = ss.str();
-	ss.clear();
-	ss.str("");
-
-	// create the line for displaying the title
-	titleLine = "\u2502  Pot:  \u2502";
-
-	// create the line for displaying the amount
-	ss << "\u2502 $" << setw(4) << setfill(' ') << amount << "  \u2502";
-	amtLine = ss.str();
-	ss.clear();
-	ss.str("");
-
-	// turn on Ncurses drawing settings
-	attron(COLOR_PAIR(1) | printAtt);
-
-	// prevent draw if it off the screen
-	if (x >= 0 && y >= 0 && x < cols - 10 && y < lines - lineBoundaryOffset) {
-		// print the top line of the box
-		mvprintw(y, x,
-				"\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510");
-
-		// print the name line
-		if (y < lines - 1 - lineBoundaryOffset) {
-			mvprintw(y + 1, x, nameLine.c_str());
-		}
-
-		// print the "Pot:" line
-		if (y < lines - 2 - lineBoundaryOffset) {
-			mvprintw(y + 2, x, titleLine.c_str());
-		}
-
-		// print the amount line
-		if (y < lines - 3 - lineBoundaryOffset) {
-			mvprintw(y + 3, x, amtLine.c_str());
-		}
-
-		if (y < lines - 4 - lineBoundaryOffset) {
-			// prints the bottom lines of the box
-			mvprintw(y + 4, x,
-					"\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518");
-		}
-	}
-	// Ncurses turn off the drawing settings
-	attroff(COLOR_PAIR(1) | printAtt);
+	attroff(color);
+	move(0, lines - 1);
 }
 
-void Display::displayInfoBox(Point p, string title, string text1,
-		string text2, int colorAtt) {
-
-	//variables
-	stringstream ss;
-	string topLine;
-	string titleLine;
-	string textLine1;
-	string textLine2;
-	string bottomLine;
-
-	// get coordinates from point
-	int x = p.getX();
-	int y = p.getY();
-
-	// create the top line
-	ss << "\u250c" << setw(25) << setfill(' ') << "\u2510";
-	topLine = ss.str();
-	ss.clear();
-	ss.str("");
-
-	// create the line for displaying the title
-	ss << "\u2502" << setw(19) << setfill(' ') << title << "   \u2502";
-	titleLine = ss.str();
-	ss.clear();
-	ss.str("");
-
-	// create the line for displaying the first line
-	ss << "\u2502" << setw(19) << setfill(' ') << text1 << "   \u2502";
-	textLine1 = ss.str();
-	ss.clear();
-	ss.str("");
-
-	// create the line for displaying the second line
-	ss << "\u2502" << setw(19) << setfill(' ') << text2 << "   \u2502";
-	textLine2 = ss.str();
-	ss.clear();
-	ss.str("");
-
-	// create the last line
-	ss << "\u2514" << setw(25) << setfill(' ') << "\u2518";
-	bottomLine = ss.str();
-	ss.clear();
-	ss.str("");
-
-	// turn on Ncurses drawing settings
-	attron(colorAtt | A_NORMAL);
-
-	// prevent draw if it off the screen
-	if (x >= 0 && y >= 0 && x < cols - 10 && y < lines - lineBoundaryOffset) {
-		// print the top line of the box
-		mvprintw(y, x, topLine.c_str());
-
-		// print the name line
-		if (y < lines - 1 - lineBoundaryOffset) {
-			mvprintw(y + 1, x, titleLine.c_str());
-		}
-
-		// print the "Pot:" line
-		if (y < lines - 2 - lineBoundaryOffset) {
-			mvprintw(y + 2, x, textLine1.c_str());
-		}
-
-		// print the amount line
-		if (y < lines - 3 - lineBoundaryOffset) {
-			mvprintw(y + 3, x, textLine2.c_str());
-		}
-
-		if (y < lines - 4 - lineBoundaryOffset) {
-			// prints the bottom lines of the box
-			mvprintw(y + 4, x, bottomLine.c_str());
-		}
-	}
-	// Ncurses turn off the drawing settings
-	attroff(colorAtt | A_NORMAL);
-}
-
-void Display::displayDeck(Point p) {
-	// get coordinates from point
-	int x = p.getX();
-	int y = p.getY();
-
-	// Ncurses drawing settings
-	attron(COLOR_PAIR(4));
-	// prevent draw if it off the screen
-	if (x >= 0 && y >= 0 && x < cols - 6 && y < lines - lineBoundaryOffset) {
-		// print the top lines of the card
-		mvprintw(y, x, "\u2553\u2500\u2500\u2500\u2500\u2510");
-		// the next 4 if statements prevent draw if it is over the bottom of the screen
-		if (y < lines - 1 - lineBoundaryOffset) {
-			move(y + 1, x); // move command
-			printw("\u2551%s  %s\u2502", spades, hearts); // call function to print card face
-		}
-		if (y < lines - 2 - lineBoundaryOffset) {
-			move(y + 2, x); // move command
-			printw("\u2551    \u2502"); // call function to print card face
-		}
-		if (y < lines - 3 - lineBoundaryOffset) {
-			move(y + 3, x); // move command
-			printw("\u2551%s  %s\u2502", spades, hearts); // call function to print card face
-		}
-		if (y < lines - 4 - lineBoundaryOffset) {
-			// prints the bottom lines of the card
-			mvprintw(y + 4, x, "\u255A\u2550\u2550\u2550\u2550\u255B");
-		}
-	}
-
-	// Ncurses turn off the drawing settings
-	attroff(COLOR_PAIR(4));
-}
-
-void Display::displayPlayerInfo(Player player, bool turn, bool button, bool faceUp,
-		Point p) {
-
-	//variables
-	string title;
-	stringstream ss;
-	Point loc;
-	int attr;
-	Card card1;
-	Card card2;
-
-	// extract info from layout
-	int pNum = player.getNum();
-	int x = p.getX();
-	int y = p.getY();
-	SmallDeck playerDeck = *(player.getPocket());
-
-	// set drawing settings for player
-	if (turn) {
-		attr = A_NORMAL | COLOR_PAIR(2);
-	} else
-		attr = A_NORMAL | COLOR_PAIR(4);
-
-	//draw border
-	drawBox(p, 2 + CARDW * 2, CARDH + 3, button, attr);
-
-	//draw first card
-	card1 = playerDeck.getCard(0);
-	if (!(card1.isBlank() || faceUp))
-		card1 = Card(1, 1);
-	loc.set(x + 1, y + 2);
-	displayCard(loc, card1, A_NORMAL);
-
-	// draw second card
-	card2 = playerDeck.getCard(1);
-	if (!(card2.isBlank() || faceUp))
-		card2 = Card(1, 1);
-	loc.set(x + 7, y + 2);
-	displayCard(loc, card2, A_NORMAL);
-
-	// draw title
-	int m = player.getMoney();
-	ss.str("");
-	ss << "P" << pNum << " $" << m;
-	title = ss.str();
-	attron(COLOR_PAIR(4));
-	mvprintw(y + 1, x + 3, title.c_str());
-	attroff(COLOR_PAIR(4));
-}
 
 /*
  * Function: Displays various cards on the game screen
@@ -393,40 +193,44 @@ void Display::displayPlayerInfo(Player player, bool turn, bool button, bool face
  *				A_CHARTEXT      Bit-mask to extract a character
  *				COLOR_PAIR(n)   Color-pair number n 
  */
-void Display::displayCard(Point p, Card card, int printAtt) {
+void Display::displayCard(Point p, Card card) {
 	if (card.getSuit() > 0 && card.getValue() > 0) {
+
+		int color;
+
 		// get coordinates from point
 		int x = p.getX();
 		int y = p.getY();
 
 		// Ncurses drawing settings
-		attron(COLOR_PAIR(1) | printAtt);
+
+		if (card.getSuit() < 1 || card.getValue() < 2) {
+			color = COLOR_PAIR(7);
+		} else
+			color = COLOR_PAIR(0);
+
+		attron(color);
 		// prevent draw if it off the screen
 		if (x >= 0 && y >= 0 && x < cols - 6
 				&& y < lines - lineBoundaryOffset) {
-			// print the top lines of the card
-			mvprintw(y, x, "\u250c\u2500\u2500\u2500\u2500\u2510");
+			move(y, x); // move command
+			printFace(card, 0, color); // call function to print card face
 			// the next 4 if statements prevent draw if it is over the bottom of the screen
 			if (y < lines - 1 - lineBoundaryOffset) {
-				move(y + 1, x); // move command
-				printFace(card, 0, printAtt); // call function to print card face
+				mvprintw(y + 1, x, "\u2590\u2588\u2588\u2588\u2588\u258C");
 			}
 			if (y < lines - 2 - lineBoundaryOffset) {
-				move(y + 2, x); // move command
-				printFace(card, 1, printAtt); // call function to print card face
+				mvprintw(y + 2, x, "\u2590\u2588\u2588\u2588\u2588\u258C");
 			}
 			if (y < lines - 3 - lineBoundaryOffset) {
 				move(y + 3, x); // move command
-				printFace(card, 2, printAtt); // call function to print card face
-			}
-			if (y < lines - 4 - lineBoundaryOffset) {
-				// prints the bottom lines of the card
-				mvprintw(y + 4, x, "\u2514\u2500\u2500\u2500\u2500\u2518");
+				printFace(card, 2, color); // call function to print card face
 			}
 		}
 		// Ncurses turn off the drawing settings
-		attroff(COLOR_PAIR(1) | printAtt);
+		attroff(color);
 	}
+	move(0, lines - 1);
 }
 
 /*
@@ -434,21 +238,28 @@ void Display::displayCard(Point p, Card card, int printAtt) {
  * Description: This copies suit, number and printAtt from the calling function.
  *		Also includes what line of the card face is being drawn.
  */
-void Display::printFace(Card card, int line, int printAtt) {
+void Display::printFace(Card card, int line, int attr) {
+
+	int color;
 
 	// extract the suit and number
 	int suit = card.getSuit();
 	int number = card.getValue();
 
-	// draw left edge of the card
-	printw("\u2502");
+	attron(attr);
+	// print the left edge of the card
+	printw("\u2590");
+	attroff(attr);
 
-	if (suit == 2 || suit == 4) { // Red for Hearts and Diamonds
-		attron(COLOR_PAIR(3) | printAtt);
+	if (suit < 1 || number < 2) {
+		color = COLOR_PAIR(6);
+	} else if (suit == 2 || suit == 4) { // Red for Hearts and Diamonds
+		color = COLOR_PAIR(5);
 	} else { // Black for Spades and Clover
-		attron(COLOR_PAIR(2) | printAtt);
+		color = COLOR_PAIR(4);
 	}
 
+	attron(color);
 	// display card number
 	if (suit >= 1 && suit <= 4 && number >= 2 && number <= 14) {
 		if (line == 0) {
@@ -469,25 +280,25 @@ void Display::printFace(Card card, int line, int printAtt) {
 		// this is for a face down card
 	} else {
 		// the face down cards have a special color
-		attron(COLOR_PAIR(4) | printAtt);
 		if (line == 0)
 			printw("%s  %s", spades, hearts);
 		if (line == 1)
 			printw("    ");
 		if (line == 2)
 			printw("%s  %s", diamonds, clubs);
-		attroff(COLOR_PAIR(1) | printAtt);
 	}
 
-	// turn on the card edge color settings
-	attron(COLOR_PAIR(1) | printAtt);
+	// turn off the color, and turn on the color for drawing the edge
+	attroff(color);
+	attron(attr);
+
 	// print the right edge of the card
-	printw("\u2502");
+	printw("\u258C");
 }
 
 /*
  * Function: Print the suit of the card
- * Description: This is just a look up table. 
+ * Description: This is just a look up table.
  */
 void Display::printSuit(int suit) {
 	switch (suit) {
@@ -581,29 +392,46 @@ void Display::eraseBox(Point p, Point size) {
 			mvprintw(y + yCount, x, "%s", strDraw.c_str());
 		}
 	}
+	move(0, lines - 1);
 }
+
 /*
  * Function: Erases a rectangle on the screen
  * Description: x,y is for the top left corner, sizeX and sizeY set
  * 			how big the square is.
  */
-void Display::eraseScreen() {
+void Display::eraseScreen(bool eraseBanners) {
 	string strDraw;
 	int yCount;
+	int y;
+	int sizeY;
 
+	attron(COLOR_PAIR(1));
 	strDraw = "";
 	strDraw.append(cols, ' ');
 
-	// for the number of rows that need to be drawn
-	for (yCount = 0; yCount < lines; yCount++) {
-		// if the box goes over the edge of the drawable screen
-		// stop drawing by breaking the loop
-
-		if (yCount > lines - lineBoundaryOffset)
-			break;
-		// print the line of the box
-		mvprintw(yCount, 0, "%s", strDraw.c_str());
+	if (eraseBanners) {
+		y = 0;
+		sizeY = cols;
+	} else {
+		y = 1;
+		sizeY = cols - 1;
 	}
+
+	// for the number of rows that need to be drawn
+	for (yCount = 0; yCount < sizeY; yCount++) {
+
+		// reset the line to be drawn
+		strDraw = "";
+
+		// make a string needed for box width
+		strDraw.append(cols, ' ');
+		// print the line of the box
+		mvprintw(y + yCount, 0, "%s", strDraw.c_str());
+	}
+
+	attroff(COLOR_PAIR(1));
+	move(0, lines - 1);
 }
 
 /*
@@ -612,15 +440,15 @@ void Display::eraseScreen() {
  *          how big the square is. printAtt allows for changes in the
  *			display settings.
  */
-void Display::drawBox(Point p, int sizeX, int sizeY, bool doubleBorder,
-		int printAtt) {
-	int x = p.getX();
-	int y = p.getY();
+void Display::displayBox(Point location, Point size, bool doubleBorder,
+		int color) {
+
+// Variables used by drawing loops
 	string strDraw;
 	int ii;
 	int yCount;
 
-	// UTF-8 chars for each side and corner of box
+// UTF-8 chars for each side and corner of box
 	string tl;
 	string tm;
 	string tr;
@@ -630,7 +458,13 @@ void Display::drawBox(Point p, int sizeX, int sizeY, bool doubleBorder,
 	string bm;
 	string br;
 
-	//set chars depending on border
+// Extract size and position from points
+	int x = location.getX();
+	int y = location.getY();
+	int sizeX = size.getX();
+	int sizeY = size.getY();
+
+//set chars depending on border
 	if (doubleBorder) {
 		tl = "\u2554";
 		tm = "\u2550";
@@ -651,22 +485,28 @@ void Display::drawBox(Point p, int sizeX, int sizeY, bool doubleBorder,
 		br = "\u2518";
 	}
 
-	// set the box setting colors on
-	attron(printAtt);
+// set the box setting colors on
+	attron(color);
 
-	// for the box height being drawn loop
+// for the box height being drawn loop
 	for (yCount = 0; yCount < sizeY; yCount++) {
+
 		// break loop if the drawing is offscreen
 		if (yCount + y > lines - lineBoundaryOffset || y < 0)
 			break;
+
 		// if x is on the screen
 		if (x <= cols) {
+
 			strDraw = "";
+
 			// for the box width loop
 			for (ii = 0; ii < sizeX; ii++) {
+
 				// stop drawing if the x is offscreen
 				if (ii + x > cols || x < 0)
 					break;
+
 				// first line
 				if (yCount == 0) {
 					if (ii == 0) {
@@ -676,6 +516,7 @@ void Display::drawBox(Point p, int sizeX, int sizeY, bool doubleBorder,
 					} else {
 						strDraw.append(tm); // middle
 					}
+
 					// last line
 				} else if (yCount == sizeY - 1) {
 					if (ii == 0) {
@@ -685,6 +526,7 @@ void Display::drawBox(Point p, int sizeX, int sizeY, bool doubleBorder,
 					} else {
 						strDraw.append(bm); // middle
 					}
+
 					// other lines
 				} else {
 					if (ii == 0) {
@@ -696,12 +538,15 @@ void Display::drawBox(Point p, int sizeX, int sizeY, bool doubleBorder,
 					}
 				}
 			}
+
 			// print the line that was created
 			mvprintw(y + yCount, x, "%s", strDraw.c_str());
 		}
 	}
-	// turn off the attribute colors
-	attroff(printAtt);
+
+// turn off the attribute colors
+	attroff(color);
+	move(0, lines - 1);
 }
 
 /*
@@ -710,9 +555,9 @@ void Display::drawBox(Point p, int sizeX, int sizeY, bool doubleBorder,
  *		of the screen. Does not handle carriage returns on the string.
  */
 void Display::bannerBottom(string bannerText) {
-	// change to the banner draw settings
-	attron(COLOR_PAIR(6) | A_REVERSE | A_BOLD);
-	// checks if the banner string size is smaller than the width of the screen
+// change to the banner draw settings
+	attron(COLOR_PAIR(8) | A_REVERSE);
+// checks if the banner string size is smaller than the width of the screen
 	if ((unsigned) cols > bannerText.size()) {
 		// moves the cursor to the bottom of the screen
 		move(lines - 1, 0);
@@ -725,8 +570,8 @@ void Display::bannerBottom(string bannerText) {
 		// clip the banner text so it doesn't wrap over to the next line
 		mvprintw(lines - 1, 0, "%s", (bannerText.substr(0, cols)).c_str());
 	}
-	// turn off the draw colors
-	attroff(COLOR_PAIR(6) | A_REVERSE | A_BOLD);
+// turn off the draw colors
+	attroff(COLOR_PAIR(8) | A_REVERSE);
 }
 
 /*
@@ -735,9 +580,9 @@ void Display::bannerBottom(string bannerText) {
  *      of the screen. Does not handle carriage returns on the string.
  */
 void Display::bannerTop(string bannerText) {
-	// change to the banner draw settings
-	attron(COLOR_PAIR(6) | A_REVERSE | A_BOLD);
-	// checks if the banner string size is smaller than the width of the screen
+// change to the banner draw settings
+	attron(COLOR_PAIR(8) | A_REVERSE);
+// checks if the banner string size is smaller than the width of the screen
 	if ((unsigned) cols > bannerText.size()) {
 		// moves the cursor to the bottom of the screen
 		move(0, 0);
@@ -750,7 +595,8 @@ void Display::bannerTop(string bannerText) {
 		// clip the banner text so it doesn't wrap over to the next line
 		mvprintw(0, 0, "%s", (bannerText.substr(0, cols)).c_str());
 	}
-	// turn off the draw colors
-	attroff(COLOR_PAIR(6) | A_REVERSE | A_BOLD);
+// turn off the draw colors
+	attroff(COLOR_PAIR(8) | A_REVERSE);
+	move(0, lines - 1);
 }
 

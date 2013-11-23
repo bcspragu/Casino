@@ -13,3 +13,4 @@ public:
 };
 
 #endif /*BALANCE_H_*/
+

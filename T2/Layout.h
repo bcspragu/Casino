@@ -3,16 +3,18 @@
  *
  *  Created on: Oct 27, 2013
  *      Author: Eli Siskind
+ * Description: This defines the member functions and variables
  */
 
-#ifndef Layout_H_
-#define Layout_H_
+#ifndef Layout_H
+#define Layout_H
 
+#include "Card.h"
 #include "Point.h"
 
 #define PLAYERNUM 8
 #define CARDW 6
-#define CARDH 5
+#define CARDH 4
 
 using namespace std;
 
@@ -24,9 +26,9 @@ public:
 	// setup the layout to fit the display
 	void setup(int x, int y);
 
-
-	// getters
+	// Getters for locations
 	Point getSize();
+	Point getCenter();
 	Point getDeckArea();
 	Point getDiscardArea();
 	Point getCommCardArea(int i);
@@ -36,6 +38,8 @@ public:
 	Point getPlayerPotArea();
 
 private:
+
+	// Points for storing locations of things to display
 	Point size;
 	Point center;
 	Point deckArea;
@@ -58,4 +62,4 @@ private:
 	void setPlayerPotArea();
 };
 
-#endif /* GUI_H_ */
+#endif /* LAYOUT_H */

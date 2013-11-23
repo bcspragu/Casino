@@ -9,67 +9,66 @@
 #define GAME_H
 
 #include "Bet.h"
+#include "Dealer.h"
+#include "GameData.h"
+#include "GameState.h"
 #include "Gui.h"
 #include "PlayerList.h"
 #include "SmallDeck.h"
 
-class Dealer;
-class Hand;
-class PlayerList;
-class SmallDeck;
-class Bet;
 class Player;
+
+using namespace std;
 
 class Game {
 public:
+
 	Game();
 	~Game();
 
 	// game control
-	bool startGame();
+	bool startGame(int money);
 	bool playRound();
-	void endGame();
+	int endGame();
 
 	// getters
-	Player * getWinner();
-	int getPot(){return centerPot;}
+	Player * getWinner(){return winner;}
 	Gui getGui(){return gui;}
 	int getState(){return state;}
-	int getRoundNum(){return roundNum;}
-	int getButNum();
-	int getMinBet(){return minBet;}
-	int getCurrentNum(){return currentPlayer;}
-	bool getHandsUp(){return handsUp;}
-	int getUserInputState(){return userInputState;}
-	PlayerList getPlayerList(){return *playerList;}
+	PlayerList getPlayerList(){return playerList;}
 	SmallDeck getCommCards(){return *commCards;}
-	Bet getCurrentBet(){return currentBet;}
-
-	// setters
-	void setUserInputState(int state){userInputState = state;}
-
-	friend class Layout;
 
 private:
-	int roundNum;
-	Gui gui;
-	Dealer * dealer;
-	PlayerList * playerList;
-	SmallDeck * commCards;
-	Player * winner;
-	int minBet;
-	int centerPot;
-	int numFolded;
-	int state;
-	int userInputState;
-	int currentPlayer;
-	Bet currentBet;
-	bool handsUp;
+
+	// Pointers for some things
+	SmallDeck * commCards;	// Community cards
+	Player * winner;		// Assigned when someone wins the gane
+	Player * roundWinner;	// Assigned when someone wins the round
+	Player * button;		// For keeping track of who should go next
+	Player * current;		// Number of the player whose turn it is
+
+	// Objects in the game
+	Gui gui;				// The user interface
+	Dealer dealer;			// Holds the main deck and discard pile
+	PlayerList playerList;	// List of all the players in the game
+	Bet lastBet;			// Set after someone makes a bet
+
+	// Variables for game status information
+	GameState state;		// The state of the game
+	int minBet;				// The current minimum betting amount
+	int roundNum;			// The round number
+	int centerPot;			// Amount in the center pot
+	int numFolded;			// How many players have folded this round
+	bool showCompCards;		// If cards should be shown
+
+	// Variables for sending to the gui
+	GameData gameData; // For sending to the gui
 
 	//functions for game control
-	void processBet(Bet bet, Player * p);
-	void initialTurns();
-	void initialBets();
+	void processBet(Bet bet);
+	void goToButton();
+	void advanceButton();
+	bool initialTurns();
 	void givePlayerCards();
 	void big();
 	void little();
@@ -78,9 +77,15 @@ private:
 	bool flop();
 	bool turn();
 	bool river();
-	void endRound(int roundWinner);
+	void compareHands();
+	void showCards();
+	bool newRound();
+	bool purge();
+	bool endRound();
 	void discardAll();
-	Hand* findBestHand();
+	void resetPlayerList();
+	void setGameData();
+	void updateGui(int status);
 };
 
 #endif /* GAME_H */

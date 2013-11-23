@@ -8,40 +8,49 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include <ncurses.h>
-#include <signal.h>
-
-//#include "Display.h"
-#include "Layout.h"
+#include "Bet.h"
 
 class Bet;
-class Game;
-class Player;
-class PlayerList;
+class GameData;
+class Layout;
+
+using namespace std;
 
 class Gui{
 public:
 	Gui();
 	~Gui();
 	bool startGui(void);
-	static void showWinner(int winner);
-	static void showRoundWinner(int roundWinner);
-	static void update(int status);
-	Bet getBetInput(int minBet);
+	static void update(GameData data, int status);
+	static void showWinner(int winnerNum);
+	static bool showRoundWinner(int roundWinnerNum, int amount, int roundNum);
+	static Bet getBetInput();
+
 private:
 
-	//static functions for redrawing on resize
-	static void delay(int delay);
+	// Everything is static because it can be updated at any time
+	// detectResize, which needs a static variable.
+
+	// Layout object defines cards and positions
+	static Layout gameLayout;
+
+	// Display and game data for storing some information
+	static GameData gameData;
+
+	// Flag for remembering user input state on resize
+	static int userInputState;
+
+	// Functions for redrawing on resize
+	static void delay(int delayTime);
 	static void detectResize(int sig);
 	static void redraw();
-	static void clearScreen();
-	static void displayCommon();
-	static void displayPlayers();
-	static void displayUserRegion(Player p);
+	static void drawCommon();
+	static void drawComputerPlayers();
+	static void drawHumanPlayer();
 
-	//functions for user input
-	int getBetType(int minBet);
-	int getBetAmount();
+	// Functions for user input
+	static BetAction getBetAction();
+	static int getBetAmount();
 };
 
 #endif

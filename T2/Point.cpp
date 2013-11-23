@@ -12,29 +12,28 @@
 
 #include "Point.h"
 
-
-
 using namespace std;
 
-Point::Point()
-{
+Point::Point() {
 	xCoord = -1;
 	yCoord = -1;
 }
 
-Point::~Point()
-{
+Point::~Point() {
 
 }
 
-void Point::set(int x, int y)
-{
+void Point::set(int x, int y) {
 	xCoord = x;
 	yCoord = y;
 }
 
-string Point::print()
-{
+void Point::move(int x, int y) {
+	xCoord += x;
+	yCoord += y;
+}
+
+string Point::print() {
 	stringstream ss;
 	ss << "x: " << xCoord << " y: " << yCoord;
 	return ss.str();

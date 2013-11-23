@@ -16,29 +16,19 @@ class Player;
 #include <iostream>
 using namespace std;
 
-Hand::Hand(Player * p) {
-	cardArray = new Card[7];
-	type = -1;
-	tieBreaker = -1;
-	valid = -1;
-	length = -1;
-	player = p;
-}
-
 Hand::Hand() {
 	cardArray = new Card[7];
 	type = -1;
 	tieBreaker = -1;
 	valid = -1;
 	length = -1;
-	player = NULL;
 }
 
 Hand::~Hand() {
 
 }
 
-void Hand::putInCards(SmallDeck pocket, SmallDeck community) {
+void Hand::evaluate(SmallDeck pocket, SmallDeck community) {
 	int i = 0;
 	if (pocket.isEmpty() || community.isEmpty()) {
 		////cout << "ERROR: HAND HAS NO CARDS" << endl;
@@ -60,6 +50,8 @@ void Hand::putInCards(SmallDeck pocket, SmallDeck community) {
 		length = i;
 		quickSort(cardArray, 0, length - 1);
 	}
+
+	solve();
 }
 
 int Hand::operator >(Hand h) {
@@ -80,7 +72,7 @@ int Hand::operator >(Hand h) {
 	}
 }
 
-void Hand::evaluateCards() {
+void Hand::solve() {
 	while (true) {
 		if (this->valid != 1) {
 			this->type = -1;
@@ -319,7 +311,4 @@ void Hand::quickSort(Card arr[], int left, int right) {
 		quickSort(arr, i, right);
 }
 
-Player * Hand::getPlayer() {
-	return player;
-}
 

@@ -14,7 +14,6 @@
 #include <iostream>
 #include <string>
 
-
 class Card;
 class Player;
 class Point;
@@ -46,53 +45,46 @@ const char diamonds[] = {0xE2, 0x99, 0xA6, 0};
 const char hearts[]   = {0xE2, 0x99, 0xA5, 0};
 const char spades[]   = {0xE2, 0x99, 0xA0, 0};
 
+// Enumeration for text justification
+enum Just { LEFT, RIGHT, CENTER };
+
 /*
  * This is the display class definitions
  */
 class Display {
 public:
-	/* "constructor"
-	 * This function is called whenever a new object of class display is first
-	 * created. Put initialization functions in here.
+
+	/*
+	 * * * * Constructor and destructor * * * *
 	 */
 	Display(void);
-	/* "destructor"
-	 * This function is called just before a object is deleted. Put clean up
-	 * functions in here.
-	 */
 	~Display(); // destructor
 
-	// captures user input
+	/*
+	 * * * * User interaction functions * * * *
+	 */
+
+	// get user input
 	int captureInput(void);
 	// stores new screensize on update
 	void handleResize(int sig);
 
 	/*
-	 * Drawing commands
+	 * * * * Drawing commands * * * *
 	 */
 
-	// display a card on the screen
-	void displayCard(Point p, Card card, int printAtt);
-	// display a deck on the screen
-	void displayDeck(Point p);
-	// erase in the shape of a box on the screen
+	void eraseScreen(bool eraseBanners);
 	void eraseBox(Point start, Point size);
-	// erase the entire screen
-	void eraseScreen();
-	// draw a player
-	void displayPlayerInfo(Player player, bool turn, bool button, bool faceUp, Point p);
-	//draw a pot
-	void displayPot(Point p, string name, int amt, int printAtt);
-	// display a box with text
-	void displayInfoBox(Point p, string title, string text1, string text2, int colorAtt);
-	// draw a box on the screen
-	void drawBox(Point p, int sizeX, int sizeY, bool doubleBorder, int printAtt);
-	// display banner text at the bottom of the screen
+	void displayCard(Point p, Card card);
+	void displayText(Point p, string text, Just justify, int color);
+	void displayBox(Point p, Point size, bool doubleBorder, int color);
 	void bannerBottom(string bannerText);
-	// display banner text at the top of the screen
 	void bannerTop(string bannerText);
 
-	// get information about the display
+	/*
+	 * * * * Getters * * * *
+	 */
+
 	int getCols(void) {return cols;}
 	int	getLines(void) {return lines;}
 	int getMouseEventX(void) {return mouseEventX;}
@@ -106,12 +98,13 @@ public:
 	void setBottomOffset(int offset) {lineBoundaryOffset=offset;}
 
 private:
-	// These are private functions and variables used inside of display.
-	// You should not try to access these from outside the display class.
-	void printFace(Card card, int line, int printAtt);
+
+	// Used to draw a card
+	void printFace(Card card, int line, int attr);
 	void printSuit(int suit);
 	void printNumber(int number);
 
+	// Information about the display
 	int cols;
 	int lines;	
 	int mouseEventX;

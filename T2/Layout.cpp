@@ -9,12 +9,8 @@
 #include <sstream>
 #include <iostream>
 
-#include "Display.h"
-#include "Game.h"
-#include "Player.h"
-#include "PlayerList.h"
 #include "Point.h"
-#include "SmallDeck.h"
+#include "Card.h"
 
 using namespace std;
 
@@ -26,6 +22,7 @@ Layout::~Layout() {
 
 }
 
+// Recalculate each point for the new display size
 void Layout::setup(int x, int y) {
 
 	setSize(x, y);
@@ -81,8 +78,8 @@ void Layout::setCommCardArea() {
 
 //set the center pot area
 void Layout::setCenterPotArea() {
-	int x = center.getX() - 3 * CARDW;
-	int y = center.getY() - (2 + CARDH);
+	int x = center.getX() - 3 * CARDW - 2;
+	int y = center.getY() - CARDH;
 	centerPotArea.set(x, y);
 }
 
@@ -121,6 +118,11 @@ void Layout::setPlayerPotArea() {
 Point Layout::getSize() {
 	return size;
 }
+
+Point Layout::getCenter(){
+	return center;
+}
+
 Point Layout::getDeckArea() {
 	return deckArea;
 }

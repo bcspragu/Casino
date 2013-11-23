@@ -8,7 +8,7 @@
 #ifndef COMPUTERPLAYER_H
 #define COMPUTERPLAYER_H
 
-//#include "Bet.h"
+#include "Game.h"
 #include "Player.h"
 
 class Bet;
@@ -17,9 +17,9 @@ class SmallDeck;
 class ComputerPlayer : public Player {
 public:
 	ComputerPlayer(int num);
-	Bet makeBet(SmallDeck C, int minBet);
+	Bet makeBet(SmallDeck comm, int minBet, GameState state);
 private:
-	Bet calculateBet(SmallDeck C, int minBet);
+	Bet calculateBet(SmallDeck C, int minBet, GameState state);
 };
 
 #endif /* COMPUTERPLAYER_H_ */

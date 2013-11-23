@@ -20,3 +20,4 @@ time_t Timer::checkOut(void) {
 };
 
 double Timer::getSecondsPlayed(void) {return secondsPlayed;};
+

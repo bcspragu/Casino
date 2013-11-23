@@ -23,6 +23,7 @@ public:
 	int getX(){return xCoord;}
 	int getY(){return yCoord;}
 	void set(int x, int y);
+	void move(int x, int y);
 	string print();
 private:
 	int xCoord;

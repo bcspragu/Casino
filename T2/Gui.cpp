@@ -7,25 +7,24 @@
 
 #include "Gui.h"
 
-#include <unistd.h>
 #include <csignal>
+#include <memory>
 #include <sstream>
 #include <string>
 
 #include "Bet.h"
 #include "Card.h"
 #include "Display.h"
-#include "Game.h"
+#include "GameData.h"
 #include "Layout.h"
-#include "Player.h"
 #include "PlayerList.h"
 #include "Point.h"
-#include "SmallDeck.h"
 
-// declare external global objects
-extern Layout gameLayout;
 extern Display gameDisplay;
-extern Game game;
+
+Layout Gui::gameLayout;
+GameData Gui::gameData;
+int Gui::userInputState = 0;
 
 Gui::Gui() {
 
@@ -43,31 +42,54 @@ bool Gui::startGui(void) {
 
 	// variables
 	char key;
-	stringstream messageString;
+	stringstream ss;
+	Point loc;
+	Point size;
 
-	// clear and restart the display
-	update(0);
+	gameLayout.setup(gameDisplay.getCols(), gameDisplay.getLines());
+	gameDisplay.eraseScreen(true);
 
 	// display the new game screen
 	gameDisplay.bannerTop("New Game!");
 	gameDisplay.bannerBottom("[Continue: c] [Exit: e]");
+
+	// Draw border
+	loc = gameLayout.getCenter();
+	size.set(60, 4);
+	loc.move(-size.getX() / 2, -2);
+	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(1));
+
+	// Draw title
+	ss.clear();
+	ss.str("");
+	ss << "New Game!";
+	loc = gameLayout.getCenter();
+	loc.move(0, -1);
+	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
+
+	// Draw line 2
+	ss.clear();
+	ss.str("");
+	ss << "You are player 1.";
+	loc.move(0, 1);
+	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
+
+
 	// infinite loop for the main program, you can press e to quit
 	for (;;) {
+
 		// calls the game display to capture some input
 		key = gameDisplay.captureInput();
 
 		// if a key was pressed
 		if (key > 0) {
-			// make bottom a banner message saying that a key was pressed
-			messageString.str("");
-			messageString << "Key " << key << " pressed";
-			gameDisplay.bannerBottom(messageString.str());
 
+			// Return if 'e' or 'c' is pressed
 			switch (key) {
-			case 'e':
+			case 'e':	// User wants to exit
 				return false;
 				break;
-			case 'c':
+			case 'c':	// User wants to continue
 				return true;
 				break;
 			}
@@ -76,80 +98,111 @@ bool Gui::startGui(void) {
 	return false;
 }
 
-void Gui::showRoundWinner(int roundWinner) {
+bool Gui::showRoundWinner(int roundWinnerNum, int amount, int roundNum) {
 
 	//variables
-	string title;
-	string text1;
-	string text2;
 	stringstream ss;
 	Point loc;
+	Point size;
 	char key;
+	bool continueGame;
 
-	clearScreen();
+	gameLayout.setup(gameDisplay.getCols(), gameDisplay.getLines());
+	gameDisplay.eraseScreen(true);
 
-	ss << "End of round " << game.getRoundNum() << "!";
-	title = ss.str();
+	// Draw border
+	loc = gameLayout.getCenter();
+	size.set(60, 5);
+	loc.move(-size.getX() / 2, -2);
+	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(1));
+
+	// Draw title
 	ss.clear();
 	ss.str("");
+	ss << "End of round " << roundNum << "!";
+	loc = gameLayout.getCenter();
+	loc.move(0, -1);
+	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
 
-	ss << "Player " << roundWinner << " won:  ";
-	text1 = ss.str();
+	// Draw line 2
 	ss.clear();
 	ss.str("");
+	ss << "Player " << roundWinnerNum << " won:";
+	loc.move(0, 1);
+	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
 
-	ss << "$" << game.getPot() << "      ";
-	text2 = ss.str();
+	// Draw line 3
+	ss.clear();
+	ss.str("");
+	ss << "$" << amount;
+	loc.move(0, 1);
+	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
 
-	loc = gameLayout.getCommCardArea(0);
-	gameDisplay.displayInfoBox(loc, title, text1, text2, COLOR_PAIR(3));
-
-
+	// Display info banners
 	gameDisplay.bannerTop("Round ended.");
-	gameDisplay.bannerBottom("[Next round: n]");
+	gameDisplay.bannerBottom("[Next round: n]  [Exit: e]");
 
-	// infinite loop to wait for user input
+	// Infinite loop to wait for user input
 	for (;;) {
 
-		// calls the game display to capture some input
+		// Calls the game display to capture some input
 		key = gameDisplay.captureInput();
 
-		// if a key was pressed
-		if (key == 'n')
+		// Break if user presses 'n'
+		if (key == 'c') {
+			continueGame = true;
 			break;
+		} else if (key == 'e') {
+			continueGame = false;
+			break;
+		}
 	}
+	return continueGame;
 }
 
-void Gui::showWinner(int winner) {
+void Gui::showWinner(int winnerNum) {
 
 	//variables
-	string title;
-	string text1;
-	string text2;
 	stringstream ss;
+	Point size;
 	Point loc;
 	char key;
 
-	clearScreen();
+	// Clear screen first
+	gameDisplay.eraseScreen(true);
 
-	ss << "Game over!  ";
-	title = ss.str();
+	// Draw border
+	loc = gameLayout.getCenter();
+	size.set(60, 5);
+	loc.move(-size.getX() / 2, -2);
+	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(1));
+
+	// Draw title
 	ss.clear();
 	ss.str("");
+	ss << "Game over!";
+	loc = gameLayout.getCenter();
+	loc.move(0, 1);
+	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
 
+	// Draw line 2
+	ss.clear();
+	ss.str("");
 	ss << "The winner is:";
-	text1 = ss.str();
+	loc.move(0, 1);
+	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
+	ss.clear();
+
+	// Draw line 3
 	ss.clear();
 	ss.str("");
+	ss << "Player " << winnerNum;
+	loc.move(0, 1);
+	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
+	ss.clear();
 
-	ss << "Player " << winner << ".   ";
-	text2 = ss.str();
-
-	loc = gameLayout.getCommCardArea(0);
-	gameDisplay.displayInfoBox(loc, title, text1, text2, COLOR_PAIR(1));
-
-
-	gameDisplay.bannerTop("Round ended.");
+	// Draw info banners
+	gameDisplay.bannerTop("Game over.");
 	gameDisplay.bannerBottom("[Exit: e]");
 
 	// infinite loop to wait for user input
@@ -164,39 +217,52 @@ void Gui::showWinner(int winner) {
 	}
 }
 
-Bet Gui::getBetInput(int minBet) {
-	update(0);
-	gameDisplay.bannerTop("Your turn to make a bet.");
+Bet Gui::getBetInput() {
+
+	// Bet variables
 	int amount;
-	int type = getBetType(minBet);
-	if (type < 1)
+	BetAction action;
+
+	// Redraw and show top banner
+	redraw();
+	gameDisplay.bannerTop("Your turn to make a bet.");
+
+	// Get action from user
+	action = getBetAction();
+
+	// Get amount based on action
+	if (action == RAISE)
+		amount = getBetAmount();
+	else if (action == CALL)
+		amount = gameData.getMinBet();
+	else
 		amount = 0;
-	else if (type == 1)
-		amount = minBet;
-	else {
-		amount = getBetAmount() + minBet;
-	}
 
 	// reset input state flag
-	game.setUserInputState(0);
-	return Bet(type, amount);
+	userInputState = 0;
+
+	return Bet(action, amount);
 }
 
-int Gui::getBetType(int minBet) {
+BetAction Gui::getBetAction() {
 
-	// variables
+	// Variables
 	char key;
 	stringstream messageString;
 
-	// set flag in case of resize
-	game.setUserInputState(1);
+	// Set flag in case of resize
+	userInputState = 1;
+	redraw();
 
-	// display prompt
-	messageString << "Make a bet. [fold: f] [call ";
-	messageString << minBet << ": c ] [raise: r]";
+	// Display prompt
+	if (gameData.getMinBet() == 0)
+		messageString << "Make a bet. [fold: f] [check: c ] [raise: r]";
+	else
+		messageString << "Make a bet. [fold: f] [call " << gameData.getMinBet()
+				<< ": c ] [raise: r]";
 	gameDisplay.bannerBottom(messageString.str());
 
-// infinite loop to wait for user input
+	// Infinite loop to wait for user input
 	for (;;) {
 
 		// calls the game display to capture some input
@@ -208,19 +274,19 @@ int Gui::getBetType(int minBet) {
 			//return a bet action depending on the key pressed
 			switch (key) {
 			case 'f':
-				return -1;
+				return FOLD;
 				break;
 			case 'c':
-				return 1;
+				return CALL;
 				break;
 			case 'r':
-				return 2;
+				return RAISE;
 				break;
 			}
 		}
 	}
 
-	return false;
+	return INVALID;
 }
 
 int Gui::getBetAmount() {
@@ -228,20 +294,27 @@ int Gui::getBetAmount() {
 	// variables
 	char key;
 	stringstream messageString;
-	int amount = 0;
+	int amount;
+	Point bannerLoc;
+	Point bannerSize;
+
+	amount = gameData.getMinBet();
+	bannerLoc.set(0, gameDisplay.getLines() - 1);
+	bannerSize.set(gameDisplay.getCols(), 1);
 
 	// set flag in case of resize
-	game.setUserInputState(2);
+	userInputState = 2;
+	redraw();
 
 	// infinite loop to wait for user input
 	for (;;) {
 
-		clearScreen();
-		update(0);
+		// Erase previous prompt
+		gameDisplay.eraseBox(bannerLoc, bannerSize);
 
-		// display prompt
+		// Display current prompt
 		messageString << "Choose the amount to raise. Current amount: ";
-		messageString << amount + game.getMinBet();
+		messageString << amount;
 		messageString << " [+5: f] [+10: t] [+50: h] [+100: a] [Enter: e]";
 		gameDisplay.bannerBottom(messageString.str());
 		messageString.clear();
@@ -274,98 +347,64 @@ int Gui::getBetAmount() {
 	return false;
 }
 
-
-void Gui::update(int status) {
+void Gui::update(GameData data, int status) {
 
 	stringstream ss;
-	int timeDelay = 0;
+	int time = 0;
 
-	//clear screen before redraw
-	gameLayout.setup(gameDisplay.getCols(), gameDisplay.getLines());
-	clearScreen();
+	//set layout and game data, and clear screen
+	gameData = data;
+	redraw();
 
-	//only draw if screen is large enough{
-	if (gameLayout.getSize().getX() < 127 || gameLayout.getSize().getY() < 32) {
-
-		ss << "Please enlarge this window to properly view the game.";
-		gameDisplay.bannerBottom(ss.str());
-
-	} else if (game.getUserInputState() == 1) { // user is making a bet
-
-		redraw();
-
-		// display prompt
-		ss << "Make a bet. [fold: f] [call ";
-		ss << game.getMinBet() << ": c ] [raise: r]";
-		gameDisplay.bannerBottom(ss.str());
-
-	} else if (game.getUserInputState() == 2) { // User is choosing raise amount
-
-		redraw();
-
-		// display prompt
-		ss << "Choose an amount. [5: f] [10: t] [50: h] [100: a]";
-		gameDisplay.bannerBottom(ss.str());
-
-	} else {
-
-		Bet bet = game.getCurrentBet();
-		int current = game.getCurrentNum();
-
-		switch (status) {
-		case 0:	// No message or delay
-			break;
-		case 1:	// Dealing cards
-			timeDelay = 1;
-			ss << "Dealing cards.";
-			break;
-		case 2: // A player's turn
-			timeDelay = 15;
-			ss << "Player " << current << " " << bet.print();
-			break;
-		case 3: // Show hands
-			timeDelay = 5000;
-			ss << "Round ended.";
-			break;
-		default:
-			break;
-		}
-
-		redraw();
-		if (status > 0)
-			gameDisplay.bannerTop(ss.str());
-		if (status == 3)
-			gameDisplay.bannerBottom("[Continue: c]");
-		delay(timeDelay);
-
+	switch (status) {
+	case 0:	// No message or delay
+		break;
+	case 1:	// Dealing cards
+		time = 3;
+		ss << "Dealing cards.";
+		break;
+	case 2: // A player's turn - show their bet
+		time = 30;
+		ss << "Player " << gameData.getCurrent() << " "
+				<< gameData.getBet().print();
+		break;
+	case 3: // Show hands
+		time = 5000;
+		ss << "Round ended.";
+		break;
+	default:
+		break;
 	}
+
+	gameDisplay.bannerTop(ss.str());
+
+	delay(time);
 
 }
 
-void Gui::delay(int timeDelay) {
+void Gui::delay(int delayTime) {
 	char key;
 
-	//gameDisplay.bannerBottom("[Continue: c]");
-
-	if (timeDelay >= 0) {
-		for (int i = 0; i < timeDelay; i++) {
+	if (delayTime >= 0) {
+		for (int i = 0; i < delayTime; i++) {
 			// calls the game display to capture some input
 			key = gameDisplay.captureInput();
 
 			// if a key was pressed
-			if (key == 'c')
+			if (key == ' ')
 				return;
 		}
-	} else {
-		redraw();
 	}
 }
 
 /*
- * This is the interrupt service routine called when the resize screen 
+ * This is the interrupt service routine called when the resize screen
  * signal is captured.
  */
 void Gui::detectResize(int sig) {
+
+	stringstream ss;
+
 	// update the display class information with the new window size
 	gameDisplay.handleResize(sig);
 
@@ -373,104 +412,147 @@ void Gui::detectResize(int sig) {
 	signal(SIGWINCH, detectResize);
 
 	// Redisplay the layout
-	update(-1);
+	redraw();
+
+	if (userInputState == 1) {
+		if (gameData.getMinBet() == 0)
+			ss << "Make a bet. [fold: f] [check: c ] [raise: r]";
+		else
+			ss << "Make a bet. [fold: f] [call " << gameData.getMinBet()
+					<< ": c ] [raise: r]";
+		gameDisplay.bannerBottom(ss.str());
+		gameDisplay.bannerTop("Your turn to make a bet.");
+	} else if (userInputState == 2) {
+		gameDisplay.bannerTop("Your turn to make a bet.");
+	}
+
 }
 
 // Redraw the layout
 void Gui::redraw() {
 
-	displayCommon(); // display deck, discard pile, center pot, and community cards
-	displayPlayers(); // display player info for computer players
+	gameLayout.setup(gameDisplay.getCols(), gameDisplay.getLines());
+	gameDisplay.eraseScreen(false);
+	string message;
 
+	//only draw if screen is large enough
+	if (gameLayout.getSize().getX() < 127 || gameLayout.getSize().getY() < 15) {
+
+		message = "Please enlarge this window to properly view the game.";
+		gameDisplay.bannerBottom(message);
+
+	} else {
+
+		// Redraw all elements on screen
+		drawComputerPlayers();
+		drawHumanPlayer();
+		drawCommon();
+	}
+
+}
+
+void Gui::drawComputerPlayers() {
+
+	//variables
+	int i;
+	int color;
+	stringstream ss;
+	Point loc;
+	Point size;
+	Card card1;
+	Card card2;
+
+	size.set(2 * CARDW + 2, CARDH + 3);
+
+	// Loop for drawing each player
+	for (i = 1; i < 9; i++) {
+
+		ss.clear();
+		ss.str("");
+
+		// Draw border
+		if (i + 1 == gameData.getCurrent()) // Set different color for current player
+			color = COLOR_PAIR(3);
+		else
+			color = COLOR_PAIR(1);
+		loc = gameLayout.getPlayerInfoArea(i - 1);
+		gameDisplay.displayBox(loc, size, (i + 1 == gameData.getButton()),
+				color);
+
+		// Draw title
+		loc.move(size.getX() / 2, 1);
+		ss << "P" << i + 1 << " $" << gameData.getPlayerMoney(i);
+		gameDisplay.displayText(loc, ss.str(), CENTER, color);
+
+		// Draw cards
+		loc = gameLayout.getPlayerInfoArea(i - 1);
+		card1 = gameData.getPlayerCard(i, 0);
+		card2 = gameData.getPlayerCard(i, 1);
+		loc.move(1, 2);
+		gameDisplay.displayCard(loc, card1);
+		loc.move(CARDW, 0);
+		gameDisplay.displayCard(loc, card2);
+	}
+}
+
+void Gui::drawHumanPlayer() {
+	int color = COLOR_PAIR(1);
+	Point loc;
+	Point size;
+	stringstream ss;
+
+	// Draw border
+	if (gameData.getCurrent() == 1)
+		color = COLOR_PAIR(3);
+	loc = gameLayout.getPlayerCardArea(0);
+	size.set(gameDisplay.getCols(), CARDH + 2);
+	gameDisplay.displayBox(loc, size, (gameData.getButton() == 1), color);
+
+	//display player's cards
+	for (int i = 0; i < 2; i++) {
+		loc = gameLayout.getPlayerCardArea(i + 1);
+		gameDisplay.displayCard(loc, gameData.getPlayerCard(0, i));
+	}
+
+	// Draw money info border
+	size.set(20, 4);
+	loc.move(10, 0);
+	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(2));
+
+	// Draw money info text
+	loc.move(size.getX() / 2, 1);
+	ss << "Your money: " << gameData.getPlayerMoney(0);
+	gameDisplay.displayText(loc, ss.str(), CENTER, color);
 }
 
 // display deck, discard pile, center pot, and community cards
-void Gui::displayCommon() {
+void Gui::drawCommon() {
 	int i;
-	int attr = A_NORMAL;
+	int color = COLOR_PAIR(1);
+	Card card;
 	Point loc;
-	Card blank(-1, -1);
-	Card card(1, 1);
+	Point size;
+	stringstream ss;
 
-	//display deck
-	loc = gameLayout.getDeckArea();
-	gameDisplay.displayDeck(loc);
-
-	//display discard pile
-	loc = gameLayout.getDiscardArea();
-	gameDisplay.displayDeck(loc);
-
-	//display center pot
+	// Draw center pot border
+	size.set(CARDW * 5 + 4, 3);
 	loc = gameLayout.getCenterPotArea();
-	gameDisplay.displayPot(loc, "Center", game.getPot(), attr);
+	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(2));
 
-	//display community cards
+	// Draw center pot description
+	loc.move(size.getX() / 2, 1);
+	ss << "Center Pot: " << gameData.getCenterPot();
+	gameDisplay.displayText(loc, ss.str(), CENTER, color);
+
+	// Draw community card area
 	loc = gameLayout.getCommCardArea(0);
-	SmallDeck d = game.getCommCards();
-	attr = A_NORMAL | COLOR_PAIR(1);
-	gameDisplay.drawBox(loc, CARDW * 5 + 4, CARDH + 2, false, attr);
+	size.set(CARDW * 5 + 4, CARDH + 2);
+	gameDisplay.displayBox(loc, size, true, color);
 
-	attr = A_NORMAL;
+	// Draw community cards
 	for (i = 0; i < 5; i++) {
 		loc = gameLayout.getCommCardArea(i + 1);
-		card = d.getCard(i);
-		gameDisplay.displayCard(loc, card, attr);
+		card = gameData.getCommunityCard(i);
+		gameDisplay.displayCard(loc, card);
 	}
-}
-
-void Gui::displayPlayers() {
-
-	PlayerList pList = game.getPlayerList();
-	Player * p;
-	bool turn;
-	bool button;
-	bool faceUp;
-	Point loc;
-
-	for (int i = 0; i < pList.getSize(); i++) {
-		p = pList.getCurrentPlayer();
-		if (p->getNum() == 0) {
-			displayUserRegion(*p);
-		} else {
-			turn = (p->getNum() == game.getCurrentNum());
-			button = (p->getNum() == game.getButNum());
-			faceUp = game.getHandsUp();
-			loc = gameLayout.getPlayerInfoArea(p->getNum() - 1);
-			gameDisplay.displayPlayerInfo(*p, turn, button, faceUp, loc);
-		}
-		pList.iterate();
-	}
-
-}
-
-void Gui::displayUserRegion(Player p) {
-	int i;
-	int attr = A_NORMAL | COLOR_PAIR(4);
-	Point loc;
-	SmallDeck pocket;
-	bool button;
-
-	if (game.getCurrentNum() == 0) {
-		attr = A_NORMAL | COLOR_PAIR(2);
-	}
-
-//display player's cards
-	pocket = *p.getPocket();
-	loc = gameLayout.getPlayerCardArea(0);
-	button = (game.getButNum() == 0);
-	gameDisplay.drawBox(loc, gameDisplay.getCols(), CARDH + 2, button, attr);
-	for (i = 0; i < 2; i++) {
-		loc = gameLayout.getPlayerCardArea(i + 1);
-		gameDisplay.displayCard(loc, pocket.getCard(i), A_NORMAL);
-	}
-
-//display player's pot
-	loc = gameLayout.getPlayerPotArea();
-	gameDisplay.displayPot(loc, "Your ", p.getMoney(), A_NORMAL);
-}
-
-// Clear the entire screen
-void Gui::clearScreen() {
-	gameDisplay.eraseScreen();
-
 }

@@ -17,22 +17,19 @@ class Player;
 class Hand
 {
 	public:
-		Hand(Player * p);
 		Hand();
 		~Hand();
 		int operator > (Hand);
 		Card* cardArray;
-		void putInCards(SmallDeck pocket, SmallDeck community);
-		void evaluateCards();
-		Player * getPlayer();
+		void evaluate(SmallDeck pocket, SmallDeck community);
 		int getType(){return type;}
 
 	private:
-		Player * player;
 		int length;
 		int valid;
 		int type;
 		int tieBreaker;
+		void solve();
 		int pair();
 		int twoPair();
 		int threeOfaKind();

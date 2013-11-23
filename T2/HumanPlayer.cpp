@@ -16,16 +16,17 @@
 #include "SmallDeck.h"
 
 using namespace std;
-extern Game game;
 
-HumanPlayer::HumanPlayer(int num) {
+HumanPlayer::HumanPlayer(int num, Gui gameGui, int startMoney) {
+	money = startMoney;
+	gui = gameGui;
 	playerNum = num;
 }
 
-Bet HumanPlayer::makeBet(SmallDeck comm, int minBet) {
+Bet HumanPlayer::makeBet(SmallDeck comm, int minBet, GameState state) {
 	Bet b;
 	do {
-		b = game.getGui().getBetInput(minBet);
+		b = gui.getBetInput();
 	} while (b.getAmount() > money);
 	money -= b.getAmount();
 	return b;
