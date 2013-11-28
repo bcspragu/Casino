@@ -13,6 +13,7 @@
 #include "Computer.h"
 #include <signal.h>
 #include <ncurses.h>
+#include <assert.h>
 #include <cstdlib>
 #include <sstream>
 
@@ -93,7 +94,7 @@ int main(int argc, char* argv[])
   gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
   setText("B21","Raise");
   gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
-  setText("B22","ALL IN");
+  setText("B22","All In");
   gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
   setText("B31","Fold");
   gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
@@ -160,14 +161,16 @@ Dealer::Dealer(){
 
     //Kill all the players that can't make large blind
     for(pitr = players.begin(); pitr != players.end(); ++pitr){
-      if((**pitr).wallet < largeBlind){
+      if((*pitr) != NULL && (**pitr).wallet < largeBlind){
         (*pitr) = NULL; //GET NULLIFIED
         numPlayers--;
       }
     }
 
-    if(numPlayers == 1){
+    if(numPlayers == 1 && players.front() != NULL){
       //Game Over, you win
+      gameDisplay.bannerBottom("You've won!");
+      usleep(1000*3000);
       return;
     }
 
@@ -216,14 +219,17 @@ Dealer::Dealer(){
     showAllCards();
   }
   if((*players.front()).wallet < largeBlind){
-    //cout << "User has lost the game." << endl;
+    //Game Over, you lose
+    gameDisplay.bannerBottom("You've lost!");
+    usleep(1000*3000);
   }
 }
 
 void Dealer::updateBet(){
   char betstr[21];
   char potstr[21];
-  sprintf(potstr, "pot: $%d", pot);
+  sprintf(potstr, "Pot: $%d", pot);
+  sprintf(betstr, "Bet: $%d", betValue);
   mvprintw(22,47,potstr);
   mvprintw(24,47,betstr);
   gameDisplay.captureInput();
@@ -262,11 +268,12 @@ void Dealer::dealHands(){
 void Dealer::updateValuesOnScreen(){
   char tmpstr[21];
   string move;
-  string location = "P";
+  string location;
   std::vector<Player*>::iterator pitr;
   int index = 1;
 
   for(pitr = players.begin(); pitr != players.end(); ++pitr){
+    location = "P";
     if((*pitr) == NULL){
       sprintf(tmpstr, "$%d",0);
       move = "Out";
@@ -400,10 +407,9 @@ Move Computer::getMove(Dealer* d){
   int handValue;
   int decision;
   lastMove = "Thinking";
+  //Flush visuals
   d->updateValuesOnScreen();
   usleep(1000*500);
-  //Flush visuals
-  gameDisplay.captureInput();
   std::vector<Card> allCards;
   allCards.insert(allCards.end(), hand.begin(), hand.end());
   allCards.insert(allCards.end(), (*d).community.begin(),(*d).community.end());
@@ -423,29 +429,21 @@ Move Computer::getMove(Dealer* d){
     //move = 0;
     lastMove = "Call";
     d->updateValuesOnScreen();
-    //Flush visuals
-    gameDisplay.captureInput();
     return CALL;
   }else if ((decision == 1) || (decision == 4)){
     lastMove = "Raise";
     raiseAmount = getRaiseAmount(d);
     d->updateValuesOnScreen();
-    //Flush visuals
-    gameDisplay.captureInput();
     return RAISE;
   }else if ((decision == 2) || (decision == 5)){
     //move = 2;
     alreadyFolded = true;
     lastMove = "Fold";
     d->updateValuesOnScreen();
-    //Flush visuals
-    gameDisplay.captureInput();
     return FOLD;
   }
   lastMove = "Call";
   d->updateValuesOnScreen();
-  //Flush visuals
-  gameDisplay.captureInput();
   return CALL;
 }
 
@@ -461,8 +459,6 @@ Move User::getMove(Dealer* d){
   //mvprintw(36,36,"Your Move");
 
   d->updateValuesOnScreen();
-  //Flush visuals
-  gameDisplay.captureInput();
   char potstr[21];
   gameDisplay.drawBox(46, 21, 15, 3, 0);		// Money in Pot
   sprintf(potstr, "Pot: $%d", d->pot);
@@ -492,7 +488,7 @@ Move User::getMove(Dealer* d){
         // Check/Call
         if((cardX >= 50) && (cardX <= 68) && (cardY >= 28) && (cardY <= 33)){
           gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
-          mvprintw(36,36,"Check/Call");
+          mvprintw(36,36,"Call");
           messageString.str("");
           messageString << "You Checked/Called";
           lastMove = "Check";
@@ -513,7 +509,7 @@ Move User::getMove(Dealer* d){
         // ALL IN
         else if((cardX >= 69) && (cardX <= 86) && (cardY >= 35) && (cardY <= 40)){
           gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
-          mvprintw(36,36,"ALL IN");
+          mvprintw(36,36,"All In");
           messageString.str("");
           messageString << "You went ALL IN!";
           gameDisplay.bannerBottom(messageString.str());
@@ -540,8 +536,6 @@ Move User::getMove(Dealer* d){
     } 
   }
   d->updateValuesOnScreen();
-  //Flush visuals
-  gameDisplay.captureInput();
 }
 
 void Dealer::hideAllCards(){
@@ -778,4 +772,93 @@ void setText(string target, string text){
   }
   mvprintw(ypos,xpos,spaceString.c_str());
   mvprintw(ypos,xpos,text.c_str());
+}
+
+void Dealer::roundOfBetting(int handOffset){
+  if(playersStillIn(currentRound) == 1){
+    return; //There's only one person, we don't need to play
+  }
+  //Reset the value to stay in to the large blind
+  betValue = largeBlind;
+  
+  //All set if nobody has raised, means everyone has folded or checked
+  bool allSet = false;
+  
+  //Start by setting everyone's contribution to the current round of betting to zero
+  std::vector<Player*>::iterator pitr;
+  for(pitr = players.begin(); pitr != players.end(); ++pitr){
+    if((*pitr) != NULL){
+      (**pitr).currentContribution = 0;
+    }
+  }
+
+  updateValuesOnScreen();
+
+  while(!allSet){
+    //cot << "Pot: $" << pot << " Bet: $" << betValue << endl;
+    allSet = true;
+    for(int i = 0; i < currentRound.size(); i++){
+      int index = (smallBlindLoc+handOffset+i) % currentRound.size();
+      if(currentRound[index] != NULL){
+        Player* player = currentRound[index];
+        if(!(player->allIn)){
+          Move move = player->getMove(this);
+          if(move == RAISE){
+            //The amount they spend is the amount they need to add to match the current bet, plus their raise
+            int raise = player->getAmountForMove(this);
+            int amount = (betValue - player->currentContribution) + raise;
+            if(amount <= player->wallet){ //If they have enough money to do this
+              betValue += raise;
+              player->currentContribution += amount;
+              player->wallet -= amount;
+              pot += amount;
+            }else{ //If they don't have enough, put them all in
+              player->allIn = true;
+              player->lastMove = "All In";
+              //Only increase the actual bet by how much new they're adding in
+              betValue += player->wallet - (betValue - player->currentContribution);
+              player->currentContribution += player->wallet;
+              pot += player-> wallet;
+              player->wallet = 0;
+            }
+            allSet = false;
+          }else if(move == CALL){
+            int amount = betValue - player->currentContribution;
+            if(amount <= player->wallet){
+              player->currentContribution += amount;
+              player->wallet -= amount;
+              pot += amount;
+            }else{ //If they don't have enough, put them all in
+              player->allIn = true;
+              player->lastMove = "All In";
+              //Only increase the actual bet by how much new they're adding in
+              betValue += player->wallet - (betValue - player->currentContribution);
+              player->currentContribution += player->wallet;
+              pot += player-> wallet;
+              player->wallet = 0;
+              allSet = false;
+            }
+          }else if(move == FOLD){
+            currentRound[index] = NULL;
+            if(playersStillIn(currentRound) == 1){
+              return; //There's only one person, we don't need to play
+            }
+          }else if(move == ALLIN){
+            //Only increase the actual bet by how much new they're adding in
+            betValue += player->wallet - (betValue - player->currentContribution);
+            player->currentContribution += player->wallet;
+            pot += player-> wallet;
+            player->wallet = 0;
+            allSet = false;
+            player->allIn = true;
+            player->lastMove = "All In";
+          }else{
+            assert(false);
+          }
+        }
+        player->updateWallet();
+      }
+    }
+  }
+  updateBet();
 }
