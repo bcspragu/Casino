@@ -38,17 +38,6 @@ int main() {
 	}
 
 	gameDisplay.eraseScreen(true);
-	gameDisplay.bannerBottom(ss.str());
-	// Infinite loop to wait for user input
-	for (;;) {
-
-		// Calls the game display to capture some input
-		key = gameDisplay.captureInput();
-
-		// Break if user presses 'n'
-		if (key > 0)
-			break;
-	}
 
 	return 0;
 }
