@@ -1,13 +1,9 @@
-#include "Balance.h"
-
 //includes for T2
 #include "T2/Display.h"
 #include "T2/Game.h"
 #include "T2/Layout.h"
 
 #define INITIAL_BALANCE 500;	//amount the player starts with
-
-int Balance::balance = INITIAL_BALANCE;
 
 void runT2();
 
@@ -48,15 +44,4 @@ void runT2(void) {
 	}
 
 	gameDisplay.eraseScreen(true);
-	gameDisplay.bannerBottom(ss.str());
-	// Infinite loop to wait for user input
-	for (;;) {
-
-		// Calls the game display to capture some input
-		key = gameDisplay.captureInput();
-
-		// Break if user presses 'n'
-		if (key > 0)
-			break;
-	}
 }
