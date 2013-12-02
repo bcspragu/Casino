@@ -1,5 +1,5 @@
 //includes for T2
-#include "T2/T2Display.h"
+#include "T2/Display.h"
 #include "T2/Game.h"
 #include "T2/Layout.h"
 
@@ -8,7 +8,7 @@
 void runT2();
 
 //variables for T2
-T2Display GAME_DISPLAY_T2;
+Display gameDisplay;
 
 int main (void) {
 
@@ -43,5 +43,5 @@ void runT2(void) {
 		ss << "Current money: " << startMoney;
 	}
 
-	GAME_DISPLAY_T2.eraseScreen(true);
+	gameDisplay.eraseScreen(true);
 }
