@@ -6,8 +6,8 @@
 // These are include files they are used for accessing functions and
 // variables in external libraries.
 
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef T2DISPLAY_H
+#define T2DISPLAY_H
 
 #include <ncursesw/ncurses.h>
 #include <cstdio>
@@ -51,14 +51,14 @@ enum Just { LEFT, RIGHT, CENTER };
 /*
  * This is the display class definitions
  */
-class Display {
+class T2Display {
 public:
 
 	/*
 	 * * * * Constructor and destructor * * * *
 	 */
-	Display(void);
-	~Display(); // destructor
+	T2Display(void);
+	~T2Display(); // destructor
 
 	/*
 	 * * * * User interaction functions * * * *

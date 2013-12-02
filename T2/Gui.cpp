@@ -14,13 +14,13 @@
 
 #include "Bet.h"
 #include "Card.h"
-#include "Display.h"
+#include "T2Display.h"
 #include "GameData.h"
 #include "Layout.h"
 #include "PlayerList.h"
 #include "Point.h"
 
-extern Display gameDisplay;
+extern T2Display GAME_DISPLAY_T2;
 
 Layout Gui::gameLayout;
 GameData Gui::gameData;
@@ -46,18 +46,18 @@ bool Gui::startGui(void) {
 	Point loc;
 	Point size;
 
-	gameLayout.setup(gameDisplay.getCols(), gameDisplay.getLines());
-	gameDisplay.eraseScreen(true);
+	gameLayout.setup(GAME_DISPLAY_T2.getCols(), GAME_DISPLAY_T2.getLines());
+	GAME_DISPLAY_T2.eraseScreen(true);
 
 	// display the new game screen
-	gameDisplay.bannerTop("New Game!");
-	gameDisplay.bannerBottom("[Continue: c] [Exit: e]");
+	GAME_DISPLAY_T2.bannerTop("New Game!");
+	GAME_DISPLAY_T2.bannerBottom("[Continue: c] [Exit: e]");
 
 	// Draw border
 	loc = gameLayout.getCenter();
 	size.set(60, 4);
 	loc.move(-size.getX() / 2, -2);
-	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(1));
+	GAME_DISPLAY_T2.displayBox(loc, size, false, COLOR_PAIR(1));
 
 	// Draw title
 	ss.clear();
@@ -65,21 +65,21 @@ bool Gui::startGui(void) {
 	ss << "New Game!";
 	loc = gameLayout.getCenter();
 	loc.move(0, -1);
-	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
 
 	// Draw line 2
 	ss.clear();
 	ss.str("");
 	ss << "You are player 1.";
 	loc.move(0, 1);
-	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
 
 
 	// infinite loop for the main program, you can press e to quit
 	for (;;) {
 
 		// calls the game display to capture some input
-		key = gameDisplay.captureInput();
+		key = GAME_DISPLAY_T2.captureInput();
 
 		// if a key was pressed
 		if (key > 0) {
@@ -107,14 +107,14 @@ bool Gui::showRoundWinner(int roundWinnerNum, int amount, int roundNum) {
 	char key;
 	bool continueGame;
 
-	gameLayout.setup(gameDisplay.getCols(), gameDisplay.getLines());
-	gameDisplay.eraseScreen(true);
+	gameLayout.setup(GAME_DISPLAY_T2.getCols(), GAME_DISPLAY_T2.getLines());
+	GAME_DISPLAY_T2.eraseScreen(true);
 
 	// Draw border
 	loc = gameLayout.getCenter();
 	size.set(60, 5);
 	loc.move(-size.getX() / 2, -2);
-	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(1));
+	GAME_DISPLAY_T2.displayBox(loc, size, false, COLOR_PAIR(1));
 
 	// Draw title
 	ss.clear();
@@ -122,31 +122,31 @@ bool Gui::showRoundWinner(int roundWinnerNum, int amount, int roundNum) {
 	ss << "End of round " << roundNum << "!";
 	loc = gameLayout.getCenter();
 	loc.move(0, -1);
-	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
 
 	// Draw line 2
 	ss.clear();
 	ss.str("");
 	ss << "Player " << roundWinnerNum << " won:";
 	loc.move(0, 1);
-	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
 
 	// Draw line 3
 	ss.clear();
 	ss.str("");
 	ss << "$" << amount;
 	loc.move(0, 1);
-	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
 
 	// Display info banners
-	gameDisplay.bannerTop("Round ended.");
-	gameDisplay.bannerBottom("[Next round: n]  [Exit: e]");
+	GAME_DISPLAY_T2.bannerTop("Round ended.");
+	GAME_DISPLAY_T2.bannerBottom("[Next round: n]  [Exit: e]");
 
 	// Infinite loop to wait for user input
 	for (;;) {
 
 		// Calls the game display to capture some input
-		key = gameDisplay.captureInput();
+		key = GAME_DISPLAY_T2.captureInput();
 
 		// Break if user presses 'n'
 		if (key == 'n') {
@@ -169,13 +169,13 @@ void Gui::showWinner(int winnerNum) {
 	char key;
 
 	// Clear screen first
-	gameDisplay.eraseScreen(true);
+	GAME_DISPLAY_T2.eraseScreen(true);
 
 	// Draw border
 	loc = gameLayout.getCenter();
 	size.set(60, 5);
 	loc.move(-size.getX() / 2, -2);
-	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(1));
+	GAME_DISPLAY_T2.displayBox(loc, size, false, COLOR_PAIR(1));
 
 	// Draw title
 	ss.clear();
@@ -183,14 +183,14 @@ void Gui::showWinner(int winnerNum) {
 	ss << "Game over!";
 	loc = gameLayout.getCenter();
 	loc.move(0, 1);
-	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, COLOR_PAIR(3));
 
 	// Draw line 2
 	ss.clear();
 	ss.str("");
 	ss << "The winner is:";
 	loc.move(0, 1);
-	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
 	ss.clear();
 
 	// Draw line 3
@@ -198,18 +198,18 @@ void Gui::showWinner(int winnerNum) {
 	ss.str("");
 	ss << "Player " << winnerNum;
 	loc.move(0, 1);
-	gameDisplay.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, COLOR_PAIR(1));
 	ss.clear();
 
 	// Draw info banners
-	gameDisplay.bannerTop("Game over.");
-	gameDisplay.bannerBottom("[Exit: e]");
+	GAME_DISPLAY_T2.bannerTop("Game over.");
+	GAME_DISPLAY_T2.bannerBottom("[Exit: e]");
 
 	// infinite loop to wait for user input
 	for (;;) {
 
 		// calls the game display to capture some input
-		key = gameDisplay.captureInput();
+		key = GAME_DISPLAY_T2.captureInput();
 
 		// if a key was pressed
 		if (key == 'e')
@@ -225,7 +225,7 @@ Bet Gui::getBetInput() {
 
 	// Redraw and show top banner
 	redraw();
-	gameDisplay.bannerTop("Your turn to make a bet.");
+	GAME_DISPLAY_T2.bannerTop("Your turn to make a bet.");
 
 	// Get action from user
 	action = getBetAction();
@@ -260,13 +260,13 @@ BetAction Gui::getBetAction() {
 	else
 		messageString << "Make a bet. [fold: f] [call " << gameData.getMinBet()
 				<< ": c ] [raise: r]";
-	gameDisplay.bannerBottom(messageString.str());
+	GAME_DISPLAY_T2.bannerBottom(messageString.str());
 
 	// Infinite loop to wait for user input
 	for (;;) {
 
 		// calls the game display to capture some input
-		key = gameDisplay.captureInput();
+		key = GAME_DISPLAY_T2.captureInput();
 
 		// if a key was pressed
 		if (key > 0) {
@@ -299,8 +299,8 @@ int Gui::getBetAmount() {
 	Point bannerSize;
 
 	amount = gameData.getMinBet();
-	bannerLoc.set(0, gameDisplay.getLines() - 1);
-	bannerSize.set(gameDisplay.getCols(), 1);
+	bannerLoc.set(0, GAME_DISPLAY_T2.getLines() - 1);
+	bannerSize.set(GAME_DISPLAY_T2.getCols(), 1);
 
 	// set flag in case of resize
 	userInputState = 2;
@@ -310,18 +310,18 @@ int Gui::getBetAmount() {
 	for (;;) {
 
 		// Erase previous prompt
-		gameDisplay.eraseBox(bannerLoc, bannerSize);
+		GAME_DISPLAY_T2.eraseBox(bannerLoc, bannerSize);
 
 		// Display current prompt
 		messageString << "Choose the amount to raise. Current amount: ";
 		messageString << amount;
 		messageString << " [+5: f] [+10: t] [+50: h] [+100: a] [Enter: e]";
-		gameDisplay.bannerBottom(messageString.str());
+		GAME_DISPLAY_T2.bannerBottom(messageString.str());
 		messageString.clear();
 		messageString.str("");
 
 		// calls the game display to capture some input
-		key = gameDisplay.captureInput();
+		key = GAME_DISPLAY_T2.captureInput();
 
 		// if a key was pressed
 		if (key > 0) {
@@ -376,7 +376,7 @@ void Gui::update(GameData data, int status) {
 		break;
 	}
 
-	gameDisplay.bannerTop(ss.str());
+	GAME_DISPLAY_T2.bannerTop(ss.str());
 
 	delay(time);
 
@@ -388,7 +388,7 @@ void Gui::delay(int delayTime) {
 	if (delayTime >= 0) {
 		for (int i = 0; i < delayTime; i++) {
 			// calls the game display to capture some input
-			key = gameDisplay.captureInput();
+			key = GAME_DISPLAY_T2.captureInput();
 
 			// if a key was pressed
 			if (key == ' ')
@@ -406,7 +406,7 @@ void Gui::detectResize(int sig) {
 	stringstream ss;
 
 	// update the display class information with the new window size
-	gameDisplay.handleResize(sig);
+	GAME_DISPLAY_T2.handleResize(sig);
 
 	// re-enable the interrupt for a window resize
 	signal(SIGWINCH, detectResize);
@@ -420,10 +420,10 @@ void Gui::detectResize(int sig) {
 		else
 			ss << "Make a bet. [fold: f] [call " << gameData.getMinBet()
 					<< ": c ] [raise: r]";
-		gameDisplay.bannerBottom(ss.str());
-		gameDisplay.bannerTop("Your turn to make a bet.");
+		GAME_DISPLAY_T2.bannerBottom(ss.str());
+		GAME_DISPLAY_T2.bannerTop("Your turn to make a bet.");
 	} else if (userInputState == 2) {
-		gameDisplay.bannerTop("Your turn to make a bet.");
+		GAME_DISPLAY_T2.bannerTop("Your turn to make a bet.");
 	}
 
 }
@@ -431,15 +431,15 @@ void Gui::detectResize(int sig) {
 // Redraw the layout
 void Gui::redraw() {
 
-	gameLayout.setup(gameDisplay.getCols(), gameDisplay.getLines());
-	gameDisplay.eraseScreen(false);
+	gameLayout.setup(GAME_DISPLAY_T2.getCols(), GAME_DISPLAY_T2.getLines());
+	GAME_DISPLAY_T2.eraseScreen(false);
 	string message;
 
 	//only draw if screen is large enough
 	if (gameLayout.getSize().getX() < 127 || gameLayout.getSize().getY() < 15) {
 
 		message = "Please enlarge this window to properly view the game.";
-		gameDisplay.bannerBottom(message);
+		GAME_DISPLAY_T2.bannerBottom(message);
 
 	} else {
 
@@ -476,22 +476,22 @@ void Gui::drawComputerPlayers() {
 		else
 			color = COLOR_PAIR(1);
 		loc = gameLayout.getPlayerInfoArea(i - 1);
-		gameDisplay.displayBox(loc, size, (i + 1 == gameData.getButton()),
+		GAME_DISPLAY_T2.displayBox(loc, size, (i + 1 == gameData.getButton()),
 				color);
 
 		// Draw title
 		loc.move(size.getX() / 2, 1);
 		ss << "P" << i + 1 << " $" << gameData.getPlayerMoney(i);
-		gameDisplay.displayText(loc, ss.str(), CENTER, color);
+		GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, color);
 
 		// Draw cards
 		loc = gameLayout.getPlayerInfoArea(i - 1);
 		card1 = gameData.getPlayerCard(i, 0);
 		card2 = gameData.getPlayerCard(i, 1);
 		loc.move(1, 2);
-		gameDisplay.displayCard(loc, card1);
+		GAME_DISPLAY_T2.displayCard(loc, card1);
 		loc.move(CARDW, 0);
-		gameDisplay.displayCard(loc, card2);
+		GAME_DISPLAY_T2.displayCard(loc, card2);
 	}
 }
 
@@ -505,24 +505,24 @@ void Gui::drawHumanPlayer() {
 	if (gameData.getCurrent() == 1)
 		color = COLOR_PAIR(3);
 	loc = gameLayout.getPlayerCardArea(0);
-	size.set(gameDisplay.getCols(), CARDH + 2);
-	gameDisplay.displayBox(loc, size, (gameData.getButton() == 1), color);
+	size.set(GAME_DISPLAY_T2.getCols(), CARDH + 2);
+	GAME_DISPLAY_T2.displayBox(loc, size, (gameData.getButton() == 1), color);
 
 	//display player's cards
 	for (int i = 0; i < 2; i++) {
 		loc = gameLayout.getPlayerCardArea(i + 1);
-		gameDisplay.displayCard(loc, gameData.getPlayerCard(0, i));
+		GAME_DISPLAY_T2.displayCard(loc, gameData.getPlayerCard(0, i));
 	}
 
 	// Draw money info border
 	size.set(20, 4);
 	loc.move(10, 0);
-	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(2));
+	GAME_DISPLAY_T2.displayBox(loc, size, false, COLOR_PAIR(2));
 
 	// Draw money info text
 	loc.move(size.getX() / 2, 1);
 	ss << "Your money: " << gameData.getPlayerMoney(0);
-	gameDisplay.displayText(loc, ss.str(), CENTER, color);
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, color);
 }
 
 // display deck, discard pile, center pot, and community cards
@@ -537,22 +537,22 @@ void Gui::drawCommon() {
 	// Draw center pot border
 	size.set(CARDW * 5 + 4, 3);
 	loc = gameLayout.getCenterPotArea();
-	gameDisplay.displayBox(loc, size, false, COLOR_PAIR(2));
+	GAME_DISPLAY_T2.displayBox(loc, size, false, COLOR_PAIR(2));
 
 	// Draw center pot description
 	loc.move(size.getX() / 2, 1);
 	ss << "Center Pot: " << gameData.getCenterPot();
-	gameDisplay.displayText(loc, ss.str(), CENTER, color);
+	GAME_DISPLAY_T2.displayText(loc, ss.str(), CENTER, color);
 
 	// Draw community card area
 	loc = gameLayout.getCommCardArea(0);
 	size.set(CARDW * 5 + 4, CARDH + 2);
-	gameDisplay.displayBox(loc, size, true, color);
+	GAME_DISPLAY_T2.displayBox(loc, size, true, color);
 
 	// Draw community cards
 	for (i = 0; i < 5; i++) {
 		loc = gameLayout.getCommCardArea(i + 1);
 		card = gameData.getCommunityCard(i);
-		gameDisplay.displayCard(loc, card);
+		GAME_DISPLAY_T2.displayCard(loc, card);
 	}
 }

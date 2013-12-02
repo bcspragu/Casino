@@ -7,7 +7,7 @@
  *		* Does not function when running a screen session.
  */
 
-#include "Display.h"
+#include "T2Display.h"
 
 #include <locale.h>
 #include <ncursesw/ncurses.h>
@@ -32,7 +32,7 @@ using namespace std;
 /* Function: This is the constructor.
  * Description: It is called whenever an object of class display is initialized
  */
-Display::Display(void) {
+T2Display::T2Display(void) {
 	/* Initilization of Terminal */
 	// required to get card suits displaying, combined with UTF-8 set in terminal
 	setlocale(LC_ALL, "en_US.utf-8");
@@ -80,7 +80,7 @@ Display::Display(void) {
 /* Function: This is the destructor.
  * Description: This is called just before an object is deleted.
  */
-Display::~Display() {
+T2Display::~T2Display() {
 	// this is turns off all the special settings and returns the terminal to normal
 	endwin();
 	// insert deletion of dynamically created objects here too
@@ -99,7 +99,7 @@ Display::~Display() {
  *			- details of the mouse event must be fetched from this class
  *			- use getMouseEventX, getMouseEventY and getMouseEventButton
  */
-int Display::captureInput(void) {
+int T2Display::captureInput(void) {
 	// obtain one mouse event or keypress
 	int ch = getch();
 	// this is a switch statement for the result of getch
@@ -134,7 +134,7 @@ int Display::captureInput(void) {
  * 		program control flow. The signal handler should be declared in the main
  *		class, because your game should redraw the display on a resize.
  */
-void Display::handleResize(int sig) {
+void T2Display::handleResize(int sig) {
 #ifdef TIOCGSIZE // operating system dependant differences
 	struct ttysize ts;
 	ioctl(STDIN_FILENO, TIOCGSIZE, &ts); // get the information of the terminal
@@ -149,7 +149,7 @@ void Display::handleResize(int sig) {
 	resizeterm(lines, cols); // sets the ncurses window size correctly
 }
 
-void Display::displayText(Point p, string text, Just justify, int color) {
+void T2Display::displayText(Point p, string text, Just justify, int color) {
 
 	int length = text.length();
 
@@ -193,7 +193,7 @@ void Display::displayText(Point p, string text, Just justify, int color) {
  *				A_CHARTEXT      Bit-mask to extract a character
  *				COLOR_PAIR(n)   Color-pair number n 
  */
-void Display::displayCard(Point p, Card card) {
+void T2Display::displayCard(Point p, Card card) {
 	if (card.getSuit() > 0 && card.getValue() > 0) {
 
 		int color;
@@ -238,7 +238,7 @@ void Display::displayCard(Point p, Card card) {
  * Description: This copies suit, number and printAtt from the calling function.
  *		Also includes what line of the card face is being drawn.
  */
-void Display::printFace(Card card, int line, int attr) {
+void T2Display::printFace(Card card, int line, int attr) {
 
 	int color;
 
@@ -300,7 +300,7 @@ void Display::printFace(Card card, int line, int attr) {
  * Function: Print the suit of the card
  * Description: This is just a look up table.
  */
-void Display::printSuit(int suit) {
+void T2Display::printSuit(int suit) {
 	switch (suit) {
 	case 1:
 		printw("%s", spades);
@@ -324,7 +324,7 @@ void Display::printSuit(int suit) {
  * Function: Prints the number on the card
  * Description: This is just a look up table.
  */
-void Display::printNumber(int number) {
+void T2Display::printNumber(int number) {
 	switch (number) {
 	case 2:
 	case 3:
@@ -360,7 +360,7 @@ void Display::printNumber(int number) {
  * Description: x,y is for the top left corner, sizeX and sizeY set
  * 			how big the square is.
  */
-void Display::eraseBox(Point p, Point size) {
+void T2Display::eraseBox(Point p, Point size) {
 	string strDraw;
 	int x = p.getX();
 	int y = p.getY();
@@ -400,7 +400,7 @@ void Display::eraseBox(Point p, Point size) {
  * Description: x,y is for the top left corner, sizeX and sizeY set
  * 			how big the square is.
  */
-void Display::eraseScreen(bool eraseBanners) {
+void T2Display::eraseScreen(bool eraseBanners) {
 	string strDraw;
 	int yCount;
 	int y;
@@ -440,7 +440,7 @@ void Display::eraseScreen(bool eraseBanners) {
  *          how big the square is. printAtt allows for changes in the
  *			display settings.
  */
-void Display::displayBox(Point location, Point size, bool doubleBorder,
+void T2Display::displayBox(Point location, Point size, bool doubleBorder,
 		int color) {
 
 // Variables used by drawing loops
@@ -554,7 +554,7 @@ void Display::displayBox(Point location, Point size, bool doubleBorder,
  * Description: Inverts the color and draws the banner at the bottom
  *		of the screen. Does not handle carriage returns on the string.
  */
-void Display::bannerBottom(string bannerText) {
+void T2Display::bannerBottom(string bannerText) {
 // change to the banner draw settings
 	attron(COLOR_PAIR(8) | A_REVERSE);
 // checks if the banner string size is smaller than the width of the screen
@@ -579,7 +579,7 @@ void Display::bannerBottom(string bannerText) {
  * Description: Inverts the color and draws the banner at the top
  *      of the screen. Does not handle carriage returns on the string.
  */
-void Display::bannerTop(string bannerText) {
+void T2Display::bannerTop(string bannerText) {
 // change to the banner draw settings
 	attron(COLOR_PAIR(8) | A_REVERSE);
 // checks if the banner string size is smaller than the width of the screen
