@@ -149,7 +149,7 @@ bool Gui::showRoundWinner(int roundWinnerNum, int amount, int roundNum) {
 		key = gameDisplay.captureInput();
 
 		// Break if user presses 'n'
-		if (key == 'c') {
+		if (key == 'n') {
 			continueGame = true;
 			break;
 		} else if (key == 'e') {
@@ -360,16 +360,16 @@ void Gui::update(GameData data, int status) {
 	case 0:	// No message or delay
 		break;
 	case 1:	// Dealing cards
-		time = 3;
+		time = 1;
 		ss << "Dealing cards.";
 		break;
 	case 2: // A player's turn - show their bet
-		time = 30;
+		time = 15;
 		ss << "Player " << gameData.getCurrent() << " "
 				<< gameData.getBet().print();
 		break;
 	case 3: // Show hands
-		time = 5000;
+		time = 30;
 		ss << "Round ended.";
 		break;
 	default:
