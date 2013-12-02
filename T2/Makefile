@@ -1,13 +1,17 @@
-#Makefile for Game_test
+#Makefile for Poker
 CC=g++
 DEBUG=
 CFLAGS=-c -Wall $(DEBUG)
 LDFLAGS=-lncursesw $(DEBUG)
-SOURCES=main.cpp Timer.cpp
+SOURCES=Bet.cpp Card.cpp ComputerPlayer.cpp Dealer.cpp Deck.cpp Display.cpp Game.cpp\
+GameData.cpp Gui.cpp Hand.cpp HumanPlayer.cpp Layout.cpp MainDeck.cpp Player.cpp PlayerList.cpp\
+Point.cpp SmallDeck.cpp Poker.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=play
+EXECUTABLE=poker
 
 all: clean $(SOURCES) $(EXECUTABLE)
+
+display: 
 
 debug: clean
 debug: DEBUG +=-g
@@ -20,5 +24,4 @@ $(EXECUTABLE): $(OBJECTS)
 
 clean:
 	rm -rf *.o $(EXECUTABLE)
-	
 
