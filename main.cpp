@@ -12,7 +12,7 @@
 using namespace std;
 
 void runT2(int*, int*, Timer*);
-void runD1(int* playerBalance, int* playedCards, Timer*);
+void runD1(GameObject game);
 void setText(string target, string text);
 
 GameObject game(500,0);
@@ -99,6 +99,8 @@ void runT2(GameObject game) {
 
 void runD1(GameObject game) {
 
+	Poker poker;
+	poker.runGame(game);
 	//Poker poker(playerBalance, playedCards);
 	//d1Timer->checkIn();
 	//while (poker.m_Players.size() > 1) {
