@@ -4,13 +4,13 @@
 
 using namespace std;
 
-class Hand{
+class HandD1{
 private:
 	vector<Card*> hand;
 	int ranks[13];
 	
 public: 
-	Hand(Card *c1, Card *c2, Card *c3, Card *c4, Card *c5);
+	HandD1(Card *c1, Card *c2, Card *c3, Card *c4, Card *c5);
 	Card* exchange(Card* c, int placeOfCard);
 	bool isHigherScore(int secondScore[15]);
 	bool compareTo(int secondScore[15]);

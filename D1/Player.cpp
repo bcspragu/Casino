@@ -1,7 +1,7 @@
 #include <string>
 #include "displayD1.h"
 #include "Card.h"
-#include "Hand.h"
+#include "HandD1.h"
 #include "Player.h"
 
 using namespace std;
@@ -19,11 +19,11 @@ Player::~Player() {
 
 }
 
-Hand* Player::getHand() {
+HandD1* Player::getHand() {
     return hand;
 }
 
-void Player::setHand(Hand *newHand) {
+void Player::setHand(HandD1 *newHand) {
     hand = newHand;
 }
 

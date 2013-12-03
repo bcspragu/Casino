@@ -56,8 +56,8 @@ class Poker {
         void setTopBannerText(string text);
         void setBottomBannerText(string text);
         void removePlayer(int position);
-        void drawHand(Hand *hand, bool hidden, Frame *frame);
-        void updateHand(Hand *hand, Frame *frame);
+        void drawHand(HandD1 *hand, bool hidden, Frame *frame);
+        void updateHand(HandD1 *hand, Frame *frame);
         void updateGameInfo();
         void rotatePlayers();
         void removeCurrentPlayer();
