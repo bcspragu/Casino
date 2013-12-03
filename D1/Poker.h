@@ -19,7 +19,6 @@ class Poker {
         Poker();
         ~Poker();
 
-		display GAME_DISPLAY;
 
         int m_InitialPlayers;
         int m_InitialMoney;
@@ -31,12 +30,14 @@ class Poker {
         Frame player2Frame;
         Frame player3Frame;
         string bannerHeader;
-        deque<Player*> m_Players;
         Deck m_Deck;
         HumanPlayer m_HumanPlayer;
         AI m_AiPlayer_1;
         AI m_AiPlayer_2;
         AI m_AiPlayer_3;
+        deque<Player*> m_Players;
+
+		display GAME_DISPLAY;
 
         void runAnte();
         void runDeal();
