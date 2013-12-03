@@ -1,6 +1,5 @@
 #include "Poker.h"
-
-display GAME_DISPLAY;
+#include "../Advertisement.h"
 
 Poker::Poker(int* playerBalance, int* playedCards) :
     m_InitialPlayers(4),
@@ -16,8 +15,8 @@ Poker::Poker(int* playerBalance, int* playedCards) :
     m_AiPlayer_1(1, m_InitialMoney, "West"),
     m_AiPlayer_2(2, m_InitialMoney, "North"),
     m_AiPlayer_3(3, m_InitialMoney, "East"),
-    m_Players()
-
+    m_Players(),
+	GAME_DISPLAY()
 {
 	m_playedCards = playedCards;
 	m_playerBalance = playerBalance;
@@ -125,7 +124,9 @@ void Poker::removeCurrentPlayer() {
 
 void Poker::runAnte() {
     stringstream bannerText;
-    bannerText << "Round " << m_RoundCounter << ": Ante";
+	Advertisement adGenerator;
+	bannerText << adGenerator.getAd();
+    //bannerText << "Round " << m_RoundCounter << ": Ante";
     bannerHeader = bannerText.str();
     updateGameInfo();
 
