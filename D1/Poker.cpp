@@ -4,7 +4,7 @@
 
 Poker::Poker() :
     m_InitialPlayers(4),
-    m_InitialMoney(*playerBalance),
+    m_InitialMoney(1000),
     m_RoundCounter(1),
     m_PotMoney(0),
     bettingCycle(1),

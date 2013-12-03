@@ -10,6 +10,7 @@
 #include "Display.h"
 #include "Game.h"
 #include "Layout.h"
+#include "../GameObject.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -17,9 +18,10 @@
 using namespace std;
 
 Display gameDisplay;
+GameObject *game;
 
-int main(int argc, char* argv[]) {
-
+int runGame(GameObject* g) {
+  game = g;
 	stringstream ss;
 
 	srand(time(NULL));

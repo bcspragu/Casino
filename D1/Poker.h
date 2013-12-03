@@ -12,6 +12,7 @@
 #include <algorithm>
 
 using namespace std;
+class GameObject;
 
 class Poker {
     public:
@@ -46,7 +47,7 @@ class Poker {
         bool finishRound();
         void endGame(string endReason);
 
-		void runGame(GameObject &game);
+		void runGame(GameObject *game);
 
     protected:
     private:

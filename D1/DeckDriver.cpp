@@ -1,9 +1,12 @@
 #include <iostream>
 #include "Deck.h"
 #include "AI.h"
+#include "../GameObject.h"
 
-int main(int argc, char* argv[]) {
+GameObject *game;
 
+int runGame(GameObject* g) {
+    game = g;
     Deck* d1 = new Deck();
     Player* player1 = new AI(1,20000);
     display display1;

@@ -9,6 +9,7 @@
  */
 #include "display.h"
 #include "Dealer.h"
+#include "../GameObject.h"
 #include "User.h"
 #include "Computer.h"
 #include <signal.h>
@@ -28,9 +29,11 @@ void stub_PrintResize(void);
 std::map<string,int> longestStrings;
 // The gameDisplay object is global, because the static signal handler object
 // needs to access the dynamic object.
-display* gameDisplay;
+display gameDisplay;
+GameObject* game;
 
 stringstream messageString;
+
 int keynew = 0;
 int bet = 0;
 
@@ -43,9 +46,9 @@ void setText(string target, string text);
  * This is the main function that starts the driver artifact.
  * This function demonstrates some of the abilities of the Display class
  */
-int runGame(gameObject game)
+int runGame(GameObject* g)
 {
-  gameDisplay = game.display;
+  game = g;
   signal(SIGWINCH, detectResize); // enable the window resize signal
 
   // Player 1
