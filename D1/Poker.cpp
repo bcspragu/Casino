@@ -447,7 +447,7 @@ bool Poker::allPlayersAllIn() {
 
 #pragma mark - MAIN
 
-void Poker::runGame(GameObject game) {
+void Poker::runGame(GameObject &game) {
 	game.timer.checkIn();
 	m_HumanPlayer.setMoney(game.cash);
 

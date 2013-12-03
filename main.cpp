@@ -98,25 +98,8 @@ void runT2(GameObject game) {
 }
 
 void runD1(GameObject game) {
-
 	Poker poker;
 	poker.runGame(game);
-	//Poker poker(playerBalance, playedCards);
-	//d1Timer->checkIn();
-	//while (poker.m_Players.size() > 1) {
-		//poker.runAnte();
-		//if (poker.roundIsOver()) continue;
-		//poker.runDeal();
-		//poker.runBetting(1);
-		//if (poker.roundIsOver()) continue;
-		//poker.runCardExchange();
-		//poker.runBetting(2);
-		//if (poker.roundIsOver()) continue;
-		//poker.runShowdown();
-		//poker.finishRound();
-	//}
-	//poker.endGame("You Win!!");
-	//d1Timer->checkOut();
 }
 
 void setText(string target, string text){
