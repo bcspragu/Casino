@@ -2,7 +2,7 @@
 #include "HumanPlayer.h"
 #include "AI.h"
 #include "Frame.h"
-#include "Deck.h"
+#include "DeckD1.h"
 #include "displayD1.h"
 #include <deque>
 #include <iostream>
@@ -30,7 +30,7 @@ class Poker {
         Frame player2Frame;
         Frame player3Frame;
         string bannerHeader;
-        Deck m_Deck;
+        DeckD1 m_Deck;
         HumanPlayer m_HumanPlayer;
         AI m_AiPlayer_1;
         AI m_AiPlayer_2;

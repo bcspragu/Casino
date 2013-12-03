@@ -5,11 +5,11 @@
 #include <vector>
 #include <algorithm>
 
-class Deck
+class DeckD1
 {
 public:
-    Deck();
-    ~Deck();
+    DeckD1();
+    ~DeckD1();
     void discardCard(Card *c1);
     void shuffle();
     HandD1* dealHand();
