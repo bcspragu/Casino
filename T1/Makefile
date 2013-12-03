@@ -4,9 +4,9 @@ CC=g++
 DEBUG=
 CFLAGS=-c $(DEBUG)
 LDFLAGS=-lncursesw $(DEBUG)
-SOURCES=Card.cpp Card.h Computer.cpp Computer.h Dealer.cpp Dealer.h Deck.cpp Deck.h display.cpp display.h main.cpp Move.h Player.cpp Player.h SuitValue.h User.cpp User.h
+SOURCES=Card.cpp Card.h Computer.cpp Computer.h Dealer.cpp Dealer.h Deck.cpp Deck.h display.cpp display.h T1.cpp Move.h Player.cpp Player.h SuitValue.h User.cpp User.h
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=texas
+EXECUTABLE=../T1.o
 
 all: clean $(SOURCES) $(EXECUTABLE)
 

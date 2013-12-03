@@ -7,7 +7,7 @@ SOURCES=Bet.cpp Card.cpp ComputerPlayer.cpp Dealer.cpp Deck.cpp Display.cpp Game
 GameData.cpp Gui.cpp Hand.cpp HumanPlayer.cpp Layout.cpp MainDeck.cpp Player.cpp PlayerList.cpp\
 Point.cpp SmallDeck.cpp Poker.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=poker
+EXECUTABLE=../T2.o
 
 all: clean $(SOURCES) $(EXECUTABLE)
 
