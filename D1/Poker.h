@@ -20,9 +20,6 @@ class Poker {
 
 		display GAME_DISPLAY;
 
-		int* m_playedCards;
-		int* m_playerBalance;
-
         int m_InitialPlayers;
         int m_InitialMoney;
         int m_RoundCounter;
