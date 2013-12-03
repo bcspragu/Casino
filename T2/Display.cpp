@@ -618,5 +618,5 @@ void Display::bannerAd(string bannerText) {
 	}
 // turn off the draw colors
 	attroff(COLOR_PAIR(8) | A_REVERSE);
-	move(8, lines - 1);
+	move(0, lines - 1);
 }

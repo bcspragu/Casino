@@ -29,6 +29,9 @@ public:
 	static void newAd();
 
 private:
+	static Advertisement ad;
+
+	static string advertisement;
 
 	// Everything is static because it can be updated at any time
 	// detectResize, which needs a static variable.

@@ -87,6 +87,7 @@ bool Game::startGame(int startMoney) {
  */
 bool Game::playRound() {
 	numFolded = 0;
+	gui.newAd();
 	if (newRound()) {
 		if (!initialTurns()) {
 			if (!flop()) {

@@ -25,9 +25,11 @@ extern Display gameDisplay;
 Layout Gui::gameLayout;
 GameData Gui::gameData;
 int Gui::userInputState = 0;
+Advertisement Gui::ad;
+string Gui::advertisement;
 
 Gui::Gui() {
-
+	advertisement = ad.getAd();
 }
 
 Gui::~Gui() {
@@ -35,13 +37,11 @@ Gui::~Gui() {
 }
 
 void Gui::newAd() {
-	Advertisement ad;
-	gameDisplay.bannerAd(ad.getAd());
+	advertisement = ad.getAd();
 }
 
 // Function for running the game
 bool Gui::startGui(void) {
-
 	// enable resize detection
 	signal(SIGWINCH, detectResize);
 
@@ -259,7 +259,7 @@ BetAction Gui::getBetAction() {
 	userInputState = 1;
 	redraw();
 
-	newAd();
+	gameDisplay.bannerAd(advertisement);
 	// Display prompt
 	if (gameData.getMinBet() == 0)
 		messageString << "Make a bet. [fold: f] [check: c ] [raise: r]";
@@ -453,7 +453,7 @@ void Gui::redraw() {
 		drawComputerPlayers();
 		drawHumanPlayer();
 		drawCommon();
-		newAd();
+		gameDisplay.bannerAd(advertisement);
 	}
 
 }

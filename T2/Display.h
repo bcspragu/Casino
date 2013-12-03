@@ -81,7 +81,6 @@ public:
 	void bannerBottom(string bannerText);
 	void bannerTop(string bannerText);
 	void bannerAd(string bannerText);
-
 	/*
 	 * * * * Getters * * * *
 	 */
