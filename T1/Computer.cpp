@@ -16,14 +16,14 @@ Computer::Computer(int startingAmount) : Player(startingAmount) {
   lastMove = "Waiting";
 }
 
-int Computer::ratePocketCards(std::vector<Card> pocket){
+int Computer::ratePocketCards(std::vector<CardT1> pocket){
 
   int pocketValue;
   std::sort(pocket.begin(),pocket.end());
 
 
-  Card lowCard = pocket.front();
-  Card highCard = pocket.back();
+  CardT1 lowCard = pocket.front();
+  CardT1 highCard = pocket.back();
 
   std::map<Value, double> cardPoints; 
 

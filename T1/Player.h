@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include <vector>
-#include "Card.h"
+#include "CardT1.h"
 #include "Move.h"
 
 class Dealer;
@@ -10,7 +10,7 @@ class Dealer;
 class Player {
   public:
     Player(int startingAmount);
-    std::vector<Card> hand;
+    std::vector<CardT1> hand;
     int wallet;
     int ID;
     int currentContribution;

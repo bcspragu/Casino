@@ -2,18 +2,18 @@
 #define DECK_H
 
 #include <vector>
-#include "Card.h"
+#include "CardT1.h"
 
 
 class Deck {
   public:
     Deck();
     ~Deck(void);
-    std::vector<Card> cards;
+    std::vector<CardT1> cards;
     void shuffle();
-    Card dealCard();
+    CardT1 dealCard();
     int cardCount();
-    static string displayHand(std::vector<Card> cards);
+    static string displayHand(std::vector<CardT1> cards);
     void fill();
 };
 

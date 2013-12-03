@@ -263,8 +263,8 @@ void Dealer::dealHands(){
       }
     }
   }
-  Card card1 = players.front()->hand.front();
-  Card card2 = players.front()->hand.back();
+  CardT1 card1 = players.front()->hand.front();
+  CardT1 card2 = players.front()->hand.back();
 
   gameDisplay.displayCard(35,29,card1.suit+1,card1.value+2, A_BOLD);
   gameDisplay.displayCard(42,29,card2.suit+1,card2.value+2, A_BOLD);
@@ -414,7 +414,7 @@ Move Computer::getMove(Dealer* d){
   //Flush visuals
   d->updateValuesOnScreen();
   usleep(1000*500);
-  std::vector<Card> allCards;
+  std::vector<CardT1> allCards;
   allCards.insert(allCards.end(), hand.begin(), hand.end());
   allCards.insert(allCards.end(), (*d).community.begin(),(*d).community.end());
 
