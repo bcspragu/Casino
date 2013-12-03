@@ -18,6 +18,8 @@ class Poker {
         Poker(int* initialBalance, int* playedCards);
         ~Poker();
 
+		display GAME_DISPLAY;
+
 		int* m_playedCards;
 		int* m_playerBalance;
 

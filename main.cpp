@@ -7,6 +7,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <sstream>
+#include "D1/Poker.h"
 
 using namespace std;
 
