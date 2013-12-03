@@ -17,7 +17,6 @@
 
 using namespace std;
 
-Display gameDisplay;
 GameObject *game;
 
 int runGame(GameObject* g) {
@@ -40,7 +39,7 @@ int runGame(GameObject* g) {
 		ss << "Current money: " << atoi(argv[1]);
 	}
 
-	gameDisplay.eraseScreen(true);
+	t2GameDisplay.eraseScreen(true);
 
 	//save values
 	//game.getCardsPlayed();
