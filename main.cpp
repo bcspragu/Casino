@@ -7,6 +7,7 @@
 using namespace std;
 
 void runT2(int*, int*, Timer*);
+void runD1(int* playerBalance, int* playedCards, Timer*);
 
 int main (void) {
 	//initial values
@@ -41,4 +42,23 @@ void runT2(int* playerBalance, int* playedCards, Timer* t2Timer) {
 
 	t2Timer->checkOut();	//stop recording time played
 
+}
+
+void runD1(int* playerBalance, int* playedCards, Timer* d1Timer) {
+	Poker poker(playerBalance, playedCards);
+	d1Timer->checkIn();
+	while (poker.m_Players.size() > 1) {
+		poker.runAnte();
+		if (poker.roundIsOver()) continue;
+		poker.runDeal();
+		poker.runBetting(1);
+		if (poker.roundIsOver()) continue;
+		poker.runCardExchange();
+		poker.runBetting(2);
+		if (poker.roundIsOver()) continue;
+		poker.runShowdown();
+		poker.finishRound();
+	}
+	poker.endGame("You Win!!");
+	d1Timer->checkOut();
 }
