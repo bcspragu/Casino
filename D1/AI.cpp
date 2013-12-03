@@ -2,10 +2,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <unistd.h>
+#include <sstream>
 
 using namespace std;
 #define DELAY 2
-AI::AI(int displayPos, int initialMoney) : Player(displayPos, initialMoney) {
+AI::AI(int displayPos, int initialMoney, string name) : Player(displayPos, initialMoney, name) {
     std::srand(unsigned(std::time(0)));
 }
 

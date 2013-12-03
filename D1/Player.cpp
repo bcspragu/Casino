@@ -10,8 +10,8 @@ Player::Player(int displayPos, int initialMoney, string name) :
 	displayPosition(displayPos),
 	money(initialMoney),
 	moneyInPot(0),
-	hasFolded(false)
-	playerName(name);
+	hasFolded(false),
+	playerName(name)
 	{
 }
 
@@ -78,6 +78,6 @@ int Player::ante(int anteAmount, display gameDisplay) {
     return ante;
 }
 
-string getName() {
+string Player::getName() {
 	return playerName;
 }

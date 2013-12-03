@@ -6,7 +6,7 @@
 
 using namespace std;
 
-HumanPlayer::HumanPlayer(int displayPos, int initialMoney) : Player(displayPos, initialMoney) {}
+HumanPlayer::HumanPlayer(int displayPos, int initialMoney, string name) : Player(displayPos, initialMoney, name) {}
 
 /**
 * Ask the player if they want to ante. If they fold,
