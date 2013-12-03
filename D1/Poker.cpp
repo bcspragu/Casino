@@ -2,9 +2,9 @@
 
 display GAME_DISPLAY;
 
-Poker::Poker() :
+Poker::Poker(int* playerBalance, int* playedCards) :
     m_InitialPlayers(4),
-    m_InitialMoney(10000),
+    m_InitialMoney(*playerBalance),
     m_RoundCounter(1),
     m_PotMoney(0),
     bettingCycle(1),
@@ -19,6 +19,9 @@ Poker::Poker() :
     m_Players()
 
 {
+	m_playedCards = playedCards;
+	m_playerBalance = playerBalance;
+
     m_HumanPlayer.setFrame(&player0Frame);
     m_AiPlayer_1.setFrame(&player1Frame);
     m_AiPlayer_2.setFrame(&player2Frame);
@@ -171,6 +174,9 @@ void Poker::runDeal() {
     }
 
     updateHand(m_HumanPlayer.getHand(), &player0Frame);
+
+	//Keeps track of how many cards the human has been given
+	*m_playedCards += 5;
 }
 
 
@@ -233,15 +239,18 @@ void Poker::runCardExchange() {
 
         if (!player->folded()) {
             player->discard(GAME_DISPLAY);
-
+		
+			int discardCount = 0;
             for (int j = 0; j < 5; j++) {
                 if (player->getHand()->getCard(j)->isDiscarded()) {
                     m_Deck.discardCard(player->getHand()->exchange(m_Deck.drawCard(), j));
+					discardCount++;
                 }
             }
 
             if (typeid(*player) == typeid(HumanPlayer)) {
                 updateHand(player->getHand(), player->getFrame());
+				*m_playedCards += discardCount;
             }
         }
 
@@ -394,7 +403,9 @@ void Poker::endGame(string endReason) {
         input = GAME_DISPLAY.captureInput();
 
         if (input == 'e' || input == 'E') {
-            exit(0);
+			//The game is over. Update the balance and return to menu.
+			*m_playerBalance = m_HumanPlayer.getMoney();
+			return;
         }
     }
 }

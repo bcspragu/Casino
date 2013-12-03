@@ -15,8 +15,11 @@ using namespace std;
 
 class Poker {
     public:
-        Poker();
+        Poker(int* initialBalance, int* playedCards);
         ~Poker();
+
+		int* m_playedCards;
+		int* m_playerBalance;
 
         int m_InitialPlayers;
         int m_InitialMoney;
