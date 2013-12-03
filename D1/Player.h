@@ -2,6 +2,7 @@
 
 #include "Hand.h"
 #include "display.h"
+#include <string>
 
 class Player {
 
@@ -12,6 +13,7 @@ class Player {
         bool hasFolded;
         Hand *hand;
         Frame *frame;
+		string playerName;
 
     public:
         static const int CALL = 0;
@@ -19,7 +21,7 @@ class Player {
         static const int FOLD = -1;
         static const int ALL_IN = -2;
 
-    	Player(int displayPos, int initialMoney);
+    	Player(int displayPos, int initialMoney, string name);
 	    virtual ~Player();
 
         virtual int bet(int minimumBid, display gameDisplay) = 0;
@@ -44,4 +46,6 @@ class Player {
 	    int getDisplayPosition();
 
         int ante(int anteAmount, display gameDisplay);
+	
+		string getName();
 };

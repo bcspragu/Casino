@@ -6,11 +6,12 @@
 
 using namespace std;
 
-Player::Player(int displayPos, int initialMoney) :
+Player::Player(int displayPos, int initialMoney, string name) :
 	displayPosition(displayPos),
 	money(initialMoney),
 	moneyInPot(0),
 	hasFolded(false)
+	playerName(name);
 	{
 }
 
@@ -75,4 +76,8 @@ int Player::ante(int anteAmount, display gameDisplay) {
     money -= ante;
     moneyInPot += ante;
     return ante;
+}
+
+string getName() {
+	return playerName;
 }
