@@ -4,13 +4,13 @@ LFLAGS = -lncursesw
 
 all: poker
 
-poker: displayD1.o Frame.o Card.o HandD1.o DeckD1.o Player.o HumanPlayer.o AI.o Poker.o
+poker: displayD1.o Frame.o CardD1.o HandD1.o DeckD1.o Player.o HumanPlayer.o AI.o Poker.o
 
 AI.o: AI.cpp AI.h
 	$(CC) $(CFLAGS) AI.cpp
 
-Card.o: Card.cpp Card.h
-	$(CC) $(CFLAGS) Card.cpp
+CardD1.o: CardD1.cpp CardD1.h
+	$(CC) $(CFLAGS) CardD1.cpp
 
 DeckD1.o: DeckD1.cpp DeckD1.h
 	$(CC) $(CFLAGS) DeckD1.cpp

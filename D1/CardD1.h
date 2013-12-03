@@ -10,7 +10,7 @@ private:
 	bool discard;
 	Frame frame;
 public:
-	Card(int s, int r);
+	CardD1(int s, int r);
 	int getRank();
 	int getSuit();
 	int getNumber();
@@ -18,6 +18,6 @@ public:
 	bool isDiscarded();
 	void setFrame(int x, int y);
 	Frame getFrame();
-	~Card(void);
+	~CardD1(void);
 };
 
