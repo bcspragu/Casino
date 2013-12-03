@@ -34,6 +34,11 @@ Gui::~Gui() {
 
 }
 
+void Gui::newAd() {
+	Advertisement ad;
+	gameDisplay.bannerAd(ad.getAd());
+}
+
 // Function for running the game
 bool Gui::startGui(void) {
 
@@ -254,6 +259,7 @@ BetAction Gui::getBetAction() {
 	userInputState = 1;
 	redraw();
 
+	newAd();
 	// Display prompt
 	if (gameData.getMinBet() == 0)
 		messageString << "Make a bet. [fold: f] [check: c ] [raise: r]";
@@ -447,6 +453,7 @@ void Gui::redraw() {
 		drawComputerPlayers();
 		drawHumanPlayer();
 		drawCommon();
+		newAd();
 	}
 
 }
