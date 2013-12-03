@@ -3,7 +3,7 @@ CC=g++
 DEBUG=
 CFLAGS=-c -Wall $(DEBUG)
 LDFLAGS=-lncursesw $(DEBUG)
-SOURCES=main.cpp Timer.cpp
+SOURCES=main.cpp Timer.cpp Advertisement.cpp display.cpp T1.o T2.o D1.o
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=play
 
@@ -19,4 +19,4 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf *.o $(EXECUTABLE)
+	cd D1; make; cd ../T1; make; cd ../T2; make; cd ..; 

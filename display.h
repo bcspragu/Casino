@@ -5,7 +5,7 @@
 
 // These are include files they are used for accessing functions and
 // variables in external libraries.
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include <iostream>
 #include <cstdio>
 

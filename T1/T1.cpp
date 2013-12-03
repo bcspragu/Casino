@@ -12,7 +12,7 @@
 #include "User.h"
 #include "Computer.h"
 #include <signal.h>
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include <assert.h>
 #include <cstdlib>
 #include <sstream>

@@ -5,7 +5,7 @@ LFLAGS = -lncursesw
 all: poker
 
 poker: display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o Advertisement.o Poker.o 
-	 $(CC) Poker.cpp display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o Advertisement.o -o poker $(LFLAGS)
+	 $(CC) Poker.cpp display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o Advertisement.o -o ../D1.o $(LFLAGS)
 
 Frame.o: Frame.cpp Frame.h
 	$(CC) $(CFLAGS) Frame.cpp
@@ -32,4 +32,4 @@ Advertisement.o: ../Advertisement.cpp ../Advertisement.h
 	$(CC) $(CFLAGS) Advertisement.cpp
 
 clean:
-	rm -f *.o *~ poker
+	rm -f *.o *~
