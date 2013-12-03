@@ -61,15 +61,15 @@ void Deck::shuffle()
 /*
 Returns a five card hand from the deck. Used only at the start of new rounds.
 */
-Hand* Deck::dealHand()
+HandD1* Deck::dealHand()
 {
 	/*Card* temp0 = deck.at(deckIndex);
 	Card* temp1 = deck.at(deckIndex-1);
 	Card* temp2 = deck.at(deckIndex-2);
 	Card* temp3 = deck.at(deckIndex-3);
 	Card* temp4 = deck.at(deckIndex-4);
-	return new Hand(temp0,temp1,temp2,temp3,temp4);*/
-    Hand *h1 = new Hand(deck[deckIndex], deck[deckIndex-1], deck[deckIndex-2], deck[deckIndex-3], deck[deckIndex-4]);
+	return new HandD1(temp0,temp1,temp2,temp3,temp4);*/
+    HandD1 *h1 = new HandD1(deck[deckIndex], deck[deckIndex-1], deck[deckIndex-2], deck[deckIndex-3], deck[deckIndex-4]);
     deckIndex-=5;
     return h1;
 }
