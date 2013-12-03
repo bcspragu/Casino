@@ -28,7 +28,7 @@ void stub_PrintResize(void);
 std::map<string,int> longestStrings;
 // The gameDisplay object is global, because the static signal handler object
 // needs to access the dynamic object.
-display gameDisplay;
+display* gameDisplay;
 
 stringstream messageString;
 int keynew = 0;
@@ -43,8 +43,9 @@ void setText(string target, string text);
  * This is the main function that starts the driver artifact.
  * This function demonstrates some of the abilities of the Display class
  */
-int main(int argc, char* argv[])
+int runGame(gameObject game)
 {
+  gameDisplay = game.display;
   signal(SIGWINCH, detectResize); // enable the window resize signal
 
   // Player 1
