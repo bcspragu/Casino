@@ -1,7 +1,7 @@
-#include "Player.h"
+#include "PlayerD1.h"
 #include "displayD1.h"
 
-class HumanPlayer: public Player {
+class HumanPlayer: public PlayerD1 {
 
     public:
 		HumanPlayer(int displayPos, int initialMoney, string name);

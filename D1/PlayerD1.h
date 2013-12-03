@@ -4,7 +4,7 @@
 #include "HandD1.h"
 #include <string>
 
-class Player {
+class PlayerD1 {
 
     protected:
         int displayPosition;
@@ -21,8 +21,8 @@ class Player {
         static const int FOLD = -1;
         static const int ALL_IN = -2;
 
-    	Player(int displayPos, int initialMoney, string name);
-	    virtual ~Player();
+    	PlayerD1(int displayPos, int initialMoney, string name);
+	    virtual ~D1Player();
 
         virtual int bet(int minimumBid, displayD1 gameDisplay) = 0;
         virtual int discard(displayD1 gameDisplay) = 0;

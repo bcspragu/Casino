@@ -2,11 +2,11 @@
 #include "displayD1.h"
 #include "CardD1.h"
 #include "HandD1.h"
-#include "Player.h"
+#include "PlayerD1.h"
 
 using namespace std;
 
-Player::Player(int displayPos, int initialMoney, string name) :
+PlayerD1::PlayerD1(int displayPos, int initialMoney, string name) :
 	displayPosition(displayPos),
 	money(initialMoney),
 	moneyInPot(0),
@@ -15,69 +15,69 @@ Player::Player(int displayPos, int initialMoney, string name) :
 	{
 }
 
-Player::~Player() {
+PlayerD1::~PlayerD1() {
 
 }
 
-HandD1* Player::getHand() {
+HandD1* PlayerD1::getHand() {
     return hand;
 }
 
-void Player::setHand(HandD1 *newHand) {
+void PlayerD1::setHand(HandD1 *newHand) {
     hand = newHand;
 }
 
-int Player::getMoney() {
+int PlayerD1::getMoney() {
     return money;
 }
 
-int Player::getMoneyInPot() {
+int PlayerD1::getMoneyInPot() {
     return moneyInPot;
 }
 
-void Player::setMoneyInPot(int amount) {
+void PlayerD1::setMoneyInPot(int amount) {
     moneyInPot = amount;
 }
 
-int Player::giveMoney(int amount) {
+int PlayerD1::giveMoney(int amount) {
     money += amount;
     return money;
 }
 
-void Player::setMoney(int amount) {
+void PlayerD1::setMoney(int amount) {
     money = amount;
 }
 
-void Player::setFrame(Frame* newFrame) {
+void PlayerD1::setFrame(Frame* newFrame) {
     frame = newFrame;
 }
 
-Frame* Player::getFrame() {
+Frame* PlayerD1::getFrame() {
     return frame;
 }
-bool Player::folded() {
+bool PlayerD1::folded() {
     return hasFolded;
 }
 
-void Player::setFolded(bool fold) {
+void PlayerD1::setFolded(bool fold) {
     hasFolded = fold;
 }
 
-void Player::setDisplayPosition(int position) {
+void PlayerD1::setDisplayPosition(int position) {
     displayPosition = position;
 }
 
-int Player::getDisplayPosition() {
+int PlayerD1::getDisplayPosition() {
     return displayPosition;
 }
 
-int Player::ante(int anteAmount, displayD1 gameDisplay) {
+int PlayerD1::ante(int anteAmount, displayD1 gameDisplay) {
     int ante = (money > anteAmount) ? anteAmount : money;
     money -= ante;
     moneyInPot += ante;
     return ante;
 }
 
-string Player::getName() {
+string PlayerD1::getName() {
 	return playerName;
 }

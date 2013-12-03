@@ -1,8 +1,8 @@
-#include "Player.h"
+#include "PlayerD1.h"
 #include "displayD1.h"
 
 
-class AI: public Player {
+class AI: public PlayerD1 {
 	
 public:
 	AI(int displayPos, int startingMoney, string name);
