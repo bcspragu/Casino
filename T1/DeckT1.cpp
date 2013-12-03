@@ -1,16 +1,16 @@
 #include <algorithm>
 #include <time.h>
-#include "Deck.h"
+#include "DeckT1.h"
 #include "CardT1.h"
 #include "SuitValue.h"
 
-Deck::Deck(){
+DeckT1::DeckT1(){
   fill();
 }
 
-Deck::~Deck(){}
+DeckT1::~DeckT1(){}
 
-void Deck::fill(){
+void DeckT1::fill(){
   cards.clear();
   for(int i = 0; i < 52; i++){
     Suit s = CardT1::suitFromInt(i/13);
@@ -20,22 +20,22 @@ void Deck::fill(){
 
 }
 
-void Deck::shuffle(){
+void DeckT1::shuffle(){
   std::srand(time(0));
   std::random_shuffle(cards.begin(),cards.end());
 }
 
-CardT1 Deck::dealCard(){
+CardT1 DeckT1::dealCard(){
   CardT1 top = cards.front();
   cards.erase(cards.begin());
   return top;
 }
 
-int Deck::cardCount(){
+int DeckT1::cardCount(){
   return cards.size();
 }
 
-string Deck::displayHand(std::vector<CardT1> cards){
+string DeckT1::displayHand(std::vector<CardT1> cards){
   string handString = "";
   std::vector<CardT1>::iterator itr;
   for(itr = cards.begin(); itr != cards.end(); ++itr){

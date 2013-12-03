@@ -5,12 +5,12 @@
 #include <map>
 #include <algorithm>
 #include "CardT1.h"
-#include "Deck.h"
+#include "DeckT1.h"
 #include "SuitValue.h"
-#include "Player.h"
+#include "PlayerT1.h"
 
 class Dealer;
-class Computer: public Player {
+class Computer: public PlayerT1 {
   public:
     Computer(int startingAmount);
     static int ratePocketCards(std::vector<CardT1> hand);

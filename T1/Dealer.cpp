@@ -5,7 +5,7 @@
 #include <map>
 #include <cstring>
 #include "Dealer.h"
-#include "Player.h"
+#include "PlayerT1.h"
 #include "User.h"
 #include "Computer.h"
 #include "Move.h"
@@ -423,9 +423,9 @@ std::vector<CardT1> Dealer::bestHand(std::vector<CardT1> hand){
 }
 
 
-std::vector<Player*> Dealer::determineWinner(){
-  std::vector<Player*> winners;
-  std::vector<Player*>::iterator itr;
+std::vector<PlayerT1*> Dealer::determineWinner(){
+  std::vector<PlayerT1*> winners;
+  std::vector<PlayerT1*>::iterator itr;
   int highestScore = 0;
   //Find the highest score
   for(itr = currentRound.begin(); itr != currentRound.end(); ++itr){
@@ -459,9 +459,9 @@ std::vector<CardT1> Dealer::fiveCardHand(std::vector<CardT1> largeHand, int i1, 
   return newHand;
 }
 
-int Dealer::playersStillIn(std::vector<Player*> current){
+int Dealer::playersStillIn(std::vector<PlayerT1*> current){
   int count = 0;
-  std::vector<Player*>::iterator itr;
+  std::vector<PlayerT1*>::iterator itr;
   for(itr = current.begin(); itr != current.end(); ++itr){
     if(*itr != NULL){
       count++;
