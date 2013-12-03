@@ -2,7 +2,7 @@
 #include <map>
 #include <algorithm>
 #include "Computer.h"
-#include "Dealer.h"
+#include "DealerT1.h"
 //Needs to look at cards in hand and on table and decide whether to 
 //bet, call, or fold. This senario will be different for the first
 //round of betting, due to the fact that it is an incomplete hand
@@ -125,7 +125,7 @@ int Computer::getDecision(int handValue){
   }
 }
 
-int Computer::getRaiseAmount(Dealer *d){ 
+int Computer::getRaiseAmount(DealerT1 *d){ 
 
   int random = (rand() % 100 + 1);
   int pot = (*d).pot;

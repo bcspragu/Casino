@@ -6,10 +6,10 @@ PlayerT1::PlayerT1(int startingAmount){
   lastMove = "Waiting";
 }
 
-Move PlayerT1::getMove(Dealer* d){
+Move PlayerT1::getMove(DealerT1* d){
   assert(false);
 };
 
-int PlayerT1::getAmountForMove(Dealer* d){
+int PlayerT1::getAmountForMove(DealerT1* d){
   assert(false);
 };
