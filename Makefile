@@ -3,7 +3,7 @@ CC=g++
 DEBUG=
 CFLAGS=-c -Wall $(DEBUG)
 LDFLAGS=-lncursesw $(DEBUG)
-SOURCES=main.cpp Timer.cpp Advertisement.cpp display.cpp T1.o T2.o D1.o
+SOURCES=main.cpp Timer.cpp Advertisement.cpp GameObject.cpp display.cpp T1.o T2.o D1.o
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=play
 
