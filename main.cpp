@@ -2,6 +2,7 @@
 #include "Timer.h"
 #include "T1/T1.h"
 #include "T2/Poker.cpp"
+#include "T2/T2Display.h"
 #include "GameObject.h"
 #include <iostream>
 #include <string>
@@ -12,7 +13,7 @@
 
 using namespace std;
 
-Display t2GameDisplay;	//global used in T2
+T2Display T2GameDisplay;	//global used in T2
 
 void runT2(int*, int*, Timer*);
 void runD1(GameObject game);
