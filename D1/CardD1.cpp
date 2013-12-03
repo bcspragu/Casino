@@ -1,28 +1,28 @@
-#include "Card.h"
+#include "CardD1.h"
 #include "Frame.h"
 #include <iostream>
 
 using namespace std;
 
 
-Card::Card(int s, int r){
+CardD1::CardD1(int s, int r){
 	frame = Frame();
 	discard = false;
 	suit = s;
 	rank = r;
 }
 	
-Card::~Card(){}
+CardD1::~CardD1(){}
 
-int Card::getSuit(){
+int CardD1::getSuit(){
 	return suit;
 }
 
-int Card::getRank(){
+int CardD1::getRank(){
 	return rank;
 }
 
-void Card::setDiscarded(bool d){
+void CardD1::setDiscarded(bool d){
 	discard = d;
 	if(discard)
 		setFrame(frame.getX(), frame.getY()-2);
@@ -30,22 +30,22 @@ void Card::setDiscarded(bool d){
 		setFrame(frame.getX(), frame.getY());
 }
 
-bool Card::isDiscarded() {
+bool CardD1::isDiscarded() {
 	return discard;
 }
 	
-void Card::setFrame(int x, int y){
+void CardD1::setFrame(int x, int y){
 	frame.setX(x);
 	frame.setY(y);
 }
 
-int Card::getNumber(){
+int CardD1::getNumber(){
 	if(rank == 14)
 		return 1;
 	else
 		return rank;
 }
 
-Frame Card::getFrame(){
+Frame CardD1::getFrame(){
 	return frame;
 }
