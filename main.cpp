@@ -3,6 +3,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#include "D1/Poker.h"
 
 using namespace std;
 
