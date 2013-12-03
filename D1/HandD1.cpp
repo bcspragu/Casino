@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include "HandD1.h"
-#include "Card.h"
+#include "CardD1.h"
 
 using namespace std;
 
-HandD1::HandD1(Card *c1, Card *c2, Card *c3, Card *c4, Card *c5){
+HandD1::HandD1(CardD1 *c1, CardD1 *c2, CardD1 *c3, CardD1 *c4, CardD1 *c5){
 	for(int i = 0; i < 13; i++)		// Initializes ranks array
 		ranks[i] = 0;
 
@@ -38,8 +38,8 @@ bool HandD1::isHigherScore(int secondScore[15]){
 	return true;
 }
 
-Card* HandD1::exchange(Card* c, int placeOfCard){
-	Card* temp = hand[placeOfCard];
+CardD1* HandD1::exchange(CardD1* c, int placeOfCard){
+	CardD1* temp = hand[placeOfCard];
 	hand[placeOfCard] = c;
 
 	for(int i = 0; i < 13; i++)				// The following is a repeat of the constructor
