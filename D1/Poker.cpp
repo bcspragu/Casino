@@ -1,7 +1,8 @@
 #include "Poker.h"
+#include "../GameObject.h"
 #include "../Advertisement.h"
 
-Poker::Poker(int* playerBalance, int* playedCards) :
+Poker::Poker() :
     m_InitialPlayers(4),
     m_InitialMoney(*playerBalance),
     m_RoundCounter(1),
@@ -18,9 +19,6 @@ Poker::Poker(int* playerBalance, int* playedCards) :
     m_Players(),
 	GAME_DISPLAY()
 {
-	m_playedCards = playedCards;
-	m_playerBalance = playerBalance;
-
     m_HumanPlayer.setFrame(&player0Frame);
     m_AiPlayer_1.setFrame(&player1Frame);
     m_AiPlayer_2.setFrame(&player2Frame);
@@ -228,7 +226,8 @@ int Poker::unfoldedPlayers() {
     return unfolded;
 }
 
-void Poker::runCardExchange() {
+int Poker::runCardExchange() {
+	int discardCount = 0; //count how many cards the human discards
     stringstream bannerText;
     bannerText << "Round " << m_RoundCounter << ": Betting Cycle " << bettingCycle;
     bannerHeader = bannerText.str();
@@ -241,7 +240,6 @@ void Poker::runCardExchange() {
         if (!player->folded()) {
             player->discard(GAME_DISPLAY);
 		
-			int discardCount = 0;
             for (int j = 0; j < 5; j++) {
                 if (player->getHand()->getCard(j)->isDiscarded()) {
                     m_Deck.discardCard(player->getHand()->exchange(m_Deck.drawCard(), j));
@@ -251,12 +249,13 @@ void Poker::runCardExchange() {
 
             if (typeid(*player) == typeid(HumanPlayer)) {
                 updateHand(player->getHand(), player->getFrame());
-				*m_playedCards += discardCount;
             }
         }
 
         rotatePlayers();
     }
+
+	return discardCount;
 }
 
 void Poker::runShowdown() {
@@ -404,8 +403,6 @@ void Poker::endGame(string endReason) {
         input = GAME_DISPLAY.captureInput();
 
         if (input == 'e' || input == 'E') {
-			//The game is over. Update the balance and return to menu.
-			*m_playerBalance = m_HumanPlayer.getMoney();
 			return;
         }
     }
@@ -450,26 +447,31 @@ bool Poker::allPlayersAllIn() {
 
 #pragma mark - MAIN
 
-int main() {
-    Poker poker;
-    while (poker.m_Players.size() > 1) {
+void Poker::runGame(GameObject game) {
+	game.timer.checkIn();
+	m_HumanPlayer.setMoney(game.cash);
+
+    while (m_Players.size() > 1) {
     //enter ante loop
-        poker.runAnte();
-        if (poker.roundIsOver()) continue;
+        runAnte();
+        if (roundIsOver()) continue;
     //enter deal loop
-        poker.runDeal();
+        runDeal();
+		game.cardsPlayed += 5;
     //enter first betting loop
-        poker.runBetting(1);
-        if (poker.roundIsOver()) continue;
+        runBetting(1);
+        if (roundIsOver()) continue;
     //enter card exchnage loop
-        poker.runCardExchange();
+        game.cardsPlayed += runCardExchange();
     //enter second betting loop
-        poker.runBetting(2);
-        if (poker.roundIsOver()) continue;
+        runBetting(2);
+        if (roundIsOver()) continue;
     //enter showdown loop
-        poker.runShowdown();
-        poker.finishRound();
+        runShowdown();
+        finishRound();
     }
 
     poker.endGame("You Win!!");
+	game.cash = m_HumanPlayer.getMoney();
+	game.timer.checkOut();
 }
