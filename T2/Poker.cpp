@@ -12,6 +12,7 @@
 #include "Layout.h"
 
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
@@ -34,10 +35,13 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	} else {
-		ss << "Current money: " << atoi(argv[0]);
+		ss << "Current money: " << atoi(argv[1]);
 	}
 
 	gameDisplay.eraseScreen(true);
 
+	//save values
+	//game.getCardsPlayed();
+	
 	return 0;
 }
