@@ -5,7 +5,7 @@ CFLAGS=-c -Wall $(DEBUG)
 LDFLAGS=-lncursesw $(DEBUG)
 SOURCES=Bet.cpp Card.cpp ComputerPlayer.cpp Dealer.cpp Deck.cpp Display.cpp Game.cpp\
 GameData.cpp Gui.cpp Hand.cpp HumanPlayer.cpp Layout.cpp MainDeck.cpp Player.cpp PlayerList.cpp\
-Point.cpp SmallDeck.cpp Poker.cpp
+Point.cpp SmallDeck.cpp Poker.cpp ../GameObject.cpp ../Advertisement
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=../T2.o
 
