@@ -9,6 +9,7 @@
 #define GUI_H
 
 #include "Bet.h"
+#include "../Advertisement.h"
 
 class Bet;
 class GameData;
@@ -25,6 +26,7 @@ public:
 	static void showWinner(int winnerNum);
 	static bool showRoundWinner(int roundWinnerNum, int amount, int roundNum);
 	static Bet getBetInput();
+	static void newAd();
 
 private:
 

@@ -80,6 +80,7 @@ public:
 	void displayBox(Point p, Point size, bool doubleBorder, int color);
 	void bannerBottom(string bannerText);
 	void bannerTop(string bannerText);
+	void bannerAd(string bannerText);
 
 	/*
 	 * * * * Getters * * * *

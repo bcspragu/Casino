@@ -600,3 +600,23 @@ void Display::bannerTop(string bannerText) {
 	move(0, lines - 1);
 }
 
+void Display::bannerAd(string bannerText) {
+// change to the banner draw settings
+	attron(COLOR_PAIR(8) | A_REVERSE);
+// checks if the banner string size is smaller than the width of the screen
+	if ((unsigned) cols > bannerText.size()) {
+		// moves the cursor to the bottom of the screen
+		move(8, 0);
+		// prints out the banner text
+		printw("%s", bannerText.c_str());
+		// fill in extra space after the banner text
+		hline(' ', cols - bannerText.size());
+		// if banner string size is larger than width of screen
+	} else {
+		// clip the banner text so it doesn't wrap over to the next line
+		mvprintw(8, 0, "%s", (bannerText.substr(0, cols)).c_str());
+	}
+// turn off the draw colors
+	attroff(COLOR_PAIR(8) | A_REVERSE);
+	move(8, lines - 1);
+}
