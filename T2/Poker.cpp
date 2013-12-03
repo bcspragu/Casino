@@ -11,20 +11,21 @@
 #include "Game.h"
 #include "Layout.h"
 
+#include <cstdlib>
+#include <iostream>
+
 using namespace std;
 
 Display gameDisplay;
 
-int main() {
+int main(int argc, char* argv[]) {
 
-	char key;
 	stringstream ss;
 
 	srand(time(NULL));
 
 	Game game;
-	int startMoney = 1000;
-	if (game.startGame(startMoney)) {
+	if (game.startGame(atoi(argv[1]))) {
 		while (true) {
 			if (game.playRound()) {
 				continue;
@@ -34,10 +35,13 @@ int main() {
 			}
 		}
 	} else {
-		ss << "Current money: " << startMoney;
+		ss << "Current money: " << atoi(argv[1]);
 	}
 
 	gameDisplay.eraseScreen(true);
 
+	//save values
+	//game.getCardsPlayed();
+	
 	return 0;
 }

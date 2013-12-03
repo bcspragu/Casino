@@ -37,6 +37,7 @@ public:
 	int getState(){return state;}
 	PlayerList getPlayerList(){return playerList;}
 	SmallDeck getCommCards(){return *commCards;}
+	int getCardsPlayed() {return cardsPlayed;}
 
 private:
 
@@ -60,6 +61,8 @@ private:
 	int centerPot;			// Amount in the center pot
 	int numFolded;			// How many players have folded this round
 	bool showCompCards;		// If cards should be shown
+
+	int cardsPlayed;	//store cards played during game
 
 	// Variables for sending to the gui
 	GameData gameData; // For sending to the gui

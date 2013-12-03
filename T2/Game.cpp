@@ -38,6 +38,7 @@ Game::Game() {
 	commCards = new SmallDeck();
 	roundNum = 0;
 	lastBet = Bet(INVALID, 0);
+	cardsPlayed = 0;
 
 }
 
@@ -168,6 +169,7 @@ void Game::givePlayerCards() {
 		playerList.next()->giveCard(dealer.deal());
 		updateGui(1);
 	}
+	cardsPlayed += 2;
 }
 
 void Game::little() {

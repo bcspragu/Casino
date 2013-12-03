@@ -15,5 +15,5 @@ public:
 	time_t checkOut(void);
 	double getSecondsPlayed(void);
 };
-#endif /*TIMER_H_*/
 
+#endif /*TIMER_H_*/
