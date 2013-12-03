@@ -256,6 +256,6 @@ bool HandD1::isStraightFlush(int *score){
 	** return true;	*/
 }
 
-Card* HandD1::getCard(int element){
+CardD1* HandD1::getCard(int element){
 	return hand[element];
 }

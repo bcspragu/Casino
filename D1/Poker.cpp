@@ -78,7 +78,7 @@ void Poker::drawHand(HandD1 *hand, bool hidden, Frame *frame) {
             GAME_DISPLAY.displayCard(x + 1 + i*7, y + 2, 0, 0, 0);
         }
     } else if (hand != NULL) { //display cards for human player
-        Card *card;
+        CardD1 *card;
         for (int i = 0; i < 5; i++) {
             card = hand->getCard(i);
             GAME_DISPLAY.displayCard(x + 1 + i*7, y + 2, card->getSuit() + 1, card->getNumber(), 0);
@@ -158,11 +158,11 @@ void Poker::runDeal() {
         m_Deck.shuffle();
 
     for (i = 0; i < (int)m_Players.size(); i++) {
-        Card *c1 = m_Deck.drawCard();
-        Card *c2 = m_Deck.drawCard();
-        Card *c3 = m_Deck.drawCard();
-        Card *c4 = m_Deck.drawCard();
-        Card *c5 = m_Deck.drawCard();
+        CardD1 *c1 = m_Deck.drawCard();
+        CardD1 *c2 = m_Deck.drawCard();
+        CardD1 *c3 = m_Deck.drawCard();
+        CardD1 *c4 = m_Deck.drawCard();
+        CardD1 *c5 = m_Deck.drawCard();
         m_Players[i]->setHand( new HandD1(c1, c2, c3, c4, c5) );
 
         drawHand(NULL, true, m_Players[i]->getFrame());
