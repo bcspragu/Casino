@@ -20,7 +20,8 @@ int AI::bet(int minimumbid, display gameDisplay)
         hasFolded = true;
 		bannerText << playerName << " FOLDS";
 		gameDisplay.bannerBottom(bannerText.str());
-		sleep(DELAY);
+		while(!gameDisplay.captureInput())
+			;
         return Player::FOLD;
     } else if (random < 7) {
         int bid = min(minimumbid, money);
@@ -28,7 +29,8 @@ int AI::bet(int minimumbid, display gameDisplay)
         moneyInPot += bid;
 		bannerText << playerName << " bids " << bid;
 		gameDisplay.bannerBottom(bannerText.str());
-		sleep(DELAY);
+		while(!gameDisplay.captureInput())
+			;
         return bid;
     }
     
@@ -42,7 +44,8 @@ int AI::bet(int minimumbid, display gameDisplay)
         moneyInPot += bid;
 		bannerText << playerName << " bids " << bid;
 		gameDisplay.bannerBottom(bannerText.str());
-		sleep(DELAY);
+		while(!gameDisplay.captureInput())
+			;
         return bid;      //AI bets minimum amount each time it is asked to bet
     }
     else
@@ -52,7 +55,8 @@ int AI::bet(int minimumbid, display gameDisplay)
         money -= bid;
 		bannerText << playerName << " bids " << bid;
 		gameDisplay.bannerBottom(bannerText.str());
-		sleep(DELAY);
+		while(!gameDisplay.captureInput())
+			;
         return bid;           //Have to go all in once money < minimum bid
     }
     //return minimumbid; //basic functionality. Use this result for testing
@@ -72,7 +76,8 @@ int AI::discard(display gameDisplay)
 	
 	bannerText << playerName << " discarded " << discardCount << " card(s)";
 	gameDisplay.bannerBottom(bannerText.str());
-	sleep(DELAY);
+	while(!gameDisplay.captureInput())
+		;
     return discardCount;
 }
 
@@ -85,12 +90,14 @@ int AI::ante(int anteamount, display gameDisplay)
         money -= anteamount;
 		bannerText << playerName << " anted";
 		gameDisplay.bannerBottom(bannerText.str());
-		sleep(DELAY);
+		while(!gameDisplay.captureInput())
+			;
     	return anteamount;
 	} else {
 		bannerText << playerName << " couldn't ante";
 		gameDisplay.bannerBottom(bannerText.str());
-		sleep(DELAY);
+		while(!gameDisplay.captureInput())
+			;
 	    return Player::FOLD;
     }
 }

@@ -13,9 +13,9 @@ Poker::Poker(int* playerBalance, int* playedCards) :
     player2Frame(20,  1, 38, 7),
     player3Frame(40,  9, 38, 7),
     m_HumanPlayer(0, m_InitialMoney, "Human"),
-    m_AiPlayer_1(1, m_InitialMoney, "AI 1"),
-    m_AiPlayer_2(2, m_InitialMoney, "AI 2"),
-    m_AiPlayer_3(3, m_InitialMoney, "AI 3"),
+    m_AiPlayer_1(1, m_InitialMoney, "West"),
+    m_AiPlayer_2(2, m_InitialMoney, "North"),
+    m_AiPlayer_3(3, m_InitialMoney, "East"),
     m_Players()
 
 {
