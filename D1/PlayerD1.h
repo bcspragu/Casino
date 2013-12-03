@@ -22,7 +22,7 @@ class PlayerD1 {
         static const int ALL_IN = -2;
 
     	PlayerD1(int displayPos, int initialMoney, string name);
-	    virtual ~D1Player();
+	    virtual ~PlayerD1();
 
         virtual int bet(int minimumBid, displayD1 gameDisplay) = 0;
         virtual int discard(displayD1 gameDisplay) = 0;
