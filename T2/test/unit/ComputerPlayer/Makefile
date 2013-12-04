@@ -1,11 +1,10 @@
-#Makefile for Game_test
+# This is an example makefile
+# It is very important to add -lncursesw for the ncurses library
 CC=g++
 DEBUG=
 CFLAGS=-c -Wall $(DEBUG)
 LDFLAGS=-lncursesw $(DEBUG)
-SOURCES=Bet.cpp Card.cpp ComputerPlayer.cpp Dealer.cpp Deck.cpp Display.cpp Game.cpp\
-Gui.cpp Hand.cpp HumanPlayer.cpp Layout.cpp MainDeck.cpp Player.cpp PlayerList.cpp\
-PlayerNode.cpp Point.cpp SmallDeck.cpp Gui_test.cpp
+SOURCES=TestMain.cpp Hand.cpp Card.cpp Deck.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=test
 

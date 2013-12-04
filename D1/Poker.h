@@ -1,9 +1,9 @@
 #include "PlayerD1.h"
-#include "HumanPlayer.h"
 #include "AI.h"
 #include "Frame.h"
 #include "DeckD1.h"
 #include "displayD1.h"
+#include "HumanPlayer.h"
 #include <deque>
 #include <iostream>
 #include <string>

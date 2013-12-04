@@ -26,6 +26,7 @@ class DealerT1 {
     std::vector<PlayerT1*> players;
     std::vector<PlayerT1*> currentRound;
     void updateValuesOnScreen();
+    void playBall();
     void dealHands();
     void dealFlop();
     void dealRiver();

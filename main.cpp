@@ -15,6 +15,7 @@
 
 using namespace std;
 
+static void detectResize (int sig); 
 void initScreen(display gDisplay);
 map<string,int> longStr;
 void setText(string target, string text);
@@ -32,6 +33,7 @@ display gDisplay;
 int main (void) {
 	//initial values
 
+  signal(SIGWINCH, detectResize); // enable the window resize signal
   int keynew = 0;
   char key;
   char key2;
@@ -169,4 +171,12 @@ void setText(string target, string text){
   }
   mvprintw(ypos,xpos,spaceString.c_str());
   mvprintw(ypos,xpos,text.c_str());
+}
+
+void detectResize(int sig) {
+  // update the display class information with the new window size
+  gDisplay.handleResize(sig);
+  // re-enable the interrupt for a window resize
+  signal(SIGWINCH, detectResize);
+  initScreen(gDisplay);
 }
