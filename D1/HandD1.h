@@ -1,17 +1,17 @@
 #pragma once
-#include "Card.h"
+#include "CardD1.h"
 #include <vector>
 
 using namespace std;
 
 class HandD1{
 private:
-	vector<Card*> hand;
+	vector<CardD1*> hand;
 	int ranks[13];
 	
 public: 
-	HandD1(Card *c1, Card *c2, Card *c3, Card *c4, Card *c5);
-	Card* exchange(Card* c, int placeOfCard);
+	HandD1(CardD1 *c1, CardD1 *c2, CardD1 *c3, CardD1 *c4, CardD1 *c5);
+	CardD1* exchange(CardD1* c, int placeOfCard);
 	bool isHigherScore(int secondScore[15]);
 	bool compareTo(int secondScore[15]);
 	void highCard(int *score);
@@ -24,6 +24,6 @@ public:
 	bool isFourofaKind(int *score);
 	bool isStraightFlush(int *score);
 	int* getScore();
-	Card* getCard(int element);
+	CardD1* getCard(int element);
 };
 

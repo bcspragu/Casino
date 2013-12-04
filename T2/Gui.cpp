@@ -14,13 +14,13 @@
 
 #include "Bet.h"
 #include "Card.h"
-#include "Display.h"
+#include "T2Display.h"
 #include "GameData.h"
 #include "Layout.h"
 #include "PlayerList.h"
 #include "Point.h"
 
-extern Display t2GameDisplay;
+extern T2Display t2GameDisplay;
 
 Layout Gui::gameLayout;
 GameData Gui::gameData;
