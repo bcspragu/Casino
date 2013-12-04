@@ -6,6 +6,9 @@ all: poker
 
 poker: displayD1.o Frame.o CardD1.o HandD1.o DeckD1.o PlayerD1.o HumanPlayer.o AI.o Poker.o
 
+standalone: displayD1.o Frame.o CardD1.o HandD1.o DeckD1.o PlayerD1.o HumanPlayer.o AI.o Poker.o
+	$(CC) PokerDriver.cpp displayD1.o Frame.o CardD1.o HandD1.o DeckD1.o PlayerD1.o HumanPlayer.o AI.o Poker.o $(LFLAGS) -o standalone
+
 debug: CFLAGS += -g
 debug: poker
 
