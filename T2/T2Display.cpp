@@ -281,11 +281,11 @@ void T2Display::printFace(Card card, int line, int attr) {
 	} else {
 		// the face down cards have a special color
 		if (line == 0)
-			printw("%s  %s", spades, hearts);
+			printw("%s  %s", spadesT2, heartsT2);
 		if (line == 1)
 			printw("    ");
 		if (line == 2)
-			printw("%s  %s", diamonds, clubs);
+			printw("%s  %s", diamondsT2, clubsT2);
 	}
 
 	// turn off the color, and turn on the color for drawing the edge
@@ -303,16 +303,16 @@ void T2Display::printFace(Card card, int line, int attr) {
 void T2Display::printSuit(int suit) {
 	switch (suit) {
 	case 1:
-		printw("%s", spades);
+		printw("%s", spadesT2);
 		break;
 	case 2:
-		printw("%s", hearts);
+		printw("%s", heartsT2);
 		break;
 	case 3:
-		printw("%s", clubs);
+		printw("%s", clubsT2);
 		break;
 	case 4:
-		printw("%s", diamonds);
+		printw("%s", diamondsT2);
 		break;
 	default:
 		printw(" ");

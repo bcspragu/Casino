@@ -205,11 +205,11 @@ void displayD1::printFace(int suit, int number, int line, int printAtt) {
 	// this the display of the joker
 	if (number==14) {
         if (line==0)
-            printw("J%s  ", joker);
+            printw("J%s  ", jokerD1);
         if (line==1)
             printw("oker");
         if (line==2)
-            printw("  J%s", joker);
+            printw("  J%s", jokerD1);
 	// this is the display for the cards with suits and numbers
 	} else if (suit>=1 && suit <=4 && number>=1 && number<=13) {
 		if (line==0) {
@@ -232,11 +232,11 @@ void displayD1::printFace(int suit, int number, int line, int printAtt) {
 		// the face down cards have a special color
 		attron(COLOR_PAIR(4) | printAtt);
 		if (line==0)
-			printw("%s  %s", spades, hearts);
+			printw("%s  %s", spadesD1, heartsD1);
 		if (line==1)
             printw("Play");
 		if (line==2)
-			printw("%s  %s", diamonds, clubs);
+			printw("%s  %s", diamondsD1, clubsD1);
 		attroff(COLOR_PAIR(1) | printAtt);
 	}
 
@@ -253,16 +253,16 @@ void displayD1::printFace(int suit, int number, int line, int printAtt) {
 void displayD1::printSuit(int suit) {
 	switch (suit) {
 		case 1:
-            printw("%s",spades);
+            printw("%s",spadesD1);
             break;
 		case 2:
-            printw("%s",hearts);
+            printw("%s",heartsD1);
             break;
 		case 3:
-            printw("%s",clubs);
+            printw("%s",clubsD1);
             break;
 		case 4:
-            printw("%s",diamonds);
+            printw("%s",diamondsD1);
             break;
 		default:
 			printw(" ");
