@@ -40,10 +40,10 @@ int runGame(GameObject* g) {
 		ss << "Current money: " << game_object->cash;
 	}
 
-	gameDisplay.eraseScreen(true);
+	t2GameDisplay.eraseScreen(true);
 
 	//save values
-	//game.getCardsPlayed();
+	g->cardsPlayed = getCardsPlayed();
 	
 	return 0;
 }

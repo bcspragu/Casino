@@ -11,6 +11,8 @@
 
 using namespace std;
 
+Display t2GameDisplay;	//global used in T2
+
 void runT2(int*, int*, Timer*);
 void runD1(GameObject game);
 void setText(string target, string text);
