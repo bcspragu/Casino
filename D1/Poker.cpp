@@ -436,7 +436,7 @@ bool Poker::allPlayersAllIn() {
 }
 
 void Poker::runGame(GameObject *game) {
-  game = g;
+
 	game->timer.checkIn();
 	m_HumanPlayer.setMoney(game->cash);
 
