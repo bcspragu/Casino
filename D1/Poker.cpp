@@ -263,7 +263,7 @@ void Poker::runShowdown() {
 }
 
 bool Poker::roundIsOver() {
-    if (m_Players.size() == 1) return true;
+    if (m_Players.size() <= 1) return true;
 
     PlayerD1 *winner;
 
