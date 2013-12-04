@@ -472,9 +472,9 @@ void Poker::mostlyRedraw(int sig) {
 	GAME_DISPLAY.eraseBox(0, 0, GAME_DISPLAY.getCols(), GAME_DISPLAY.getLines());
     for (int i = 0; i < (int)m_Players.size(); i++) {
         if (!m_Players[i]->folded()) {
-            Frame frame = m_Players[i]->getFrame();
+            Frame* frame = m_Players[i]->getFrame();
 			GAME_DISPLAY.eraseBox(frame->getX(), frame->getY(), frame->getWidth(), frame->getHeight());
-			drawHand(m_Players[i]->getHand(), typeid(m_Players[i]) != typeid(HumanPlayer) , frame);
+			drawHand(m_Players[i]->getHand(), typeid(*(m_Players[i])) != typeid(HumanPlayer) , frame);
         }
     }
 	updateGameInfo();
