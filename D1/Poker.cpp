@@ -1,7 +1,9 @@
 #include "Poker.h"
 #include "../GameObject.h"
+#include "../Timer.h"
 #include "../Advertisement.h"
 
+GameObject *game;
 Poker::Poker() :
     m_InitialPlayers(4),
     m_InitialMoney(1000),
@@ -175,7 +177,7 @@ void Poker::runDeal() {
     updateHand(m_HumanPlayer.getHand(), &player0Frame);
 
 	//Keeps track of how many cards the human has been given
-	*m_playedCards += 5;
+	game->cardsPlayed += 5;
 }
 
 
@@ -447,9 +449,10 @@ bool Poker::allPlayersAllIn() {
 
 #pragma mark - MAIN
 
-void Poker::runGame(GameObject &game) {
-	game.timer.checkIn();
-	m_HumanPlayer.setMoney(game.cash);
+void Poker::runGame(GameObject *g) {
+  game = g;
+	game->timer.checkIn();
+	m_HumanPlayer.setMoney(game->cash);
 
     while (m_Players.size() > 1) {
     //enter ante loop
@@ -457,12 +460,12 @@ void Poker::runGame(GameObject &game) {
         if (roundIsOver()) continue;
     //enter deal loop
         runDeal();
-		game.cardsPlayed += 5;
+		game->cardsPlayed += 5;
     //enter first betting loop
         runBetting(1);
         if (roundIsOver()) continue;
     //enter card exchnage loop
-        game.cardsPlayed += runCardExchange();
+        game->cardsPlayed += runCardExchange();
     //enter second betting loop
         runBetting(2);
         if (roundIsOver()) continue;
@@ -471,7 +474,7 @@ void Poker::runGame(GameObject &game) {
         finishRound();
     }
 
-    poker.endGame("You Win!!");
-	game.cash = m_HumanPlayer.getMoney();
-	game.timer.checkOut();
+    endGame("You Win!!");
+	game->cash = m_HumanPlayer.getMoney();
+	game->timer.checkOut();
 }

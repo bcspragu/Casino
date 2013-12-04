@@ -4,8 +4,7 @@ LFLAGS = -lncursesw
 
 all: poker
 
-poker: display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o Advertisement.o GameObject.o Poker.o 
-	 $(CC) Poker.cpp display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o Advertisement.o GameObject.o -o ../D1.o $(LFLAGS)
+poker: display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o Advertisement.o GameObject.o Poker.o Timer.o
 
 Frame.o: Frame.cpp Frame.h
 	$(CC) $(CFLAGS) Frame.cpp
@@ -28,11 +27,17 @@ HumanPlayer.o: HumanPlayer.cpp HumanPlayer.h
 AI.o: AI.cpp AI.h
 	$(CC) $(CFLAGS) AI.cpp
 
+Poker.o: Poker.cpp Poker.h
+	$(CC) $(CFLAGS) Poker.cpp
+
 Advertisement.o: ../Advertisement.cpp ../Advertisement.h
 	$(CC) $(CFLAGS) ../Advertisement.cpp
 
 GameObject.o: ../GameObject.cpp ../GameObject.h
 	$(CC) $(CFLAGS) ../GameObject.cpp
+
+Timer.o: ../Timer.cpp ../Timer.h
+	$(CC) $(CFLAGS) ../Timer.cpp
 
 clean:
 	rm -f *.o *~

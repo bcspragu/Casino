@@ -18,16 +18,16 @@
 using namespace std;
 
 Display gameDisplay;
-GameObject *game;
+GameObject *game_object;
 
 int runGame(GameObject* g) {
-  game = g;
+  game_object = g;
 	stringstream ss;
 
 	srand(time(NULL));
 
 	Game game;
-	if (game.startGame(atoi(argv[1]))) {
+	if (game.startGame(game_object->cash)) {
 		while (true) {
 			if (game.playRound()) {
 				continue;
@@ -37,7 +37,7 @@ int runGame(GameObject* g) {
 			}
 		}
 	} else {
-		ss << "Current money: " << atoi(argv[1]);
+		ss << "Current money: " << game_object->cash;
 	}
 
 	gameDisplay.eraseScreen(true);

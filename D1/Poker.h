@@ -41,7 +41,7 @@ class Poker {
         void runAnte();
         void runDeal();
         void runBetting(int bettingCycle);
-        void runCardExchange();
+        int runCardExchange();
         void runShowdown();
         bool roundIsOver();
         bool finishRound();
