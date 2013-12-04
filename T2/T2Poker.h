@@ -8,12 +8,10 @@
 
 #include <cstdlib>
 #include <iostream>
-
+extern T2Display T2GameDisplay;
 class T2Poker{
 public:
 	int runGame(GameObject*);
-private:
-	extern T2Display T2GameDisplay;
 };
 
 #endif
