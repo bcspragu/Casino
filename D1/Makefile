@@ -1,16 +1,37 @@
-# This is an example makefile
-# It is very important to add -lncursesw for the ncurses library
-CC=g++
-DEBUG=
-CFLAGS=-c $(DEBUG)
-LDFLAGS=-lncursesw $(DEBUG)
-SOURCES=*.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
+CC = g++
+CFLAGS = -c
+LFLAGS = -lncursesw
 
-all: clean $(OBJECTS)
+all: poker
 
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS) 
+poker: display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o Poker.o
+
+AI.o: AI.cpp AI.h
+	$(CC) $(CFLAGS) AI.cpp
+
+Card.o: Card.cpp Card.h
+	$(CC) $(CFLAGS) Card.cpp
+
+Deck.o: Deck.cpp Deck.h
+	$(CC) $(CFLAGS) Deck.cpp
+
+DeckDriver.o: DeckDriver.cpp
+	$(CC) $(CFLAGS) DeckDriver.cpp
+
+Frame.o: Frame.cpp Frame.h
+	$(CC) $(CFLAGS) Frame.cpp
+
+Hand.o: Hand.cpp Hand.h
+	$(CC) $(CFLAGS) Hand.cpp
+
+HumanPlayer.o: HumanPlayer.cpp HumanPlayer.h
+	$(CC) $(CFLAGS) HumanPlayer.cpp
+
+Player.o: Player.cpp Player.h
+	$(CC) $(CFLAGS) Player.cpp
+
+Poker.o: Poker.cpp Poker.h
+	$(CC) $(CFLAGS) Poker.cpp
 
 clean:
-	rm -rf *.o
+	rm -f *.o
