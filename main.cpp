@@ -116,10 +116,6 @@ void initScreen(display gameDisplay){
   t2 << game->T2Timer.getSecondsPlayed() << " seconds";
   d1 << game->D1Timer.getSecondsPlayed() << " seconds";
 
-  setText("T1",t1.str());
-  setText("T2",t2.str());
-  setText("D1",d1.str());
-
   gameDisplay.drawBox(50, 18, 19, 6, 0);		// Top Left
   setText("B11","Texas Hold'em 1");
   gameDisplay.drawBox(69, 18, 18, 6, 0);		// Top Middle
@@ -128,6 +124,10 @@ void initScreen(display gameDisplay){
   setText("B31","Five Card Draw");
   gameDisplay.drawBox(69, 24, 18, 6, 0);		// Top Middle
   setText("B22","Quit");
+
+  setText("T1",t1.str());
+  setText("T2",t2.str());
+  setText("D1",d1.str());
 }
 
 void setText(string target, string text){
@@ -155,13 +155,13 @@ void setText(string target, string text){
     xpos = 61;
   }else if(target == "T1"){
     ypos = 22;
-    xpos = 52;
+    xpos = 54;
   }else if(target == "T2"){
     ypos = 22;
-    xpos = 70;
+    xpos = 72;
   }else if(target == "D1"){
     ypos = 22;
-    xpos = 89;
+    xpos = 91;
   }
   string spaceString = "";
   for(int i = 0; i < longStr[target]; i++){

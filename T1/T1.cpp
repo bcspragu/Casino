@@ -252,7 +252,7 @@ DealerT1::DealerT1(){
   if((*players.front()).wallet < largeBlind){
     //Game Over, you lose
     gameDisplay.bannerBottom("You've lost!");
-    usleep(1000*3000);
+    usleep(1000*500);
   }
 }
 
