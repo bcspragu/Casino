@@ -121,7 +121,7 @@ bool Game::newRound() {
 	bool gameOver;
 
 	// Reset minBet. Doubles every five turns.
-	minBet = 20 * pow(2, floor(roundNum / 5));
+	minBet = (int) (20 * pow(2, floor(roundNum / 5)));
 
 	// Remove the losers and advance the button
 	purge();

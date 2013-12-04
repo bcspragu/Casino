@@ -41,7 +41,7 @@ int Computer::ratePocketCards(std::vector<CardT1> pocket){
   cardPoints[THREE]=1.5;
   cardPoints[TWO]=1;
 
-  pocketValue = cardPoints[highCard.value];
+  pocketValue = (int)cardPoints[highCard.value];
 
   if((highCard.value)==(lowCard.value)){
     if((highCard.value)<=2){
