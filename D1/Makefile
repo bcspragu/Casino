@@ -41,3 +41,8 @@ Poker.o: Poker.cpp Poker.h
 
 clean:
 	rm -f *.o
+
+test: .FORCE
+
+.FORCE:
+	cd test; g++ PokerDriver.cpp display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o -o testD1 -lncursesw; ./testD1; cd ..
