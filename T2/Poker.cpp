@@ -26,7 +26,7 @@ int runGame(GameObject* g) {
 	srand(time(NULL));
 
 	Game game;
-	if (game.startGame(g->money) {
+	if (game.startGame(g->cash) {
 		while (true) {
 			if (game.playRound()) {
 				continue;
@@ -36,13 +36,13 @@ int runGame(GameObject* g) {
 			}
 		}
 	} else {
-		ss << "Current money: " << g->money;
+		ss << "Current money: " << g->cash;
 	}
 
 	t2GameDisplay.eraseScreen(true);
 
 	//save values
-	//game.getCardsPlayed();
+	g->cardsPlayed = getCardsPlayed();
 	
 	return 0;
 }
