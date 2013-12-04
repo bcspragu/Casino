@@ -26,12 +26,14 @@
 static void detectResize (int sig); 
 // stub artifact for what the game does when the screen resizes
 void resizeT1(void); 
+void redrawEverything(void); 
+bool hit(int cardX, int cardY, int x1, int x2, int y1, int y2);
 
 std::map<string,int> longestStrings;
 // The gameDisplay object is global, because the static signal handler object
 // needs to access the dynamic object.
 displayT1 gameDisplay;
-
+DealerT1* dealer;
 stringstream messageString;
 
 int keynew = 0;
@@ -120,14 +122,14 @@ void T1::runGame(GameObject* g)
       cardX = gameDisplay.getMouseEventX();
       cardY = gameDisplay.getMouseEventY();
       //Start game
-      if((cardX >= 50) && (cardX <= 68) && (cardY >= 35) && (cardY <= 40)){
+      if(hit(cardX,cardY,50,68,35,40)){
         T1::setText("B12","Playing");
         messageString.str("");
         messageString << "Playing";
         gameDisplay.bannerBottom(messageString.str());
         DealerT1 d;
         onGoing = false;
-      }else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
+      }else if(hit(cardX,cardY,87,105,35,40)){
         gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         return;
       }
@@ -136,6 +138,7 @@ void T1::runGame(GameObject* g)
 }
 
 DealerT1::DealerT1(){
+  dealer = this;
   pot = 0;
   numPlayers = 6;
   User* user = new User(500);
@@ -487,7 +490,7 @@ Move User::getMove(DealerT1* d){
       if (gameDisplay.getMouseEventButton()&LEFT_CLICK) {
         // Top Left
         // Check/Call
-        if((cardX >= 50) && (cardX <= 68) && (cardY >= 28) && (cardY <= 33)){
+        if(hit(cardX,cardY,50,68,28,33)){
           gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
           mvprintw(36,36,"Call");
           messageString.str("");
@@ -499,7 +502,7 @@ Move User::getMove(DealerT1* d){
 
         // Top Middle
         // Raise
-        else if((cardX >= 69) && (cardX <= 86) && (cardY >= 28) && (cardY <= 33)){
+        else if(hit(cardX,cardY,69,86,28,33)){
           messageString.str("");
           messageString << "Press SPACE to confirm                           Money raising: " << bet;
           gameDisplay.bannerBottom(messageString.str());
@@ -508,7 +511,7 @@ Move User::getMove(DealerT1* d){
         }
         // Bottom Middle
         // ALL IN
-        else if((cardX >= 69) && (cardX <= 86) && (cardY >= 35) && (cardY <= 40)){
+        else if(hit(cardX,cardY,69,86,35,40)){
           gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
           mvprintw(36,36,"All In");
           messageString.str("");
@@ -519,7 +522,7 @@ Move User::getMove(DealerT1* d){
         }
         // Top Right
         // Fold
-        else if((cardX >= 87) && (cardX <= 105) && (cardY >= 28) && (cardY <= 33)){
+        else if(hit(cardX,cardY,87,105,28,33)){
           gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
           mvprintw(36,36,"Fold");
           messageString.str("");
@@ -530,7 +533,7 @@ Move User::getMove(DealerT1* d){
         }
         // Bottom Right
         // Quit
-        else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
+        else if(hit(cardX,cardY,87,105,35,40)){
           gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
           onGoing = false;
         }
@@ -631,7 +634,7 @@ void DealerT1::showAllCards(){
       // record the location of the mouse event
       cardX = gameDisplay.getMouseEventX();
       cardY = gameDisplay.getMouseEventY();
-      if((cardX >= 50) && (cardX <= 68) && (cardY >= 35) && (cardY <= 40)){
+      if(hit(cardX,cardY,50,68,35,40)){
         T1::setText("C","");
         T1::setText("B12","Playing");
         messageString.str("");
@@ -639,7 +642,7 @@ void DealerT1::showAllCards(){
         gameDisplay.bannerBottom(messageString.str());
         onGoing = false;
       //Quit
-      }else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
+      }else if(hit(cardX,cardY,87,105,35,40)){
         exit(0);
       }
     }
@@ -686,7 +689,6 @@ void detectResize(int sig) {
   gameDisplay.handleResize(sig);
   // re-enable the interrupt for a window resize
   signal(SIGWINCH, detectResize);
-  /*INSERT YOUR OWN SCREEN UPDATE CODE instead of stub_PrintResize*/
   resizeT1();
 }
 
@@ -695,11 +697,15 @@ void detectResize(int sig) {
  * when the screen resizes. 
  */
 void resizeT1(void) {
-  // gets the new screen size
-  int cols = gameDisplay.getCols();
-  int lines = gameDisplay.getLines();
-  //game is 90x30, roughly
-  gameDisplay.updateOffset(cols/2-45,lines/2-15);
+  if(dealer != NULL){
+    // gets the new screen size
+    int cols = gameDisplay.getCols();
+    int lines = gameDisplay.getLines();
+    //game is 90x30, roughly
+    gameDisplay.updateOffset(cols/2-50,lines/2-20);
+    gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
+    redrawEverything();
+  }
 }
 
 void T1::setText(string target, string text){
@@ -769,8 +775,8 @@ void T1::setText(string target, string text){
   for(int i = 0; i < longestStrings[target]; i++){
     spaceString += " ";
   }
-  mvprintw(ypos,xpos,spaceString.c_str());
-  mvprintw(ypos,xpos,text.c_str());
+  mvprintw(ypos+gameDisplay.yOffset,xpos+gameDisplay.xOffset,spaceString.c_str());
+  mvprintw(ypos+gameDisplay.yOffset,xpos+gameDisplay.xOffset,text.c_str());
 }
 
 void DealerT1::roundOfBetting(int handOffset){
@@ -860,4 +866,35 @@ void DealerT1::roundOfBetting(int handOffset){
     }
   }
   updateBet();
+}
+
+void redrawEverything(){
+  gameDisplay.drawBox(35, 33, 13, 3, 0);		// Money
+  gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
+
+  // Player 2
+  gameDisplay.drawBox(10, 23, 13, 3, 0);		// Money
+  gameDisplay.drawBox(10, 25, 13, 3, 0);		// Last action
+
+  // Player 3
+  gameDisplay.drawBox(10, 11, 13, 3, 0);		// Money
+  gameDisplay.drawBox(10, 13, 13, 3, 0);		// Last action
+
+  // Player 4
+  gameDisplay.drawBox(47, 6, 13, 3, 0);		// Money
+  gameDisplay.drawBox(47, 8, 13, 3, 0);		// Last action
+
+  // Player 5
+  gameDisplay.drawBox(78, 11, 13, 3, 0);		// Money
+  gameDisplay.drawBox(78, 13, 13, 3, 0);		// Last action
+
+  // Player 6
+  gameDisplay.drawBox(78, 23, 13, 3, 0);		// Money
+  gameDisplay.drawBox(78, 25, 13, 3, 0);		// Last action
+
+  dealer->updateValuesOnScreen();
+}
+
+bool hit(int cardX, int cardY, int x1, int x2, int y1, int y2){
+    return (cardX+gameDisplay.xOffset >= x1) && (cardX+gameDisplay.xOffset  <= x2) && (cardY+gameDisplay.yOffset  >= y1) && (cardY+gameDisplay.yOffset  <= y2);
 }
