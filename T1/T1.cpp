@@ -41,7 +41,6 @@ char key;
 char key2;
 int cardX = 0;
 int cardY = 0;
-void setText(string target, string text);
 /*
  * This is the main function that starts the driver artifact.
  * This function demonstrates some of the abilities of the Display class
@@ -91,17 +90,17 @@ void T1::runGame(GameObject* g)
   mvprintw(34,74,"Options");
 
   gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
-  setText("B11","Check/Call");
+  T1::setText("B11","Check/Call");
   gameDisplay.drawBox(50, 35, 19, 6, 0);		// Bottom Left
-  setText("B12","Start Game");
+  T1::setText("B12","Start Game");
   gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
-  setText("B21","Raise");
+  T1::setText("B21","Raise");
   gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
-  setText("B22","All In");
+  T1::setText("B22","All In");
   gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
-  setText("B31","Fold");
+  T1::setText("B31","Fold");
   gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
-  setText("B32","Quit");
+  T1::setText("B32","Quit");
 
   //Draw blank community cards
   gameDisplay.displayCard(38,16,0,0, A_BOLD);
@@ -122,7 +121,7 @@ void T1::runGame(GameObject* g)
       cardY = gameDisplay.getMouseEventY();
       //Start game
       if((cardX >= 50) && (cardX <= 68) && (cardY >= 35) && (cardY <= 40)){
-        setText("B12","Playing");
+        T1::setText("B12","Playing");
         messageString.str("");
         messageString << "Playing";
         gameDisplay.bannerBottom(messageString.str());
@@ -216,7 +215,7 @@ DealerT1::DealerT1(){
     win_str += win_strm.str();
     win_str = win_str.substr(0,win_str.length()-2);
     win_str += " won.";
-    setText("C",win_str);
+    T1::setText("C",win_str);
     showAllCards();
   }
   if((*players.front()).wallet < largeBlind){
@@ -316,8 +315,8 @@ void DealerT1::updateValuesOnScreen(){
         location += "6";
         break;
     }
-    setText(location+"T",tmpstr);
-    setText(location+"B",move.c_str());
+    T1::setText(location+"T",tmpstr);
+    T1::setText(location+"B",move.c_str());
     index++;
   }
   
@@ -350,14 +349,14 @@ void DealerT1::updateValuesOnScreen(){
 
 void DealerT1::dealRiver(){
   community.push_back(deck.dealCard());
-  setText("C","River");
+  T1::setText("C","River");
   gameDisplay.displayCard(62,16,community.back().suit+1,community.back().value+2, A_BOLD);
 
 }
 
 void DealerT1::dealTurn(){
   community.push_back(deck.dealCard());
-  setText("C","Turn");
+  T1::setText("C","Turn");
   gameDisplay.displayCard(56,16,community.back().suit+1,community.back().value+2, A_BOLD);
 }
 
@@ -365,7 +364,7 @@ void DealerT1::dealFlop(){
   for(int i = 0; i < 3; i++){
     community.push_back(deck.dealCard());
   }
-  setText("C","Flop");
+  T1::setText("C","Flop");
   gameDisplay.displayCard(38,16,community[0].suit+1,community[0].value+2, A_BOLD);
   gameDisplay.displayCard(44,16,community[1].suit+1,community[1].value+2, A_BOLD);
   gameDisplay.displayCard(50,16,community[2].suit+1,community[2].value+2, A_BOLD);
@@ -620,7 +619,7 @@ void DealerT1::showAllCards(){
     }
   }
 
-  setText("B12","New Hand?");
+  T1::setText("B12","New Hand?");
   bool onGoing = true;
   while(onGoing){
     key = gameDisplay.captureInput();
@@ -631,8 +630,8 @@ void DealerT1::showAllCards(){
       cardX = gameDisplay.getMouseEventX();
       cardY = gameDisplay.getMouseEventY();
       if((cardX >= 50) && (cardX <= 68) && (cardY >= 35) && (cardY <= 40)){
-        setText("C","");
-        setText("B12","Playing");
+        T1::setText("C","");
+        T1::setText("B12","Playing");
         messageString.str("");
         messageString << "Playing";
         gameDisplay.bannerBottom(messageString.str());
@@ -651,28 +650,28 @@ void PlayerT1::updateWallet(){
   sprintf(money,"$%d",wallet);
   switch(ID){
     case 1:
-      setText("P1T",money);
-      setText("P1B",move);
+      T1::setText("P1T",money);
+      T1::setText("P1B",move);
       break;
     case 2:
-      setText("P2T",money);
-      setText("P2B",move);
+      T1::setText("P2T",money);
+      T1::setText("P2B",move);
       break;
     case 3:
-      setText("P3T",money);
-      setText("P3B",move);
+      T1::setText("P3T",money);
+      T1::setText("P3B",move);
       break;
     case 4:
-      setText("P4T",money);
-      setText("P4B",move);
+      T1::setText("P4T",money);
+      T1::setText("P4B",move);
       break;
     case 5:
-      setText("P5T",money);
-      setText("P5B",move);
+      T1::setText("P5T",money);
+      T1::setText("P5B",move);
       break;
     case 6:
-      setText("P6T",money);
-      setText("P6B",move);
+      T1::setText("P6T",money);
+      T1::setText("P6B",move);
       break;
   }
 }
@@ -704,7 +703,7 @@ void stub_PrintResize(void) {
   gameDisplay.bannerTop(messageString.str());
 }
 
-void setText(string target, string text){
+void T1::setText(string target, string text){
   int xpos,ypos;
   if(longestStrings[target] < text.length()){
     longestStrings[target] = text.length();
