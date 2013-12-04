@@ -13,6 +13,8 @@
 
 using namespace std;
 
+void runT1(GameObject game);
+bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2);
 T2Display T2GameDisplay;	//global used in T2
 
 GameObject game(500,0);
@@ -30,19 +32,12 @@ int main (void) {
 	//create a time object to record time playing t2
 	Timer* t2Timer = new Timer();
 	//runT2(playerBalance, playedCards, t2Timer);
-
   gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
-  T1::setText("B11","Check/Call");
-  gameDisplay.drawBox(50, 35, 19, 6, 0);		// Bottom Left
-  T1::setText("B12","Start Game");
+  T1::setText("B11","Texas Hold'em 1");
   gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
-  T1::setText("B21","Raise");
-  gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
-  T1::setText("B22","All In");
+  T1::setText("B21","Texas Hold'em 2");
   gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
-  T1::setText("B31","Fold");
-  gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
-  T1::setText("B32","Quit");
+  T1::setText("B31","Five Card Draw");
   int keynew = 0;
   char key;
   char key2;
@@ -58,11 +53,8 @@ int main (void) {
       cardX = gameDisplay.getMouseEventX();
       cardY = gameDisplay.getMouseEventY();
       //Start game
-      if((cardX >= 50) && (cardX <= 68) && (cardY >= 35) && (cardY <= 40)){
-        messageString.str("");
-        messageString << "Playing";
-        gameDisplay.bannerBottom(messageString.str());
-        onGoing = false;
+      if((cardX >= 50) && (cardX <= 68) && (cardY >= 28) && (cardY <= 34)){
+        runT1(game);
       }else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
         exit(0);
       }
@@ -72,10 +64,16 @@ int main (void) {
 }
 
 void runT1(GameObject game){
+  T1 t1;
+  t1.runGame(&game);
 }
 
 void runT2(GameObject game) {
 }
 
 void runD1(GameObject game) {
+}
+
+bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
+    return (cardX >= x1) && (cardX <= x2) && (cardY >= y1) && (cardY <= y2);
 }

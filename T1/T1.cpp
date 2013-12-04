@@ -41,6 +41,7 @@ char key;
 char key2;
 int cardX = 0;
 int cardY = 0;
+bool onGoing = true;
 /*
  * This is the main function that starts the driver artifact.
  * This function demonstrates some of the abilities of the Display class
@@ -110,7 +111,6 @@ void T1::runGame(GameObject* g)
   gameDisplay.displayCard(62,16,0,0, A_BOLD);
 
   gameDisplay.drawBox(46, 23, 15, 3, 0);    // Money in current bet cost
-  bool onGoing = true;
   while(onGoing){
     key = gameDisplay.captureInput();
     keynew = key - 48;
@@ -128,7 +128,8 @@ void T1::runGame(GameObject* g)
         DealerT1 d;
         onGoing = false;
       }else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
-        exit(0);
+        gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
+        return;
       }
     }
   }
@@ -530,7 +531,8 @@ Move User::getMove(DealerT1* d){
         // Bottom Right
         // Quit
         else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
-          exit(0);
+          gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
+          onGoing = false;
         }
       }
     } 

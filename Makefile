@@ -27,4 +27,4 @@ clean:
 	cd Objects; rm -f *.o
 
 games:
-	cd D1; make; cd ../T1; make; cd ../T2; make; cd ../Objects; cp ../T1/*.o .; cp ../T2/*.o .; cp ../D1/*.o .; cp ../*.o .; g++ *.o -o ../Casino -lncurses
+	cd D1; make; cd ../T1; make; cd ../T2; make; cd ../Objects; cp ../T1/*.o .; cp ../T2/*.o .; cp ../D1/*.o .; cp ../*.o .; g++ *.o -o ../Casino -lncursesw
