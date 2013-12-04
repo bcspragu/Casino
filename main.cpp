@@ -14,6 +14,8 @@
 using namespace std;
 
 void runT1(GameObject game);
+void runT2(GameObject game);
+void runD1(GameObject game);
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2);
 T2Display T2GameDisplay;	//global used in T2
 
@@ -73,12 +75,14 @@ void runT1(GameObject game){
   t1.runGame(&game);
 }
 
-void runT2(GameObject* game) {
+void runT2(GameObject game) {
     T2Poker t2;
-    t2.runGame(game);
+    t2.runGame(&game);
 }
 
 void runD1(GameObject game) {
+	Poker poker;
+	poker.runGame(&game);
 }
 
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
