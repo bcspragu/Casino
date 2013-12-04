@@ -6,20 +6,11 @@
  *  Description: Main method
  */
 
-//#include "Gui.h"
-#include "T2Display.h"
-#include "Game.h"
-#include "Layout.h"
-#include "../GameObject.h"
-
-#include <cstdlib>
-#include <iostream>
+#include "T2Poker.h"
 
 using namespace std;
 
-extern T2Display T2GameDisplay;
-
-int runGame(GameObject* g) {
+int T2Poker::runGame(GameObject* g) {
 	stringstream ss;
 
 	srand(time(NULL));

@@ -56,7 +56,7 @@ PlayerList.o: PlayerList.cpp PlayerList.h
 Point.o: Point.cpp Point.h
 	$(CC) $(CFLAGS) Point.cpp -o ../Objects/Point.o
 
-T2Poker.o: T2Poker.cpp
+T2Poker.o: T2Poker.cpp T2Poker.h
 	$(CC) $(CFLAGS) T2Poker.cpp -o ../Objects/T2Poker.o
 
 SmallDeck.o: SmallDeck.cpp SmallDeck.h
