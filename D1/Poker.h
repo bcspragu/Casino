@@ -3,7 +3,7 @@
 #include "AI.h"
 #include "Frame.h"
 #include "Deck.h"
-#include "display.h"
+#include "displayD1.h"
 #include <deque>
 #include <iostream>
 #include <string>
@@ -37,7 +37,7 @@ class Poker {
         AI m_AiPlayer_3;
         deque<Player*> m_Players;
 
-		display GAME_DISPLAY;
+		displayD1 GAME_DISPLAY;
 
         void runAnte();
         void runDeal();

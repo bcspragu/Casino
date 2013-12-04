@@ -7,7 +7,7 @@
  *      * Requires the terminal (Putty) to be set to UTF-8.
  *      * Does not function when running a screen session.
  */
-#include "display.h"
+#include "displayT1.h"
 #include "Dealer.h"
 #include "../GameObject.h"
 #include "User.h"
@@ -29,7 +29,7 @@ void stub_PrintResize(void);
 std::map<string,int> longestStrings;
 // The gameDisplay object is global, because the static signal handler object
 // needs to access the dynamic object.
-display gameDisplay;
+displayT1 gameDisplay;
 GameObject* game;
 
 stringstream messageString;

@@ -1,5 +1,5 @@
 #include <string>
-#include "display.h"
+#include "displayD1.h"
 #include "Card.h"
 #include "Hand.h"
 #include "Player.h"
@@ -71,7 +71,7 @@ int Player::getDisplayPosition() {
     return displayPosition;
 }
 
-int Player::ante(int anteAmount, display gameDisplay) {
+int Player::ante(int anteAmount, displayD1 gameDisplay) {
     int ante = (money > anteAmount) ? anteAmount : money;
     money -= ante;
     moneyInPot += ante;

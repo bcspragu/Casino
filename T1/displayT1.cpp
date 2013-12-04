@@ -14,14 +14,14 @@
 #include <locale.h>
 #include <ncursesw/ncurses.h>
 
-#include "display.h"
+#include "displayT1.h"
 
 using namespace std;
 
 /* Function: This is the constructor.
  * Description: It is called whenever an object of class display is initialized
  */
-display::display(void) {
+displayT1::displayT1(void) {
   /* Initilization of Terminal */
   // required to get card suits displaying, combined with UTF-8 set in terminal
   setlocale(LC_ALL,"en_US.utf-8");
@@ -65,7 +65,7 @@ display::display(void) {
 /* Function: This is the destructor.
  * Description: This is called just before an object is deleted.
  */
-display::~display() {
+displayT1::~displayT1() {
   // this is turns off all the special settings and returns the terminal to normal
   endwin(); 
   // insert deletion of dynamically created objects here too
@@ -84,7 +84,7 @@ display::~display() {
  *			- details of the mouse event must be fetched from this class
  *			- use getMouseEventX, getMouseEventY and getMouseEventButton
  */
-int display::captureInput(void) {	
+int displayT1::captureInput(void) {	
   // obtain one mouse event or keypress
   int ch=getch(); 
   // this is a switch statement for the result of getch
@@ -119,7 +119,7 @@ int display::captureInput(void) {
  * 		program control flow. The signal handler should be declared in the main
  *		class, because your game should redraw the display on a resize.
  */
-void display::handleResize(int sig) {
+void displayT1::handleResize(int sig) {
 #ifdef TIOCGSIZE // operating system dependant differences
   struct ttysize ts;
   ioctl(STDIN_FILENO, TIOCGSIZE, &ts); // get the information of the terminal
@@ -158,7 +158,7 @@ void display::handleResize(int sig) {
  *				COLOR_PAIR(n)   Color-pair number n 
  */
 
-void display::displayCard(int x, int y, int suit, int number, int printAtt) {
+void displayT1::displayCard(int x, int y, int suit, int number, int printAtt) {
 
   // Ncurses drawing settings
   attron(COLOR_PAIR(1) | printAtt);
@@ -193,7 +193,7 @@ void display::displayCard(int x, int y, int suit, int number, int printAtt) {
  * Description: This copies suit, number and printAtt from the calling function.
  *		Also includes what line of the card face is being drawn.
  */
-void display::printFace(int suit, int number, int line, int printAtt) {	
+void displayT1::printFace(int suit, int number, int line, int printAtt) {	
   // draw left edge of the card
   printw("\u2502");
 
@@ -251,7 +251,7 @@ void display::printFace(int suit, int number, int line, int printAtt) {
  * Function: Print the suit of the card
  * Description: This is just a look up table. 
  */
-void display::printSuit(int suit) {
+void displayT1::printSuit(int suit) {
   switch (suit) {
     case 1:
       printw("%s",spades);
@@ -275,7 +275,7 @@ void display::printSuit(int suit) {
  * Function: Prints the number on the card
  * Description: This is just a look up table.
  */
-void display::printNumber(int number) {
+void displayT1::printNumber(int number) {
   switch (number) {
     case 2:
     case 3:
@@ -311,7 +311,7 @@ void display::printNumber(int number) {
  * Description: x,y is for the top left corner, sizeX and sizeY set
  * 			how big the square is.
  */
-void display::eraseBox(int x, int y, int sizeX, int sizeY) {
+void displayT1::eraseBox(int x, int y, int sizeX, int sizeY) {
   std::string strDraw;
   int yCount;
   int maxSizeX;
@@ -347,7 +347,7 @@ void display::eraseBox(int x, int y, int sizeX, int sizeY) {
  *          how big the square is. printAtt allows for changes in the
  *			display settings.
  */
-void display::drawBox(int x, int y, int sizeX, int sizeY, int printAtt) {
+void displayT1::drawBox(int x, int y, int sizeX, int sizeY, int printAtt) {
   string strDraw;
   int ii;
   int yCount;
@@ -410,7 +410,7 @@ void display::drawBox(int x, int y, int sizeX, int sizeY, int printAtt) {
  * Description: Inverts the color and draws the banner at the bottom
  *		of the screen. Does not handle carriage returns on the string.
  */
-void display::bannerBottom(string bannerText) {
+void displayT1::bannerBottom(string bannerText) {
   // change to the banner draw settings
   attron(COLOR_PAIR(6) | A_REVERSE | A_BOLD);
   // checks if the banner string size is smaller than the width of the screen
@@ -435,7 +435,7 @@ void display::bannerBottom(string bannerText) {
  * Description: Inverts the color and draws the banner at the top
  *      of the screen. Does not handle carriage returns on the string.
  */
-void display::bannerTop(string bannerText) {
+void displayT1::bannerTop(string bannerText) {
   // change to the banner draw settings
   attron(COLOR_PAIR(6) | A_REVERSE | A_BOLD);
   // checks if the banner string size is smaller than the width of the screen

@@ -9,7 +9,7 @@ int runGame(GameObject* g) {
     game = g;
     Deck* d1 = new Deck();
     Player* player1 = new AI(1,20000);
-    display display1;
+    displayD1 display1;
     
     int betResult = player1->bet(5000, display1);
 
