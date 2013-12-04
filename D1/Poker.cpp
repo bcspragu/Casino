@@ -36,8 +36,6 @@ Poker::Poker() :
 
 Poker::~Poker() {}
 
-#pragma mark - Display
-
 void Poker::initializeDisplay() {
     updateGameInfo();
 }
@@ -107,8 +105,6 @@ void Poker::updateGameInfo() {
     setTopBannerText(bannerText.str());
 }
 
-#pragma mark - deque manipulate methods
-
 void Poker::rotatePlayers() {
     Player *tempPlayer = m_Players.front();
     m_Players.pop_front();
@@ -120,8 +116,6 @@ void Poker::removeCurrentPlayer() {
     m_Players.pop_front();
 }
 
-#pragma mark - Game Play
-
 void Poker::runAnte() {
     stringstream bannerText;
 	Advertisement adGenerator;
@@ -132,7 +126,7 @@ void Poker::runAnte() {
 
     int a = ante();
 
-    for (int i = 0; i < m_Players.size(); i++) {
+    for (int i = 0; i < (int)m_Players.size(); i++) {
         Player *player = m_Players.front();
 
         if (typeid(*player) == typeid(HumanPlayer)) {
@@ -163,7 +157,7 @@ void Poker::runDeal() {
     for (i = 0; i < rand() %1000; i++)
         m_Deck.shuffle();
 
-    for (i = 0; i < m_Players.size(); i++) {
+    for (i = 0; i < (int)m_Players.size(); i++) {
         Card *c1 = m_Deck.drawCard();
         Card *c2 = m_Deck.drawCard();
         Card *c3 = m_Deck.drawCard();
@@ -221,7 +215,7 @@ void Poker::runBetting(int bettingCycle) {
 int Poker::unfoldedPlayers() {
     int unfolded = 0;
     
-    for (int i = 0; i < m_Players.size(); i++) {
+    for (int i = 0; i < (int)m_Players.size(); i++) {
         unfolded += (int) !m_Players[i]->folded();
     }
     
@@ -236,7 +230,7 @@ int Poker::runCardExchange() {
     updateGameInfo();
 
     //bringHumanToFront();
-    for (int i = 0; i < m_Players.size(); i++) {
+    for (int i = 0; i < (int)m_Players.size(); i++) {
         Player *player = m_Players.front();
 
         if (!player->folded()) {
@@ -261,7 +255,7 @@ int Poker::runCardExchange() {
 }
 
 void Poker::runShowdown() {
-    for (int i = 0; i < m_Players.size(); i++) {
+    for (int i = 0; i < (int)m_Players.size(); i++) {
         if (m_Players[i]->folded()) {
             removePlayer(m_Players[i]->getDisplayPosition());
         } else {
@@ -276,7 +270,7 @@ bool Poker::roundIsOver() {
     Player *winner;
 
     if (unfoldedPlayers() == 1) {
-        for (int i = 0; i < m_Players.size(); i++) {
+        for (int i = 0; i < (int)m_Players.size(); i++) {
             if (!m_Players[i]->folded()) {
                 winner = m_Players[i];
                 break;
@@ -293,7 +287,7 @@ bool Poker::roundIsOver() {
 
 int Poker::getRemainingPotMoney(){
     int sum = 0;
-    for(int i = 0; i < m_Players.size(); i++){
+    for(int i = 0; i < (int)m_Players.size(); i++){
         sum += m_Players[i]->getMoneyInPot();
     }
     return sum;
@@ -304,7 +298,7 @@ bool Poker::finishRound() {
     Player* winner = NULL;
     int *score;
 
-    for(int i = 0; i < m_Players.size(); i++){
+    for(int i = 0; i < (int)m_Players.size(); i++){
         if (!m_Players[i]->folded() && m_Players[i]->getMoneyInPot() > 0) {
             if (winner == NULL) {
                 winner = m_Players[i];
@@ -327,7 +321,7 @@ bool Poker::finishRound() {
         int *highscore;
 
         //Determine the winningest player with non-zero pot money left
-        for(int i = 0; i < m_Players.size(); i++){
+        for(int i = 0; i < (int)m_Players.size(); i++){
             if (!m_Players[i]->folded() && m_Players[i]->getMoneyInPot() > 0) {
                 if (winner == NULL) {
                     winner = m_Players[i];
@@ -340,19 +334,19 @@ bool Poker::finishRound() {
         }
 
         //Add money to the bank
-        for (int i = 0; i < m_Players.size(); i++) {
+        for (int i = 0; i < (int)m_Players.size(); i++) {
             winner->giveMoney(min(winner->getMoneyInPot(), m_Players[i]->getMoneyInPot()));
         }
 
         vector<int> tmpPotMoney(m_Players.size());
         int winnerPotMoney = winner->getMoneyInPot();
 
-        for (int i = 0; i < m_Players.size(); i++) {
+        for (int i = 0; i < (int)m_Players.size(); i++) {
             tmpPotMoney[i] = m_Players[i]->getMoneyInPot();
         }
 
         //Updates remaining money in the pot
-        for (int i = 0; i < m_Players.size(); i++) {
+        for (int i = 0; i < (int)m_Players.size(); i++) {
             m_Players[i]->setMoneyInPot(max(tmpPotMoney[i] - winnerPotMoney, 0));
         }
     }
@@ -364,7 +358,7 @@ bool Poker::finishRound() {
 }
 
 void Poker::finalizeRound() {
-    for (int i = 0; i < m_Players.size(); i++) {
+    for (int i = 0; i < (int)m_Players.size(); i++) {
         m_Players[i]->setMoneyInPot(0);
     }
 
@@ -383,7 +377,7 @@ void Poker::finalizeRound() {
     }
 
     Hand *hand;
-    for (int i = 0; i < m_Players.size(); i++) {
+    for (int i = 0; i < (int)m_Players.size(); i++) {
         m_Players[i]->setFolded(false);
         removePlayer(m_Players[i]->getDisplayPosition());
         hand = m_Players[i]->getHand();
@@ -409,8 +403,6 @@ void Poker::endGame(string endReason) {
         }
     }
 }
-
-#pragma mark - Misc. Controls
 
 int Poker::ante() {
     int num_players = m_Players.size();
@@ -440,14 +432,12 @@ int Poker::maxSinglePlayerMoney() {
 
 bool Poker::allPlayersAllIn() {
     bool allIn = true;
-    for (int i = 0; i <  m_Players.size(); i++) {
+    for (int i = 0; i <  (int)m_Players.size(); i++) {
         allIn = allIn && m_Players[i]->folded() || ( m_Players[i]->getMoney() == 0 );
     }
 
     return allIn;
 }
-
-#pragma mark - MAIN
 
 void Poker::runGame(GameObject *g) {
   game = g;

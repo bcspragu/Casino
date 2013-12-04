@@ -102,7 +102,7 @@ void runT2(GameObject game) {
 
 void runD1(GameObject game) {
 	Poker poker;
-	poker.runGame(game);
+	poker.runGame(&game);
 }
 
 void setText(string target, string text){
