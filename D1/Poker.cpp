@@ -437,7 +437,7 @@ bool Poker::allPlayersAllIn() {
 
 void Poker::runGame(GameObject *game) {
 
-	game->timer.checkIn();
+	game->D1Timer.checkIn();
 	m_HumanPlayer.setMoney(game->cash);
 
     while (m_Players.size() > 1) {
@@ -462,5 +462,5 @@ void Poker::runGame(GameObject *game) {
 
     endGame("You Win!!");
 	game->cash = m_HumanPlayer.getMoney();
-	game->timer.checkOut();
+	game->D1Timer.checkOut();
 }
