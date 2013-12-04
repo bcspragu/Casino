@@ -362,6 +362,9 @@ bool Game::purge() {
 
 	// Loop around the player list once and remove players
 	for (i = 0; i < size; i++) {
+		//keep track of player money after bet
+		if(player->isHuman())
+				playerMoney = player->getMoney();
 		if (player->getMoney() < minBet || player->getMoney() <= 0) {
 			centerPot += player->getMoney();
 			if (playerList.remove() == button) {	// advance the button
