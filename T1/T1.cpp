@@ -27,6 +27,7 @@ static void detectResize (int sig);
 // stub artifact for what the game does when the screen resizes
 void resizeT1(void); 
 void redrawEverything(void); 
+void mvprint_with_offset(int y, int x, string str); 
 bool hit(int cardX, int cardY, int x1, int x2, int y1, int y2);
 
 std::map<string,int> longestStrings;
@@ -35,6 +36,7 @@ std::map<string,int> longestStrings;
 displayT1 gameDisplay;
 DealerT1* dealer;
 stringstream messageString;
+GameObject* go;
 
 int keynew = 0;
 int bet = 0;
@@ -49,6 +51,7 @@ bool onGoing = true;
  */
 void T1::runGame(GameObject* g)
 {
+  go = g;
 
   signal(SIGWINCH, detectResize); // enable the window resize signal
 
@@ -90,7 +93,7 @@ void T1::runGame(GameObject* g)
 
 
   // Choices
-  mvprintw(34,74,"Options");
+  mvprint_with_offset(34,74,"Options");
 
   gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
   T1::setText("B11","Check/Call");
@@ -111,8 +114,9 @@ void T1::runGame(GameObject* g)
   gameDisplay.displayCard(50,16,0,0, A_BOLD);
   gameDisplay.displayCard(56,16,0,0, A_BOLD);
   gameDisplay.displayCard(62,16,0,0, A_BOLD);
-
+  
   gameDisplay.drawBox(46, 23, 15, 3, 0);    // Money in current bet cost
+  gameDisplay.bannerAd(go->advertisement.getAd());
   while(onGoing){
     key = gameDisplay.captureInput();
     keynew = key - 48;
@@ -141,7 +145,7 @@ DealerT1::DealerT1(){
   dealer = this;
   pot = 0;
   numPlayers = 6;
-  User* user = new User(500);
+  User* user = new User(go->cash);
   user->ID = 1;
   players.push_back(user);
   for(int i = 1; i < numPlayers; i++){
@@ -197,6 +201,7 @@ DealerT1::DealerT1(){
     currentRound = players;
     players[smallBlindLoc]->wallet -= smallBlind;
     players[largeBlindLoc]->wallet -= largeBlind;
+    go->cash = players.front()->wallet;
     pot += smallBlind+largeBlind;
 
     roundOfBetting(2);
@@ -206,6 +211,8 @@ DealerT1::DealerT1(){
     roundOfBetting(0);
     dealRiver();
     roundOfBetting(0);
+    gameDisplay.bannerAd(go->advertisement.getAd());
+
 
     std::vector<PlayerT1*> winners = determineWinner();
     stringstream win_strm;
@@ -216,6 +223,8 @@ DealerT1::DealerT1(){
         win_strm << (**pitr).ID << ", ";
       }
     }
+
+    go->cash = players.front()->wallet;
     win_str += win_strm.str();
     win_str = win_str.substr(0,win_str.length()-2);
     win_str += " won.";
@@ -234,8 +243,8 @@ void DealerT1::updateBet(){
   char potstr[21];
   sprintf(potstr, "Pot: $%d", pot);
   sprintf(betstr, "Bet: $%d", betValue);
-  mvprintw(22,47,potstr);
-  mvprintw(24,47,betstr);
+  mvprint_with_offset(22,47,potstr);
+  mvprint_with_offset(24,47,betstr);
   gameDisplay.captureInput();
 }
 
@@ -395,7 +404,7 @@ int User::getAmountForMove(DealerT1* d){
     if (keynew == -16){
       if (bet != 0){
         gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
-        mvprintw(36,36,"Raise");								
+        mvprint_with_offset(36,36,"Raise");								
         messageString.str("");
         messageString << "You bet " << bet << " chip(s)";
         gameDisplay.bannerBottom(messageString.str());
@@ -460,13 +469,13 @@ Move User::getMove(DealerT1* d){
   // display class will return button pressed
   // "raise", "call", "fold", "allin"
   lastMove = "Your Move";
-  //mvprintw(36,36,"Your Move");
+  //mvprint_with_offset(36,36,"Your Move");
 
   d->updateValuesOnScreen();
   char potstr[21];
   gameDisplay.drawBox(46, 21, 15, 3, 0);		// Money in Pot
   sprintf(potstr, "Pot: $%d", d->pot);
-  mvprintw(22,47,potstr);
+  mvprint_with_offset(22,47,potstr);
 
 
   for (;;) {
@@ -492,7 +501,7 @@ Move User::getMove(DealerT1* d){
         // Check/Call
         if(hit(cardX,cardY,50,68,28,33)){
           gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
-          mvprintw(36,36,"Call");
+          mvprint_with_offset(36,36,"Call");
           messageString.str("");
           messageString << "You Checked/Called";
           lastMove = "Check";
@@ -513,7 +522,7 @@ Move User::getMove(DealerT1* d){
         // ALL IN
         else if(hit(cardX,cardY,69,86,35,40)){
           gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
-          mvprintw(36,36,"All In");
+          mvprint_with_offset(36,36,"All In");
           messageString.str("");
           messageString << "You went ALL IN!";
           gameDisplay.bannerBottom(messageString.str());
@@ -524,7 +533,7 @@ Move User::getMove(DealerT1* d){
         // Fold
         else if(hit(cardX,cardY,87,105,28,33)){
           gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
-          mvprintw(36,36,"Fold");
+          mvprint_with_offset(36,36,"Fold");
           messageString.str("");
           messageString << "You Folded";
           gameDisplay.bannerBottom(messageString.str());
@@ -657,6 +666,7 @@ void PlayerT1::updateWallet(){
     case 1:
       T1::setText("P1T",money);
       T1::setText("P1B",move);
+      go->cash = wallet;
       break;
     case 2:
       T1::setText("P2T",money);
@@ -775,8 +785,8 @@ void T1::setText(string target, string text){
   for(int i = 0; i < longestStrings[target]; i++){
     spaceString += " ";
   }
-  mvprintw(ypos+gameDisplay.yOffset,xpos+gameDisplay.xOffset,spaceString.c_str());
-  mvprintw(ypos+gameDisplay.yOffset,xpos+gameDisplay.xOffset,text.c_str());
+  mvprint_with_offset(ypos,xpos,spaceString.c_str());
+  mvprint_with_offset(ypos,xpos,text.c_str());
 }
 
 void DealerT1::roundOfBetting(int handOffset){
@@ -865,6 +875,7 @@ void DealerT1::roundOfBetting(int handOffset){
       }
     }
   }
+  go->cash = players.front()->wallet;
   updateBet();
 }
 
@@ -896,5 +907,9 @@ void redrawEverything(){
 }
 
 bool hit(int cardX, int cardY, int x1, int x2, int y1, int y2){
-    return (cardX+gameDisplay.xOffset >= x1) && (cardX+gameDisplay.xOffset  <= x2) && (cardY+gameDisplay.yOffset  >= y1) && (cardY+gameDisplay.yOffset  <= y2);
+    return (cardX+gameDisplay.xOffset >= x1) && (cardX+gameDisplay.xOffset <= x2) && (cardY+gameDisplay.yOffset  >= y1) && (cardY+gameDisplay.yOffset  <= y2);
+}
+
+void mvprint_with_offset(int ypos, int xpos, string str){
+  mvprintw(ypos+gameDisplay.yOffset,xpos+gameDisplay.xOffset,str.c_str());
 }
