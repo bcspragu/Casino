@@ -3,7 +3,6 @@
 #include "../Timer.h"
 #include "../Advertisement.h"
 
-GameObject *game;
 Poker::Poker() :
     m_InitialPlayers(4),
     m_InitialMoney(1000),
@@ -169,9 +168,6 @@ void Poker::runDeal() {
     }
 
     updateHand(m_HumanPlayer.getHand(), &player0Frame);
-
-	//Keeps track of how many cards the human has been given
-	game->cardsPlayed += 5;
 }
 
 
@@ -439,7 +435,7 @@ bool Poker::allPlayersAllIn() {
     return allIn;
 }
 
-void Poker::runGame(GameObject *g) {
+void Poker::runGame(GameObject *game) {
   game = g;
 	game->timer.checkIn();
 	m_HumanPlayer.setMoney(game->cash);
