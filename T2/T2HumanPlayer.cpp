@@ -5,7 +5,7 @@
  *      Author: Christopher J. Cunniff
  */
 
-#include "HumanPlayer.h"
+#include "T2HumanPlayer.h"
 
 #include <iostream>
 
@@ -17,13 +17,13 @@
 
 using namespace std;
 
-HumanPlayer::HumanPlayer(int num, Gui gameGui, int startMoney) {
+T2HumanPlayer::T2HumanPlayer(int num, Gui gameGui, int startMoney) {
 	money = startMoney;
 	gui = gameGui;
 	playerNum = num;
 }
 
-Bet HumanPlayer::makeBet(SmallDeck comm, int minBet, GameState state) {
+Bet T2HumanPlayer::makeBet(SmallDeck comm, int minBet, GameState state) {
 	Bet b;
 	do {
 		b = gui.getBetInput();

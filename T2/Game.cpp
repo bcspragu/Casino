@@ -18,7 +18,7 @@
 #include "GameData.h"
 #include "Gui.h"
 #include "Hand.h"
-#include "HumanPlayer.h"
+#include "T2HumanPlayer.h"
 #include "Player.h"
 #include "PlayerList.h"
 #include "SmallDeck.h"
@@ -63,7 +63,7 @@ bool Game::startGame(int startMoney) {
 		dealer.makeDeck();
 
 		// Create and add human player, make it the button
-		HumanPlayer * human = new HumanPlayer(1, gui, startMoney); // Player 1
+		T2HumanPlayer * human = new T2HumanPlayer(1, gui, startMoney); // Player 1
 		playerList.add(human);
 		button = human;
 
