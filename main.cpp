@@ -14,13 +14,13 @@
 using namespace std;
 
 void initScreen(display gameDisplay);
-void runT1(GameObject game);
-void runT2(GameObject game);
-void runD1(GameObject game);
+void runT1(GameObject* game);
+void runT2(GameObject* game);
+void runD1(GameObject* game);
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2);
 T2Display T2GameDisplay;	//global used in T2
 
-GameObject game(500,0);
+GameObject* game = new GameObject(500,0);
 
 int main (void) {
 	//initial values
@@ -57,19 +57,19 @@ int main (void) {
 	return 0;
 }
 
-void runT1(GameObject game){
+void runT1(GameObject* game){
   T1 t1;
-  t1.runGame(&game);
+  t1.runGame(game);
 }
 
-void runT2(GameObject game) {
+void runT2(GameObject* game) {
     T2Poker t2;
-    t2.runGame(&game);
+    t2.runGame(game);
 }
 
-void runD1(GameObject game) {
+void runD1(GameObject* game) {
 	Poker poker;
-	poker.runGame(&game);
+	poker.runGame(game);
 }
 
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
