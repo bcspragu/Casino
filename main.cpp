@@ -36,18 +36,18 @@ int main (void) {
 	Timer* t2Timer = new Timer();
 	//runT2(game);
 
-  //gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
-  //setText("B11","Check/Call");
-  //gameDisplay.drawBox(50, 35, 19, 6, 0);		// Bottom Left
-  //setText("B12","Start Game");
-  //gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
-  //setText("B21","Raise");
-  //gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
-  //setText("B22","All In");
-  //gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
-  //setText("B31","Fold");
-  //gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
-  //setText("B32","Quit");
+  gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
+  T1::setText("B11","Check/Call");
+  gameDisplay.drawBox(50, 35, 19, 6, 0);		// Bottom Left
+  T1::setText("B12","Start Game");
+  gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
+  T1::setText("B21","Raise");
+  gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
+  T1::setText("B22","All In");
+  gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
+  T1::setText("B31","Fold");
+  gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
+  T1::setText("B32","Quit");
   int keynew = 0;
   char key;
   char key2;
