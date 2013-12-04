@@ -1,3 +1,7 @@
+Updates for Project 2:
+standalone driver: make standalone
+test: make test
+To make the full project, run make from the main directory (this directory's parent)
 /**
  * Poker - 5 Card Draw
  *
