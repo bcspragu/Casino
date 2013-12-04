@@ -7,7 +7,7 @@
 
 class Player;
 class User;
-class Card;
+class CardT1;
 class Computer; 
 const int smallBlind = 25;
 const int largeBlind = 50;
@@ -16,7 +16,7 @@ class Dealer {
   public:
     Dealer();
     Deck deck;
-    std::vector<Card> community;
+    std::vector<CardT1> community;
     int pot;
     int betValue;
     int smallBlindLoc;
@@ -37,27 +37,27 @@ class Dealer {
     void showAllCards();
     void hideAllCards();
     bool userStillAlive(User user);
-    static bool royalFlush(std::vector<Card> hand);
-    static bool straightFlush(std::vector<Card> hand);
-    static bool fourOfAKind(std::vector<Card> hand);
-    static Value valueOfFourOfAKind(std::vector<Card> hand);
-    static bool fullHouse(std::vector<Card> hand);
-    static bool flush(std::vector<Card> hand);
-    static bool straight(std::vector<Card> hand);
-    static bool threeOfAKind(std::vector<Card> hand);
-    static Value valueOfThreeOfAKind(std::vector<Card> hand);
-    static bool twoPair(std::vector<Card> hand);
-    static Value higherPair(std::vector<Card> hand);
-    static Value lowerPair(std::vector<Card> hand);
-    static bool pair(std::vector<Card> hand);
-    static Value valueOfPair(std::vector<Card> hand);
-    static Value highestValue(std::vector<Card> hand);
-    static int scoreHand(std::vector<Card> hand);
-    int scoreBestHand(std::vector<Card> hand);
-    std::vector<Card> bestHand(std::vector<Card> hand);
+    static bool royalFlush(std::vector<CardT1> hand);
+    static bool straightFlush(std::vector<CardT1> hand);
+    static bool fourOfAKind(std::vector<CardT1> hand);
+    static Value valueOfFourOfAKind(std::vector<CardT1> hand);
+    static bool fullHouse(std::vector<CardT1> hand);
+    static bool flush(std::vector<CardT1> hand);
+    static bool straight(std::vector<CardT1> hand);
+    static bool threeOfAKind(std::vector<CardT1> hand);
+    static Value valueOfThreeOfAKind(std::vector<CardT1> hand);
+    static bool twoPair(std::vector<CardT1> hand);
+    static Value higherPair(std::vector<CardT1> hand);
+    static Value lowerPair(std::vector<CardT1> hand);
+    static bool pair(std::vector<CardT1> hand);
+    static Value valueOfPair(std::vector<CardT1> hand);
+    static Value highestValue(std::vector<CardT1> hand);
+    static int scoreHand(std::vector<CardT1> hand);
+    int scoreBestHand(std::vector<CardT1> hand);
+    std::vector<CardT1> bestHand(std::vector<CardT1> hand);
     Player* nextPlayer(std::vector<Computer> computers, User* user);
   private:
-    std::vector<Card> fiveCardHand(std::vector<Card> sevenCardHand, int index1, int index2);
+    std::vector<CardT1> fiveCardHand(std::vector<CardT1> sevenCardHand, int index1, int index2);
     void roundOfBetting(int offset);
     void updateBet();
     int playersStillIn(std::vector<Player*> current);

@@ -1,23 +1,23 @@
-#ifndef CARD_H
-#define CARD_H
+#ifndef CARDT1_H
+#define CARDT1_H
 
 #include <string>
 #include "SuitValue.h"
 
 using std::string;
 
-class Card {
+class CardT1 {
   public:
-    Card(Suit s, Value v);
-    Card(string s);
-    ~Card(void);
+    CardT1(Suit s, Value v);
+    CardT1(string s);
+    ~CardT1(void);
     Suit suit;
     Value value;
     static Suit suitFromInt(int i);
     static Value valueFromInt(int i);
     string cardString();
     string shortCardString();
-    bool operator<(const Card &other) const;
+    bool operator<(const CardT1 &other) const;
 };
 
 #endif
