@@ -1,25 +1,16 @@
-#Makefile for Poker
+# This is an example makefile
+# It is very important to add -lncursesw for the ncurses library
 CC=g++
 DEBUG=
-CFLAGS=-c -Wall $(DEBUG)
+CFLAGS=-c $(DEBUG)
 LDFLAGS=-lncursesw $(DEBUG)
-SOURCES=Bet.cpp Card.cpp ComputerPlayer.cpp Dealer.cpp Deck.cpp Display.cpp Game.cpp GameData.cpp Gui.cpp Hand.cpp HumanPlayer.cpp Layout.cpp MainDeck.cpp Player.cpp PlayerList.cpp Point.cpp SmallDeck.cpp Poker.cpp ../GameObject.cpp ../Advertisement.cpp
+SOURCES=*.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=../T2.o
 
 all: clean $(OBJECTS)
 
-display: 
-
-debug: clean
-debug: DEBUG +=-g
-debug: $(SOURCES) $(EXECUTABLE)
-
-$(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 .cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS) 
 
 clean:
-	rm -rf *.o $(EXECUTABLE)
-
+	rm -rf *.o
