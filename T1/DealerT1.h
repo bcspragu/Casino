@@ -12,9 +12,9 @@ class Computer;
 const int smallBlind = 25;
 const int largeBlind = 50;
 
-class Dealer {
+class DealerT1 {
   public:
-    Dealer();
+    DealerT1();
     DeckT1 deck;
     std::vector<CardT1> community;
     int pot;

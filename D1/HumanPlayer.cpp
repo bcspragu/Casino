@@ -6,7 +6,7 @@
 
 using namespace std;
 
-HumanPlayer::HumanPlayer(int displayPos, int initialMoney, string name) : Player(displayPos, initialMoney, name) {}
+HumanPlayer::HumanPlayer(int displayPos, int initialMoney, string name) : PlayerD1(displayPos, initialMoney, name) {}
 
 /**
 * Ask the player if they want to ante. If they fold,
@@ -28,7 +28,7 @@ int HumanPlayer::ante(int minimumAnte, displayD1 gameDisplay) {
         while (1) {
             input = gameDisplay.captureInput();
             if (input != 0) {
-                return Player::FOLD;
+                return PlayerD1::FOLD;
             }
         }
     }
@@ -40,10 +40,10 @@ int HumanPlayer::ante(int minimumAnte, displayD1 gameDisplay) {
             case 'a': case 'A':
                 moneyInPot += minimumAnte;
                 money -= minimumAnte;
-                return Player::CALL;
+                return PlayerD1::CALL;
 
             case 'l': case 'L':
-                return Player::FOLD;
+                return PlayerD1::FOLD;
 		}
     }
 }
@@ -62,7 +62,7 @@ int HumanPlayer::bet(int minimumBet, displayD1 gameDisplay) {
 	int input;
 
     if (hasFolded) {
-        return Player::FOLD;
+        return PlayerD1::FOLD;
     }
 
 	stringstream bannerText;
@@ -89,7 +89,7 @@ int HumanPlayer::bet(int minimumBet, displayD1 gameDisplay) {
             //Fold
             case 'f': case 'F':
                 hasFolded = true;
-                return Player::FOLD;
+                return PlayerD1::FOLD;
 
             //All In
             case 'a': case 'A':
@@ -115,7 +115,7 @@ int HumanPlayer::bet(int minimumBet, displayD1 gameDisplay) {
             //Fold
             case 'f': case 'F':
                 hasFolded = true;
-                return Player::FOLD;
+                return PlayerD1::FOLD;
 
             //Call/Check
             case 'c': case 'C':
@@ -152,7 +152,7 @@ int HumanPlayer::bet(int minimumBet, displayD1 gameDisplay) {
                     money -= currentBid;
                     return currentBid;
                 } else if (currentBid == 0) {
-                    return Player::CHECK;
+                    return PlayerD1::CHECK;
                 } else {
                     moneyInPot += currentBid;
                     money -= currentBid;

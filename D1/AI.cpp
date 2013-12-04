@@ -6,7 +6,7 @@
 
 using namespace std;
 #define DELAY 2
-AI::AI(int displayPos, int initialMoney, string name) : Player(displayPos, initialMoney, name) {
+AI::AI(int displayPos, int initialMoney, string name) : PlayerD1(displayPos, initialMoney, name) {
     std::srand(unsigned(std::time(0)));
 }
 
@@ -22,7 +22,7 @@ int AI::bet(int minimumbid, displayD1 gameDisplay)
 		gameDisplay.bannerBottom(bannerText.str());
 		while(!gameDisplay.captureInput())
 			;
-        return Player::FOLD;
+        return PlayerD1::FOLD;
     } else if (random < 7) {
         int bid = min(minimumbid, money);
         money -= bid;
@@ -98,6 +98,6 @@ int AI::ante(int anteamount, displayD1 gameDisplay)
 		gameDisplay.bannerBottom(bannerText.str());
 		while(!gameDisplay.captureInput())
 			;
-	    return Player::FOLD;
+	    return PlayerD1::FOLD;
     }
 }

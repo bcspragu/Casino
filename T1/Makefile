@@ -6,7 +6,7 @@ LFLAGS = -lncursesw
 
 all: poker
 
-poker: CardT1.o Computer.o Dealer.o DeckT1.o displayT1.o PlayerT1.o T1.o User.o
+poker: CardT1.o Computer.o DealerT1.o DeckT1.o displayT1.o PlayerT1.o T1.o User.o
 
 CardT1.o: CardT1.cpp CardT1.h
 	$(CC) $(CFLAGS) CardT1.cpp
@@ -14,8 +14,8 @@ CardT1.o: CardT1.cpp CardT1.h
 Computer.o: Computer.cpp Computer.h
 	$(CC) $(CFLAGS) Computer.cpp
 
-Dealer.o: Dealer.cpp
-	$(CC) $(CFLAGS) Dealer.cpp
+DealerT1.o: DealerT1.cpp
+	$(CC) $(CFLAGS) DealerT1.cpp
 
 DeckT1.o: DeckT1.cpp DeckT1.h
 	$(CC) $(CFLAGS) DeckT1.cpp

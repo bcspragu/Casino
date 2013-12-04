@@ -5,7 +5,7 @@
 #include "CardT1.h"
 #include "Move.h"
 
-class Dealer;
+class DealerT1;
 
 class PlayerT1 {
   public:
@@ -17,8 +17,8 @@ class PlayerT1 {
     bool allIn;
     string lastMove;
 
-    virtual Move getMove(Dealer* d);
-    virtual int getAmountForMove(Dealer* d);
+    virtual Move getMove(DealerT1* d);
+    virtual int getAmountForMove(DealerT1* d);
     Move moveFromString(string moveStr);
     string stringFromMove(Move move);
     void updateWallet();

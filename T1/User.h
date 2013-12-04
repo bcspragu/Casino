@@ -6,8 +6,8 @@
 class User: public PlayerT1 {
   public:
     User(int startingAmount);
-    Move getMove(Dealer* d);
-    int getAmountForMove(Dealer* d);
+    Move getMove(DealerT1* d);
+    int getAmountForMove(DealerT1* d);
 };
 
 #endif

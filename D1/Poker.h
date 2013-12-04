@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "PlayerD1.h"
 #include "HumanPlayer.h"
 #include "AI.h"
 #include "Frame.h"
@@ -35,7 +35,7 @@ class Poker {
         AI m_AiPlayer_1;
         AI m_AiPlayer_2;
         AI m_AiPlayer_3;
-        deque<Player*> m_Players;
+        deque<PlayerD1*> m_Players;
 
 		displayD1 GAME_DISPLAY;
 
@@ -65,7 +65,7 @@ class Poker {
         int  unfoldedPlayers();
         void finalizeRound();
         int  ante();
-        int  minimumBet(Player *player);
+        int  minimumBet(PlayerD1 *player);
         int  maxSinglePlayerMoney();
         bool allPlayersAllIn();
 };

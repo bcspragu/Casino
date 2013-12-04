@@ -8,7 +8,7 @@
  *      * Does not function when running a screen session.
  */
 #include "displayT1.h"
-#include "Dealer.h"
+#include "DealerT1.h"
 #include "../GameObject.h"
 #include "User.h"
 #include "Computer.h"
@@ -127,7 +127,7 @@ int runGame(GameObject* g)
         messageString.str("");
         messageString << "Playing";
         gameDisplay.bannerBottom(messageString.str());
-        Dealer d;
+        DealerT1 d;
         onGoing = false;
       }else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
         exit(0);
@@ -138,7 +138,7 @@ int runGame(GameObject* g)
 
 }
 
-Dealer::Dealer(){
+DealerT1::DealerT1(){
   pot = 0;
   numPlayers = 6;
   User* user = new User(500);
@@ -229,7 +229,7 @@ Dealer::Dealer(){
   }
 }
 
-void Dealer::updateBet(){
+void DealerT1::updateBet(){
   char betstr[21];
   char potstr[21];
   sprintf(potstr, "Pot: $%d", pot);
@@ -239,7 +239,7 @@ void Dealer::updateBet(){
   gameDisplay.captureInput();
 }
 
-void Dealer::dealHands(){
+void DealerT1::dealHands(){
   //Draw blank community cards
   gameDisplay.displayCard(38,16,0,0, A_BOLD);
   gameDisplay.displayCard(44,16,0,0, A_BOLD);
@@ -269,7 +269,7 @@ void Dealer::dealHands(){
   gameDisplay.displayCard(35,29,card1.suit+1,card1.value+2, A_BOLD);
   gameDisplay.displayCard(42,29,card2.suit+1,card2.value+2, A_BOLD);
 }
-void Dealer::updateValuesOnScreen(){
+void DealerT1::updateValuesOnScreen(){
   char tmpstr[21];
   string move;
   string location;
@@ -351,20 +351,20 @@ void Dealer::updateValuesOnScreen(){
   updateBet();
 }
 
-void Dealer::dealRiver(){
+void DealerT1::dealRiver(){
   community.push_back(deck.dealCard());
   setText("C","River");
   gameDisplay.displayCard(62,16,community.back().suit+1,community.back().value+2, A_BOLD);
 
 }
 
-void Dealer::dealTurn(){
+void DealerT1::dealTurn(){
   community.push_back(deck.dealCard());
   setText("C","Turn");
   gameDisplay.displayCard(56,16,community.back().suit+1,community.back().value+2, A_BOLD);
 }
 
-void Dealer::dealFlop(){
+void DealerT1::dealFlop(){
   for(int i = 0; i < 3; i++){
     community.push_back(deck.dealCard());
   }
@@ -377,7 +377,7 @@ void Dealer::dealFlop(){
 }
 
 // have the user enter the amount to raise
-int User::getAmountForMove(Dealer* d){
+int User::getAmountForMove(DealerT1* d){
   gameDisplay.drawBox(46, 21, 15, 3, 0);		// Money in Pot
   char potstr[21];
   sprintf(potstr,"Pot: $%d",d->pot);
@@ -407,7 +407,7 @@ int User::getAmountForMove(Dealer* d){
   }
 }
 
-Move Computer::getMove(Dealer* d){
+Move Computer::getMove(DealerT1* d){
   int handValue;
   int decision;
   lastMove = "Thinking";
@@ -422,7 +422,7 @@ Move Computer::getMove(Dealer* d){
   if(allCards.size() <= 2){    
     handValue = ratePocketCards(allCards);
   }else if(allCards.size() == 5){
-    handValue = Dealer::scoreHand(allCards);
+    handValue = DealerT1::scoreHand(allCards);
   }else if ((allCards.size()) >= 6){
     handValue = (*d).scoreBestHand(hand);
   }
@@ -451,12 +451,12 @@ Move Computer::getMove(Dealer* d){
   return CALL;
 }
 
-int Computer::getAmountForMove(Dealer* d){
+int Computer::getAmountForMove(DealerT1* d){
   return raiseAmount;
 }
 
 // have the user enter their move, store it for later
-Move User::getMove(Dealer* d){
+Move User::getMove(DealerT1* d){
   // display class will return button pressed
   // "raise", "call", "fold", "allin"
   lastMove = "Your Move";
@@ -542,7 +542,7 @@ Move User::getMove(Dealer* d){
   d->updateValuesOnScreen();
 }
 
-void Dealer::hideAllCards(){
+void DealerT1::hideAllCards(){
   std::vector<PlayerT1*>::iterator pitr;
   for(pitr = players.begin(); pitr != players.end(); ++pitr){
     if((*pitr) != NULL){
@@ -583,7 +583,7 @@ void Dealer::hideAllCards(){
   }
 }
 
-void Dealer::showAllCards(){
+void DealerT1::showAllCards(){
   std::vector<PlayerT1*>::iterator pitr;
   for(pitr = players.begin(); pitr != players.end(); ++pitr){
     if((*pitr) != NULL && (*pitr)->lastMove != "Fold"){
@@ -778,7 +778,7 @@ void setText(string target, string text){
   mvprintw(ypos,xpos,text.c_str());
 }
 
-void Dealer::roundOfBetting(int handOffset){
+void DealerT1::roundOfBetting(int handOffset){
   if(playersStillIn(currentRound) == 1){
     return; //There's only one person, we don't need to play
   }

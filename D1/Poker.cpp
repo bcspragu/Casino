@@ -78,7 +78,7 @@ void Poker::drawHand(HandD1 *hand, bool hidden, Frame *frame) {
             GAME_DISPLAY.displayCard(x + 1 + i*7, y + 2, 0, 0, 0);
         }
     } else if (hand != NULL) { //display cards for human player
-        Card *card;
+        CardD1 *card;
         for (int i = 0; i < 5; i++) {
             card = hand->getCard(i);
             GAME_DISPLAY.displayCard(x + 1 + i*7, y + 2, card->getSuit() + 1, card->getNumber(), 0);
@@ -106,13 +106,13 @@ void Poker::updateGameInfo() {
 }
 
 void Poker::rotatePlayers() {
-    Player *tempPlayer = m_Players.front();
+    PlayerD1 *tempPlayer = m_Players.front();
     m_Players.pop_front();
     m_Players.push_back(tempPlayer);
 }
 
 void Poker::removeCurrentPlayer() {
-    removePlayer(((Player *)m_Players.front())->getDisplayPosition());
+    removePlayer(((PlayerD1 *)m_Players.front())->getDisplayPosition());
     m_Players.pop_front();
 }
 
@@ -127,17 +127,17 @@ void Poker::runAnte() {
     int a = ante();
 
     for (int i = 0; i < (int)m_Players.size(); i++) {
-        Player *player = m_Players.front();
+        PlayerD1 *player = m_Players.front();
 
         if (typeid(*player) == typeid(HumanPlayer)) {
             HumanPlayer *hPlayer = (HumanPlayer *) player;
 
-            if (hPlayer->ante(a, GAME_DISPLAY) == Player::FOLD) { //didn't ante, remove human player from game
+            if (hPlayer->ante(a, GAME_DISPLAY) == PlayerD1::FOLD) { //didn't ante, remove human player from game
                 endGame("No ante? You lose :(");
             }
         } else {
             AI *cPlayer = (AI *) player;
-            if(cPlayer->ante(a, GAME_DISPLAY) == Player::FOLD) {
+            if(cPlayer->ante(a, GAME_DISPLAY) == PlayerD1::FOLD) {
                 removeCurrentPlayer();
                 i--;
                 continue;
@@ -158,11 +158,11 @@ void Poker::runDeal() {
         m_Deck.shuffle();
 
     for (i = 0; i < (int)m_Players.size(); i++) {
-        Card *c1 = m_Deck.drawCard();
-        Card *c2 = m_Deck.drawCard();
-        Card *c3 = m_Deck.drawCard();
-        Card *c4 = m_Deck.drawCard();
-        Card *c5 = m_Deck.drawCard();
+        CardD1 *c1 = m_Deck.drawCard();
+        CardD1 *c2 = m_Deck.drawCard();
+        CardD1 *c3 = m_Deck.drawCard();
+        CardD1 *c4 = m_Deck.drawCard();
+        CardD1 *c5 = m_Deck.drawCard();
         m_Players[i]->setHand( new HandD1(c1, c2, c3, c4, c5) );
 
         drawHand(NULL, true, m_Players[i]->getFrame());
@@ -184,7 +184,7 @@ void Poker::runBetting(int bettingCycle) {
     int bet, callCounter = 0, minBet;
 
     while (unfoldedPlayers() > 1) {
-        Player *player = m_Players.front();
+        PlayerD1 *player = m_Players.front();
         minBet = minimumBet(player);
 
         if (player->folded()) {
@@ -193,7 +193,7 @@ void Poker::runBetting(int bettingCycle) {
             bet = player->bet(minBet, GAME_DISPLAY);
             callCounter++;
 
-            if (bet != Player::FOLD) {
+            if (bet != PlayerD1::FOLD) {
                 m_PotMoney += bet;
                 updateGameInfo();
 
@@ -231,7 +231,7 @@ int Poker::runCardExchange() {
 
     //bringHumanToFront();
     for (int i = 0; i < (int)m_Players.size(); i++) {
-        Player *player = m_Players.front();
+        PlayerD1 *player = m_Players.front();
 
         if (!player->folded()) {
             player->discard(GAME_DISPLAY);
@@ -267,7 +267,7 @@ void Poker::runShowdown() {
 bool Poker::roundIsOver() {
     if (m_Players.size() == 1) return true;
 
-    Player *winner;
+    PlayerD1 *winner;
 
     if (unfoldedPlayers() == 1) {
         for (int i = 0; i < (int)m_Players.size(); i++) {
@@ -295,7 +295,7 @@ int Poker::getRemainingPotMoney(){
 
 bool Poker::finishRound() {
 
-    Player* winner = NULL;
+    PlayerD1* winner = NULL;
     int *score;
 
     for(int i = 0; i < (int)m_Players.size(); i++){
@@ -422,7 +422,7 @@ int Poker::ante() {
     }
 }
 
-int Poker::minimumBet(Player *player) {
+int Poker::minimumBet(PlayerD1 *player) {
     return ( maxSinglePlayerMoney() - player->getMoneyInPot() );
 }
 
