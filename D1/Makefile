@@ -45,4 +45,4 @@ clean:
 test: .FORCE
 
 .FORCE:
-	cd test; g++ PokerDriver.cpp display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o -o testD1 -lncursesw; ./testD1; cd ..
+	cd test; ./build_stuff.sh; g++ PokerDriver.cpp display.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o -o testD1 -lncursesw; ./testD1; cd ..
