@@ -48,15 +48,15 @@ int main (void) {
       cardX = gameDisplay.getMouseEventX();
       cardY = gameDisplay.getMouseEventY();
       //Start game
-      if(inHitBox(cardX,cardY,50,69,28,34)){
+      if(inHitBox(cardX,cardY,50,69,18,24)){
         gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         runT1(game);
         initScreen(gameDisplay);
-      }else if(inHitBox(cardX,cardY,69,87,28,34)){
+      }else if(inHitBox(cardX,cardY,69,87,18,24)){
         gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         runT2(game);
         initScreen(gameDisplay);
-      }else if(inHitBox(cardX,cardY,87,106,28,34)){
+      }else if(inHitBox(cardX,cardY,87,106,18,24)){
         gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         signal(SIGWINCH, redrawD1);
         runD1(game);
@@ -95,11 +95,11 @@ bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
 }
 
 void initScreen(display gameDisplay){
-  gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
+  gameDisplay.drawBox(50, 18, 19, 6, 0);		// Top Left
   setText("B11","Texas Hold'em 1");
-  gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
+  gameDisplay.drawBox(69, 18, 18, 6, 0);		// Top Middle
   setText("B21","Texas Hold'em 2");
-  gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
+  gameDisplay.drawBox(87, 18, 19, 6, 0);		// Top Right
   setText("B31","Five Card Draw");
 }
 
@@ -109,23 +109,23 @@ void setText(string target, string text){
     longStr[target] = text.length();
   }
   if(target == "B11"){ //Box 1,1 top left
-    ypos = 30;
-    xpos = 55;
+    ypos = 20;
+    xpos = 52;
   }else if(target == "B12"){ //Box 1,2 bottom left
-    ypos = 37;
-    xpos = 55;
+    ypos = 27;
+    xpos = 50;
   }else if(target == "B21"){ //Box 2,1 top center
-    ypos = 30;
-    xpos = 75;
+    ypos = 20;
+    xpos = 70;
   }else if(target == "B22"){ //Box 1,2 bottom center
-    ypos = 37;
-    xpos = 75;
+    ypos = 27;
+    xpos = 70;
   }else if(target == "B31"){ //Box 3,1 top right
-    ypos = 30;
-    xpos = 94;
+    ypos = 20;
+    xpos = 89;
   }else if(target == "B32"){ //Box 3,2 bottom right
-    ypos = 37;
-    xpos = 94;
+    ypos = 27;
+    xpos = 89;
   }else if(target == "P1T"){ //Player 1 top box
     ypos = 34;
     xpos = 36;
