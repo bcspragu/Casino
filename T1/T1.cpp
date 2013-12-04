@@ -130,6 +130,7 @@ void T1::runGame(GameObject* g)
   
   gameDisplay.drawBox(46, 23, 15, 3, 0);    // Money in current bet cost
   gameDisplay.bannerAd(go->advertisement.getAd());
+  DealerT1 d;
   while(onGoing){
     key = gameDisplay.captureInput();
     keynew = key - 48;
@@ -145,7 +146,7 @@ void T1::runGame(GameObject* g)
         messageString.str("");
         messageString << "Playing";
         gameDisplay.bannerBottom(messageString.str());
-        DealerT1 d;
+        d.playBall();
         onGoing = false;
       }else if(hit(cardX,cardY,87,105,35,40)){
         return;
@@ -157,8 +158,13 @@ void T1::runGame(GameObject* g)
 }
 
 DealerT1::DealerT1(){
-  go->T1Timer.checkIn();
   dealer = this;
+  pot = 0;
+  betValue = 0;
+}
+
+void DealerT1::playBall(){
+  go->T1Timer.checkIn();
   pot = 0;
   numPlayers = 6;
   User* user = new User(go->cash);
