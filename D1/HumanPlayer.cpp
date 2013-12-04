@@ -77,6 +77,10 @@ int HumanPlayer::bet(int minimumBet, displayD1 &gameDisplay) {
 	while (1) {
 		input = gameDisplay.captureInput();
 
+		if (input == -1) {
+			gameDisplay.bannerBottom(bannerText.str());
+		}
+
         //If the bid ever becomes negative, something went wrong, so reset it.
         if (currentBid < 0) {
             currentBid = 0;
