@@ -7,7 +7,7 @@
  */
 
 //#include "Gui.h"
-#include "Display.h"
+#include "T2Display.h"
 #include "Game.h"
 #include "Layout.h"
 #include "../GameObject.h"
@@ -17,7 +17,7 @@
 
 using namespace std;
 
-Display gameDisplay;
+extern T2gameDisplay;
 GameObject *game_object;
 
 int runGame(GameObject* g) {
