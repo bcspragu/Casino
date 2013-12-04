@@ -73,7 +73,7 @@ void Poker::removePlayer(int position) {
 }
 
 void Poker::drawHand(Hand *hand, bool hidden, Frame *frame) {
-    int x = frame->getX(), y = frame->getY(), w = frame->getWidth(), h = frame->getHeight();
+    int x = frame->getX(), y = frame->getY();
 
     if (hidden) { //top player
         for (int i = 0; i < 5; i++) {
