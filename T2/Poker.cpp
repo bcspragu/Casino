@@ -26,7 +26,7 @@ int runGame(GameObject* g) {
 	srand(time(NULL));
 
 	Game game;
-	if (game.startGame(atoi(argv[1]))) {
+	if (game.startGame(g->money) {
 		while (true) {
 			if (game.playRound()) {
 				continue;
@@ -36,7 +36,7 @@ int runGame(GameObject* g) {
 			}
 		}
 	} else {
-		ss << "Current money: " << atoi(argv[1]);
+		ss << "Current money: " << g->money;
 	}
 
 	t2GameDisplay.eraseScreen(true);
