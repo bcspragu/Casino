@@ -1,5 +1,4 @@
 #include "Poker.h"
-#include "../GameObject.h"
 
 int main() {
 	Poker poker;
