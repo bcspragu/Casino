@@ -51,6 +51,8 @@ displayT1::displayT1(void) {
   // this updates the locally stored col and line variables
   handleResize(0);
   // set a no card draw offset of 1 so the bottom banner is not overwritten
+  xOffset = cols/2-50;
+  yOffset = lines/2-20;
   lineBoundaryOffset = 1;
 
   // Settings for card colors (these can be set outside of the display class)
