@@ -30,11 +30,11 @@ using namespace std;
 
 // Some extended character definitions for showing the special symbols
 // in the extended UTF-8 character map.
-const char joker[]	  = {0xE2, 0x98, 0xBA, 0};
-const char clubs[]    = {0xE2, 0x99, 0xA3, 0};
-const char diamonds[] = {0xE2, 0x99, 0xA6, 0};
-const char hearts[]   = {0xE2, 0x99, 0xA5, 0};
-const char spades[]   = {0xE2, 0x99, 0xA0, 0};
+const char jokerD1[]	  = {0xE2, 0x98, 0xBA, 0};
+const char clubsD1[]    = {0xE2, 0x99, 0xA3, 0};
+const char diamondsD1[] = {0xE2, 0x99, 0xA6, 0};
+const char heartsD1[]   = {0xE2, 0x99, 0xA5, 0};
+const char spadesD1[]   = {0xE2, 0x99, 0xA0, 0};
 
 /*
  * This is the display class definitions

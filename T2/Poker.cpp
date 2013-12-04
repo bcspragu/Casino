@@ -17,7 +17,7 @@
 
 using namespace std;
 
-extern T2gameDisplay;
+extern T2Display T2GameDisplay;
 GameObject *game_object;
 
 int runGame(GameObject* g) {
@@ -40,7 +40,7 @@ int runGame(GameObject* g) {
 		ss << "Current money: " << game_object->cash;
 	}
 
-	gameDisplay.eraseScreen(true);
+	T2GameDisplay.eraseScreen(true);
 
 	//save values
 	g->cardsPlayed = game.getCardsPlayed();
