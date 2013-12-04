@@ -6,7 +6,7 @@ LFLAGS = -lncursesw
 
 all: poker
 
-poker: Bet.o Card.o ComputerPlayer.o Dealer.o Deck.o T2Display.o Game.o GameData.o Gui.o Hand.o T2HumanPlayer.o 	Layout.o 	MainDeck.o 	Player.o 	PlayerList.o 	Point.o 	Poker.o 	SmallDeck.o
+poker: Bet.o Card.o ComputerPlayer.o Dealer.o Deck.o T2Display.o Game.o GameData.o Gui.o Hand.o T2HumanPlayer.o 	Layout.o 	MainDeck.o 	Player.o 	PlayerList.o 	Point.o 	T2Poker.o 	SmallDeck.o
 
 Bet.o: Bet.cpp Bet.h
 	$(CC) $(CFLAGS) Bet.cpp -o ../Objects/Bet.o
@@ -56,8 +56,8 @@ PlayerList.o: PlayerList.cpp PlayerList.h
 Point.o: Point.cpp Point.h
 	$(CC) $(CFLAGS) Point.cpp -o ../Objects/Point.o
 
-Poker.o: Poker.cpp
-	$(CC) $(CFLAGS) Poker.cpp -o ../Objects/Poker.o
+T2Poker.o: T2Poker.cpp
+	$(CC) $(CFLAGS) T2Poker.cpp -o ../Objects/T2Poker.o
 
 SmallDeck.o: SmallDeck.cpp SmallDeck.h
 	$(CC) $(CFLAGS) SmallDeck.cpp -o ../Objects/SmallDeck.o
