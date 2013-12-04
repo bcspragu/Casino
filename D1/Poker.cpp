@@ -464,3 +464,15 @@ void Poker::runGame(GameObject *game) {
 	game->cash = m_HumanPlayer.getMoney();
 	game->D1Timer.checkOut();
 }
+
+void Poker::mostlyRedraw(int sig) {
+	GAME_DISPLAY.handleResize(sig);
+	GAME_DISPLAY.eraseBox(0, 0, GAME_DISPLAY.getCols(), GAME_DISPLAY.getLines());
+    for (int i = 0; i < (int)m_Players.size(); i++) {
+        if (!m_Players[i]->folded()) {
+            updateHand(m_Players[i]->getHand(), m_Players[i]->getFrame());
+        }
+    }
+	updateGameInfo();
+	setBottomBannerText("");
+}

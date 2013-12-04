@@ -9,6 +9,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <sstream>
+#include <csignal>
 #include "D1/Poker.h"
 
 using namespace std;
@@ -17,8 +18,10 @@ void initScreen(display gameDisplay);
 void runT1(GameObject* game);
 void runT2(GameObject* game);
 void runD1(GameObject* game);
+void redrawD1(int sig);
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2);
 T2Display T2GameDisplay;	//global used in T2
+Poker* poker;
 
 GameObject* game = new GameObject(500,0);
 
@@ -47,6 +50,7 @@ int main (void) {
       }else if(inHitBox(cardX,cardY,69,87,28,34)){
         runT2(game);
       }else if(inHitBox(cardX,cardY,87,106,28,34)){
+		signal(SIGWINCH, redrawD1);
         runD1(game);
       }
       else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
@@ -68,8 +72,13 @@ void runT2(GameObject* game) {
 }
 
 void runD1(GameObject* game) {
-	Poker poker;
-	poker.runGame(game);
+	poker = new Poker();
+	poker->runGame(game);
+	delete poker;
+}
+
+void redrawD1(int sig) {
+	poker->mostlyRedraw(sig);
 }
 
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){

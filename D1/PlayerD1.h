@@ -24,8 +24,8 @@ class PlayerD1 {
     	PlayerD1(int displayPos, int initialMoney, string name);
 	    virtual ~PlayerD1();
 
-        virtual int bet(int minimumBid, displayD1 gameDisplay) = 0;
-        virtual int discard(displayD1 gameDisplay) = 0;
+        virtual int bet(int minimumBid, displayD1 &gameDisplay) = 0;
+        virtual int discard(displayD1 &gameDisplay) = 0;
 
         HandD1* getHand();
         void setHand(HandD1 *newHand);
@@ -45,7 +45,7 @@ class PlayerD1 {
 	    void setDisplayPosition(int position);
 	    int getDisplayPosition();
 
-        int ante(int anteAmount, displayD1 gameDisplay);
+        int ante(int anteAmount, displayD1 &gameDisplay);
 	
 		string getName();
 };
