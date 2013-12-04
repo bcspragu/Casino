@@ -33,6 +33,7 @@ int T2Poker::runGame(GameObject* g) {
 
 	//pass values back to menu
 	g->cardsPlayed = game.getCardsPlayed();
-	
+	g->cash = game.getPlayerMoney();
+
 	return 0;
 }

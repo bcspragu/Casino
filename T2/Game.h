@@ -38,6 +38,7 @@ public:
 	PlayerList getPlayerList(){return playerList;}
 	SmallDeck getCommCards(){return *commCards;}
 	int getCardsPlayed() {return cardsPlayed;}
+	int getPlayerMoney() {return playerMoney;}
 
 private:
 
@@ -63,6 +64,7 @@ private:
 	bool showCompCards;		// If cards should be shown
 
 	int cardsPlayed;	//store cards played during game
+	int playerMoney;
 
 	// Variables for sending to the gui
 	GameData gameData; // For sending to the gui
