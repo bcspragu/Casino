@@ -1,5 +1,7 @@
 #include "PokerDriver.h"
 
+display GAME_DISPLAY;
+
 PokerDriver::PokerDriver() :
     m_InitialPlayers(4),
     m_InitialMoney(10000),
@@ -43,7 +45,7 @@ void PokerDriver::runAnte() {
     for (int i = 0; i < m_Players.size(); i++) {
         Player *player = m_Players.front();
 
-        if(player->ante(a) == Player::FOLD) {
+        if(player->ante(a, GAME_DISPLAY) == Player::FOLD) {
             continue;
         }
 
@@ -84,7 +86,7 @@ void PokerDriver::runBetting(int bettingCycle) {
         if (player->folded()) {
             callCounter++;
         } else {
-            bet = player->bet(minBet);
+            bet = player->bet(minBet, GAME_DISPLAY);
             cout << "Bet_SUCCESS" << endl;
             callCounter++;
 
@@ -122,7 +124,7 @@ void PokerDriver::runCardExchange() {
         Player *player = m_Players.front();
 
         if (!player->folded()) {
-            player->discard();
+            player->discard(GAME_DISPLAY);
 
             cout << "Discard_SUCCESS" << endl;
 
