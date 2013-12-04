@@ -6,6 +6,9 @@ all: poker
 
 poker: displayD1.o Frame.o CardD1.o HandD1.o DeckD1.o PlayerD1.o HumanPlayer.o AI.o Poker.o
 
+debug: CFLAGS += -g
+debug: poker
+
 AI.o: AI.cpp AI.h
 	$(CC) $(CFLAGS) AI.cpp -o AI.o
 

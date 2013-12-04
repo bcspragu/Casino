@@ -8,6 +8,9 @@ all: poker games
 
 poker: Advertisement.o display.o GameObject.o main.o Timer.o
 
+debug: CFLAGS += -g
+debug: poker debug_games
+
 Advertisement.o: Advertisement.cpp Advertisement.h
 	$(CC) $(CFLAGS) Advertisement.cpp -o Advertisement.o
 
@@ -24,7 +27,10 @@ Timer.o: Timer.cpp Timer.h
 	$(CC) $(CFLAGS) Timer.cpp -o Timer.o
 
 clean:
-	cd Objects; rm -f *.o
+	cd Objects; rm -f *.o;cd ../T1; rm -f *.o; cd ../T2; rm -f *.o; cd ../D1; rm -f *.o; cd ..; 
 
 games:
 	cd D1; make; cd ../T1; make; cd ../T2; make; cd ../Objects; cp ../T1/*.o .; cp ../T2/*.o .; cp ../D1/*.o .; cp ../*.o .; g++ *.o -o ../Casino -lncursesw
+
+debug_games:
+	cd D1; make debug; cd ../T1; make debug; cd ../T2; make debug; cd ../Objects; cp ../T1/*.o .; cp ../T2/*.o .; cp ../D1/*.o .; cp ../*.o .; g++ *.o -o ../Casino -lncursesw

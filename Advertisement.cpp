@@ -2,7 +2,7 @@
 
 Advertisement::Advertisement(void) {
 	path = "advertisement.txt";
-    srand(time(NULL));
+  srand(time(NULL));
 }
 
 Advertisement::~Advertisement(void) {};

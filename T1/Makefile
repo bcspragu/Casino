@@ -8,6 +8,9 @@ all: poker
 
 poker: CardT1.o Computer.o DealerT1.o DeckT1.o displayT1.o PlayerT1.o T1.o User.o
 
+debug: CFLAGS += -g
+debug: poker
+
 CardT1.o: CardT1.cpp CardT1.h
 	$(CC) $(CFLAGS) CardT1.cpp -o CardT1.o
 

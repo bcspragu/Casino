@@ -41,6 +41,7 @@ const char spades[]   = {0xE2, 0x99, 0xA0, 0};
  */
 class displayT1 {
 public:
+  int xOffset, yOffset;
 	/* "constructor"
 	* This function is called whenever a new object of class display is first
 	* created. Put initialization functions in here.
@@ -56,6 +57,7 @@ public:
 	int captureInput(void);
 	// stores new screensize on update
 	void handleResize(int sig);
+	void updateOffset(int x,int y);
 
 	/*
 	 * Drawing commands
@@ -70,6 +72,7 @@ public:
 	void bannerBottom(string bannerText);
 	// display banner text at the top of the screen
 	void bannerTop(string bannerText);
+	void bannerAd(string bannerText);
 
 	// get information about the display
 	int getCols(void) {return cols;}

@@ -159,7 +159,8 @@ void displayT1::handleResize(int sig) {
  */
 
 void displayT1::displayCard(int x, int y, int suit, int number, int printAtt) {
-
+  x += xOffset;
+  y += yOffset;
   // Ncurses drawing settings
   attron(COLOR_PAIR(1) | printAtt);
   // prevent draw if it off the screen
@@ -351,6 +352,8 @@ void displayT1::drawBox(int x, int y, int sizeX, int sizeY, int printAtt) {
   string strDraw;
   int ii;
   int yCount;
+  x += xOffset;
+  y += yOffset;
 
   // set the box setting colors on
   attron(COLOR_PAIR(5) | printAtt);    
@@ -455,3 +458,28 @@ void displayT1::bannerTop(string bannerText) {
   attroff(COLOR_PAIR(6) | A_REVERSE | A_BOLD);
 }
 
+void displayT1::updateOffset(int x, int y){
+  xOffset = x;
+  yOffset = y;
+}
+
+void displayT1::bannerAd(string bannerText) {
+// change to the banner draw settings
+	attron(COLOR_PAIR(8) | A_REVERSE);
+// checks if the banner string size is smaller than the width of the screen
+	if ((unsigned) cols > bannerText.size()) {
+		// moves the cursor to the bottom of the screen
+		move(getLines()-3, 0);
+		// prints out the banner text
+		printw("%s", bannerText.c_str());
+		// fill in extra space after the banner text
+		hline(' ', cols - bannerText.size());
+		// if banner string size is larger than width of screen
+	} else {
+		// clip the banner text so it doesn't wrap over to the next line
+		mvprintw(8, 0, "%s", (bannerText.substr(0, cols)).c_str());
+	}
+// turn off the draw colors
+	attroff(COLOR_PAIR(8) | A_REVERSE);
+	move(0, lines - 1);
+}

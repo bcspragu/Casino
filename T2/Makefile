@@ -8,6 +8,9 @@ all: poker
 
 poker: Bet.o Card.o ComputerPlayer.o Dealer.o Deck.o T2Display.o Game.o GameData.o Gui.o Hand.o T2HumanPlayer.o 	Layout.o 	MainDeck.o 	Player.o 	PlayerList.o 	Point.o 	T2Poker.o 	SmallDeck.o
 
+debug: CFLAGS += -g
+debug: poker
+
 Bet.o: Bet.cpp Bet.h
 	$(CC) $(CFLAGS) Bet.cpp -o Bet.o
 

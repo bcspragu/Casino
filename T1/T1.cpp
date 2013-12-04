@@ -25,7 +25,7 @@
 // Signal Subroutine for Window Resize
 static void detectResize (int sig); 
 // stub artifact for what the game does when the screen resizes
-void stub_PrintResize(void); 
+void resizeT1(void); 
 
 std::map<string,int> longestStrings;
 // The gameDisplay object is global, because the static signal handler object
@@ -36,7 +36,6 @@ stringstream messageString;
 
 int keynew = 0;
 int bet = 0;
-
 char key;
 char key2;
 int cardX = 0;
@@ -48,6 +47,7 @@ bool onGoing = true;
  */
 void T1::runGame(GameObject* g)
 {
+
   signal(SIGWINCH, detectResize); // enable the window resize signal
 
   // Player 1
@@ -687,22 +687,19 @@ void detectResize(int sig) {
   // re-enable the interrupt for a window resize
   signal(SIGWINCH, detectResize);
   /*INSERT YOUR OWN SCREEN UPDATE CODE instead of stub_PrintResize*/
-  stub_PrintResize();
+  resizeT1();
 }
 
 /*
  * This is a simple stub that should be replaced with what the game does
  * when the screen resizes. 
  */
-void stub_PrintResize(void) {
+void resizeT1(void) {
   // gets the new screen size
   int cols = gameDisplay.getCols();
   int lines = gameDisplay.getLines();
-  // setups a message stream
-  stringstream messageString;
-  messageString << "Terminal is " << cols << "x" << lines;
-  // prints out the information of the new screen size in a top banner
-  gameDisplay.bannerTop(messageString.str());
+  //game is 90x30, roughly
+  gameDisplay.updateOffset(cols/2-45,lines/2-15);
 }
 
 void T1::setText(string target, string text){
