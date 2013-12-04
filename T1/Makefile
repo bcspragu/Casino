@@ -11,6 +11,9 @@ poker: CardT1.o Computer.o DealerT1.o DeckT1.o displayT1.o PlayerT1.o T1.o User.
 debug: CFLAGS += -g
 debug: poker
 
+standalone:
+	g++ CardT1.cpp Computer.cpp DealerT1.cpp DeckT1.cpp displayT1.cpp PlayerT1.cpp StandaloneDriver.cpp User.cpp -o standaloneT1 $(LFLAGS)
+
 CardT1.o: CardT1.cpp CardT1.h
 	$(CC) $(CFLAGS) CardT1.cpp -o CardT1.o
 
