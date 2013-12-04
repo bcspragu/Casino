@@ -70,7 +70,7 @@ void Poker::removePlayer(int position) {
     GAME_DISPLAY.eraseBox(frame.getX(), frame.getY(), frame.getWidth(), frame.getHeight());
 }
 
-void Poker::drawHand(Hand *hand, bool hidden, Frame *frame) {
+void Poker::drawHand(HandD1 *hand, bool hidden, Frame *frame) {
     int x = frame->getX(), y = frame->getY();
 
     if (hidden) { //top player
@@ -86,7 +86,7 @@ void Poker::drawHand(Hand *hand, bool hidden, Frame *frame) {
     }
 }
 
-void Poker::updateHand(Hand *hand, Frame *frame) {
+void Poker::updateHand(HandD1 *hand, Frame *frame) {
     if (hand != NULL) {
         GAME_DISPLAY.eraseBox(frame->getX(), frame->getY(), frame->getWidth(), frame->getHeight());
         drawHand(hand, false, frame);
@@ -163,7 +163,7 @@ void Poker::runDeal() {
         Card *c3 = m_Deck.drawCard();
         Card *c4 = m_Deck.drawCard();
         Card *c5 = m_Deck.drawCard();
-        m_Players[i]->setHand( new Hand(c1, c2, c3, c4, c5) );
+        m_Players[i]->setHand( new HandD1(c1, c2, c3, c4, c5) );
 
         drawHand(NULL, true, m_Players[i]->getFrame());
     }
@@ -376,7 +376,7 @@ void Poker::finalizeRound() {
         }
     }
 
-    Hand *hand;
+    HandD1 *hand;
     for (int i = 0; i < (int)m_Players.size(); i++) {
         m_Players[i]->setFolded(false);
         removePlayer(m_Players[i]->getDisplayPosition());

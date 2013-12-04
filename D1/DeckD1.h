@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Hand.h"
+#include "HandD1.h"
 #include "Card.h"
 #include <vector>
 #include <algorithm>
 
-class Deck
+class DeckD1
 {
 public:
-    Deck();
-    ~Deck();
+    DeckD1();
+    ~DeckD1();
     void discardCard(Card *c1);
     void shuffle();
-    Hand* dealHand();
+    HandD1* dealHand();
     Card* drawCard();
     int cardsRemaining();
     int cardsDiscarded();

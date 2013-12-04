@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Hand.h"
 #include "displayD1.h"
+#include "HandD1.h"
 #include <string>
 
 class Player {
@@ -11,7 +11,7 @@ class Player {
         int money;
         int moneyInPot;
         bool hasFolded;
-        Hand *hand;
+        HandD1 *hand;
         Frame *frame;
 		string playerName;
 
@@ -27,8 +27,8 @@ class Player {
         virtual int bet(int minimumBid, displayD1 gameDisplay) = 0;
         virtual int discard(displayD1 gameDisplay) = 0;
 
-        Hand* getHand();
-        void setHand(Hand *newHand);
+        HandD1* getHand();
+        void setHand(HandD1 *newHand);
 
         int getMoney();
         int getMoneyInPot();
