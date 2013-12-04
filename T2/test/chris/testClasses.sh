@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd HumanPlayer_Driver_and_Stubs
-make test
-cd ..
+#cd HumanPlayer_Driver_and_Stubs
+#make test
+#cd ..
 cd Player_Driver_and_Stubs
 make test
 cd ..
@@ -12,9 +12,9 @@ make test
 echo
 ./test
 echo
-cd ..
-cd HumanPlayer_Driver_and_Stubs
-./test
+#cd ..
+#cd HumanPlayer_Driver_and_Stubs
+#./test
 echo
 cd ..
 cd Player_Driver_and_Stubs
