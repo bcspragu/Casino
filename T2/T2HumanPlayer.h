@@ -19,7 +19,6 @@ class T2HumanPlayer : public Player {
 public:
 	T2HumanPlayer(int num, Gui gameGui, int startMoney);
 	Bet makeBet(SmallDeck comm, int minBet, GameState state);
-	bool isHuman() {return true;}
 private:
 	Gui gui;
 };
