@@ -5,10 +5,10 @@
 #include "CardT1.h"
 
 
-class Deck {
+class DeckT1 {
   public:
-    Deck();
-    ~Deck(void);
+    DeckT1();
+    ~DeckT1(void);
     std::vector<CardT1> cards;
     void shuffle();
     CardT1 dealCard();

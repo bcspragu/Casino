@@ -7,9 +7,9 @@
 
 class Dealer;
 
-class Player {
+class PlayerT1 {
   public:
-    Player(int startingAmount);
+    PlayerT1(int startingAmount);
     std::vector<CardT1> hand;
     int wallet;
     int ID;

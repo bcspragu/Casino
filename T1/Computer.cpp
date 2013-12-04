@@ -11,7 +11,7 @@
 using std::cout;
 using std::endl;
 
-Computer::Computer(int startingAmount) : Player(startingAmount) {
+Computer::Computer(int startingAmount) : PlayerT1(startingAmount) {
   wallet = startingAmount;
   lastMove = "Waiting";
 }

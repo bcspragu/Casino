@@ -3,9 +3,9 @@
 
 #include <vector>
 #include "SuitValue.h"
-#include "Deck.h"
+#include "DeckT1.h"
 
-class Player;
+class PlayerT1;
 class User;
 class CardT1;
 class Computer; 
@@ -15,22 +15,22 @@ const int largeBlind = 50;
 class Dealer {
   public:
     Dealer();
-    Deck deck;
+    DeckT1 deck;
     std::vector<CardT1> community;
     int pot;
     int betValue;
     int smallBlindLoc;
     int largeBlindLoc;
     int numPlayers;
-    std::vector<Player*> determineWinner();
-    std::vector<Player*> players;
-    std::vector<Player*> currentRound;
+    std::vector<PlayerT1*> determineWinner();
+    std::vector<PlayerT1*> players;
+    std::vector<PlayerT1*> currentRound;
     void updateValuesOnScreen();
     void dealHands();
     void dealFlop();
     void dealRiver();
     void dealTurn();
-    void kick(Player playerToKick);
+    void kick(PlayerT1 playerToKick);
     void startGame();
     void endGame();
     void restartGame();
@@ -55,12 +55,12 @@ class Dealer {
     static int scoreHand(std::vector<CardT1> hand);
     int scoreBestHand(std::vector<CardT1> hand);
     std::vector<CardT1> bestHand(std::vector<CardT1> hand);
-    Player* nextPlayer(std::vector<Computer> computers, User* user);
+    PlayerT1* nextPlayer(std::vector<Computer> computers, User* user);
   private:
     std::vector<CardT1> fiveCardHand(std::vector<CardT1> sevenCardHand, int index1, int index2);
     void roundOfBetting(int offset);
     void updateBet();
-    int playersStillIn(std::vector<Player*> current);
+    int playersStillIn(std::vector<PlayerT1*> current);
 };
 
 #endif

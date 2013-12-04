@@ -149,7 +149,7 @@ Dealer::Dealer(){
     players.back()->ID = i+1;
   }
 
-  std::vector<Player*>::iterator pitr;
+  std::vector<PlayerT1*>::iterator pitr;
 
   smallBlindLoc = -1;
   //Game loop
@@ -207,7 +207,7 @@ Dealer::Dealer(){
     dealRiver();
     roundOfBetting(0);
 
-    std::vector<Player*> winners = determineWinner();
+    std::vector<PlayerT1*> winners = determineWinner();
     stringstream win_strm;
     string win_str = "Player(s) ";
     for(pitr = winners.begin(); pitr != winners.end(); ++pitr){
@@ -248,7 +248,7 @@ void Dealer::dealHands(){
   gameDisplay.displayCard(62,16,0,0, A_BOLD);
   hideAllCards();
 
-  std::vector<Player*>::iterator pitr;
+  std::vector<PlayerT1*>::iterator pitr;
   //Clear out each user's hand, then deal them a new one
   for(pitr = players.begin(); pitr != players.end(); ++pitr){
     if((*pitr) != NULL){
@@ -273,7 +273,7 @@ void Dealer::updateValuesOnScreen(){
   char tmpstr[21];
   string move;
   string location;
-  std::vector<Player*>::iterator pitr;
+  std::vector<PlayerT1*>::iterator pitr;
   int index = 1;
 
   for(pitr = players.begin(); pitr != players.end(); ++pitr){
@@ -543,7 +543,7 @@ Move User::getMove(Dealer* d){
 }
 
 void Dealer::hideAllCards(){
-  std::vector<Player*>::iterator pitr;
+  std::vector<PlayerT1*>::iterator pitr;
   for(pitr = players.begin(); pitr != players.end(); ++pitr){
     if((*pitr) != NULL){
       int suit1 = 0;
@@ -584,7 +584,7 @@ void Dealer::hideAllCards(){
 }
 
 void Dealer::showAllCards(){
-  std::vector<Player*>::iterator pitr;
+  std::vector<PlayerT1*>::iterator pitr;
   for(pitr = players.begin(); pitr != players.end(); ++pitr){
     if((*pitr) != NULL && (*pitr)->lastMove != "Fold"){
       int suit1 = (**pitr).hand.front().suit+1;
@@ -648,7 +648,7 @@ void Dealer::showAllCards(){
   }
 }
 
-void Player::updateWallet(){
+void PlayerT1::updateWallet(){
   const char* move = lastMove.c_str();
   char money[10];
   sprintf(money,"$%d",wallet);
@@ -789,7 +789,7 @@ void Dealer::roundOfBetting(int handOffset){
   bool allSet = false;
   
   //Start by setting everyone's contribution to the current round of betting to zero
-  std::vector<Player*>::iterator pitr;
+  std::vector<PlayerT1*>::iterator pitr;
   for(pitr = players.begin(); pitr != players.end(); ++pitr){
     if((*pitr) != NULL){
       (**pitr).currentContribution = 0;
@@ -804,7 +804,7 @@ void Dealer::roundOfBetting(int handOffset){
     for(int i = 0; i < currentRound.size(); i++){
       int index = (smallBlindLoc+handOffset+i) % currentRound.size();
       if(currentRound[index] != NULL){
-        Player* player = currentRound[index];
+        PlayerT1* player = currentRound[index];
         if(!(player->allIn)){
           Move move = player->getMove(this);
           if(move == RAISE){

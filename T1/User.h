@@ -1,9 +1,9 @@
 #ifndef USER_H
 #define USER_H
 
-#include "Player.h"
+#include "PlayerT1.h"
 
-class User: public Player {
+class User: public PlayerT1 {
   public:
     User(int startingAmount);
     Move getMove(Dealer* d);
