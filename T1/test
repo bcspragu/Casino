@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd ~/Projects/ece373/P1/Test
-g++ *.cpp -o test
-./test
+cd Test
+g++ *.cpp -o test_ex
+./test_ex

@@ -37,3 +37,9 @@ User.o: User.cpp User.h
 
 clean:
 	rm -f *.o
+
+test: .FORCE
+
+.FORCE:
+	cd Test; g++ *.cpp -o testT1; ./testT1;
+

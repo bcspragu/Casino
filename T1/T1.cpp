@@ -949,8 +949,70 @@ void redrawEverything(){
   gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
   T1::setText("B32",b32);
 
+  gameDisplay.drawBox(46, 23, 15, 3, 0);    // Money in current bet cost
+
   dealer->updateValuesOnScreen();
   dealer->hideAllCards();
+
+  std::vector<CardT1>::iterator citr;
+  int i = 0;
+  int x,y;
+  for(citr = dealer->community.begin(); citr != dealer->community.end(); ++citr){
+    switch(i){
+      case 0:
+        x = 38;
+        y = 16;
+        break;
+      case 1:
+        x = 44;
+        y = 16;
+        break;
+      case 2:
+        x = 50;
+        y = 16;
+        break;
+      case 3:
+        x = 56;
+        y = 16;
+        break;
+      case 4:
+        x = 62;
+        y = 16;
+        break;
+    }
+    if(&citr != NULL){
+      gameDisplay.displayCard(x,y,(*citr).suit+1,(*citr).value+2, A_BOLD);
+    }else{
+      gameDisplay.displayCard(x,y,0,0, A_BOLD);
+    }
+    i++;
+  }
+  while(i < 5){
+    switch(i){
+      case 0:
+        x = 38;
+        y = 16;
+        break;
+      case 1:
+        x = 44;
+        y = 16;
+        break;
+      case 2:
+        x = 50;
+        y = 16;
+        break;
+      case 3:
+        x = 56;
+        y = 16;
+        break;
+      case 4:
+        x = 62;
+        y = 16;
+        break;
+    }
+    gameDisplay.displayCard(x,y,0,0, A_BOLD);
+    i++;
+  }
 }
 
 bool hit(int cardX, int cardY, int x1, int x2, int y1, int y2){
