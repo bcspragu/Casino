@@ -384,7 +384,7 @@ void Gui::update(GameData data, int status) {
 
 	T2GameDisplay.bannerTop(ss.str());
 
-	sleep(secs);
+	sleep(sec);
 
 }
 

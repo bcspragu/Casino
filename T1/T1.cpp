@@ -19,6 +19,12 @@
 #include <cstdlib>
 #include <sstream>
 
+string b11 = "Check/Call";
+string b12 = "Start Game";
+string b21 = "Raise";
+string b22 = "All In";
+string b31 = "Fold";
+string b32 = "Quit";
 /* No Header file for this example driver artifact
  * function declaration here instead.
  */
@@ -45,6 +51,7 @@ char key2;
 int cardX = 0;
 int cardY = 0;
 bool onGoing = true;
+bool duringHand = false;
 /*
  * This is the main function that starts the driver artifact.
  * This function demonstrates some of the abilities of the Display class
@@ -97,16 +104,22 @@ void T1::runGame(GameObject* g)
 
   gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
   T1::setText("B11","Check/Call");
+  b11 = "Check/Call";
   gameDisplay.drawBox(50, 35, 19, 6, 0);		// Bottom Left
   T1::setText("B12","Start Game");
+  b12 = "Start Game";
   gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
   T1::setText("B21","Raise");
+  b21 = "Raise";
   gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
   T1::setText("B22","All In");
+  b22 = "All In";
   gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
   T1::setText("B31","Fold");
+  b31 = "Fold";
   gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
   T1::setText("B32","Quit");
+  b32 = "Quit";
 
   //Draw blank community cards
   gameDisplay.displayCard(38,16,0,0, A_BOLD);
@@ -128,6 +141,7 @@ void T1::runGame(GameObject* g)
       //Start game
       if(hit(cardX,cardY,50,68,35,40)){
         T1::setText("B12","Playing");
+        b12 = "Playing";
         messageString.str("");
         messageString << "Playing";
         gameDisplay.bannerBottom(messageString.str());
@@ -138,10 +152,12 @@ void T1::runGame(GameObject* g)
       }
     }
   }
+  go->T1Timer.checkOut();
   gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
 }
 
 DealerT1::DealerT1(){
+  go->T1Timer.checkIn();
   dealer = this;
   pot = 0;
   numPlayers = 6;
@@ -204,6 +220,7 @@ DealerT1::DealerT1(){
     go->cash = players.front()->wallet;
     pot += smallBlind+largeBlind;
 
+    duringHand = true;
     roundOfBetting(2);
     dealFlop();
     roundOfBetting(0);
@@ -212,7 +229,7 @@ DealerT1::DealerT1(){
     dealRiver();
     roundOfBetting(0);
     gameDisplay.bannerAd(go->advertisement.getAd());
-
+    go->cardsPlayed += 2;
 
     std::vector<PlayerT1*> winners = determineWinner();
     stringstream win_strm;
@@ -230,6 +247,7 @@ DealerT1::DealerT1(){
     win_str += " won.";
     T1::setText("C",win_str);
     showAllCards();
+    duringHand = false;
   }
   if((*players.front()).wallet < largeBlind){
     //Game Over, you lose
@@ -571,6 +589,12 @@ void DealerT1::hideAllCards(){
         case 1:
           xpos = 35;
           ypos = 29;
+          if(duringHand){
+            suit1 = (**pitr).hand.front().suit+1;
+            value1 = (**pitr).hand.front().value+2;
+            suit2 = (**pitr).hand.back().suit+1;
+            value2 = (**pitr).hand.back().value+2;
+          }
           break;
         case 2:
           xpos = 10;
@@ -640,6 +664,7 @@ void DealerT1::showAllCards(){
   }
 
   T1::setText("B12","New Hand?");
+  b12 = "New Hand?";
   while(true){
     key = gameDisplay.captureInput();
     keynew = key - 48;
@@ -651,6 +676,7 @@ void DealerT1::showAllCards(){
       if(hit(cardX,cardY,50,68,35,40)){
         T1::setText("C","");
         T1::setText("B12","Playing");
+        b12 = "Playing";
         messageString.str("");
         messageString << "Playing";
         gameDisplay.bannerBottom(messageString.str());
@@ -886,6 +912,7 @@ void DealerT1::roundOfBetting(int handOffset){
 }
 
 void redrawEverything(){
+  // Player 1
   gameDisplay.drawBox(35, 33, 13, 3, 0);		// Money
   gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
 
@@ -909,11 +936,25 @@ void redrawEverything(){
   gameDisplay.drawBox(78, 23, 13, 3, 0);		// Money
   gameDisplay.drawBox(78, 25, 13, 3, 0);		// Last action
 
+  gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
+  T1::setText("B11",b11);
+  gameDisplay.drawBox(50, 35, 19, 6, 0);		// Bottom Left
+  T1::setText("B12",b12);
+  gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
+  T1::setText("B21",b21);
+  gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
+  T1::setText("B22",b22);
+  gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
+  T1::setText("B31",b31);
+  gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
+  T1::setText("B32",b32);
+
   dealer->updateValuesOnScreen();
+  dealer->hideAllCards();
 }
 
 bool hit(int cardX, int cardY, int x1, int x2, int y1, int y2){
-    return (cardX+gameDisplay.xOffset >= x1) && (cardX+gameDisplay.xOffset <= x2) && (cardY+gameDisplay.yOffset  >= y1) && (cardY+gameDisplay.yOffset  <= y2);
+    return (cardX-gameDisplay.xOffset >= x1) && (cardX-gameDisplay.xOffset <= x2) && (cardY-gameDisplay.yOffset  >= y1) && (cardY-gameDisplay.yOffset  <= y2);
 }
 
 void mvprint_with_offset(int ypos, int xpos, string str){
