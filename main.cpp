@@ -15,7 +15,7 @@
 
 using namespace std;
 
-void initScreen(display gameDisplay);
+void initScreen(display gDisplay);
 map<string,int> longStr;
 void setText(string target, string text);
 void runT1(GameObject* game);
@@ -27,10 +27,10 @@ T2Display T2GameDisplay;	//global used in T2
 Poker* poker;
 
 GameObject* game = new GameObject(500,0);
+display gDisplay;
 
 int main (void) {
 	//initial values
-  display gameDisplay;
 
   int keynew = 0;
   char key;
@@ -38,30 +38,30 @@ int main (void) {
   bool onGoing = true;
   int cardX, cardY;
   stringstream messageString;
-  initScreen(gameDisplay);
+  initScreen(gDisplay);
   while(onGoing){
-    key = gameDisplay.captureInput();
+    key = gDisplay.captureInput();
     keynew = key - 48;
     // if a mouse event occurred
     if (key == -1) {
       // record the location of the mouse event
-      cardX = gameDisplay.getMouseEventX();
-      cardY = gameDisplay.getMouseEventY();
+      cardX = gDisplay.getMouseEventX();
+      cardY = gDisplay.getMouseEventY();
       //Start game
       if(inHitBox(cardX,cardY,50,69,18,24)){
-        gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
+        gDisplay.eraseBox(0,0,gDisplay.getCols(),gDisplay.getLines());
         runT1(game);
-        initScreen(gameDisplay);
+        initScreen(gDisplay);
       }else if(inHitBox(cardX,cardY,69,87,18,24)){
-        gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
+        gDisplay.eraseBox(0,0,gDisplay.getCols(),gDisplay.getLines());
         runT2(game);
-        initScreen(gameDisplay);
+        initScreen(gDisplay);
       }else if(inHitBox(cardX,cardY,87,106,18,24)){
-        gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
+        gDisplay.eraseBox(0,0,gDisplay.getCols(),gDisplay.getLines());
         signal(SIGWINCH, redrawD1);
         runD1(game);
         signal(SIGWINCH, SIG_DFL);
-        initScreen(gameDisplay);
+        initScreen(gDisplay);
       }
       else if(inHitBox(cardX,cardY,69,87,24,30)){
         exit(0);
@@ -98,10 +98,10 @@ bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
     return (cardX >= x1) && (cardX <= x2) && (cardY >= y1) && (cardY <= y2);
 }
 
-void initScreen(display gameDisplay){
-  gameDisplay.eraseBox(0,0,gameDisplay.getCols(), gameDisplay.getLines());
+void initScreen(display gDisplay){
+  gDisplay.eraseBox(0,0,gDisplay.getCols(), gDisplay.getLines());
 
-  gameDisplay.drawBox(50, 15, 56, 3, 0);		// Top Left
+  gDisplay.drawBox(50, 15, 56, 3, 0);		// Top Left
 
   stringstream message;
 
@@ -116,13 +116,13 @@ void initScreen(display gameDisplay){
   t2 << game->T2Timer.getSecondsPlayed() << " seconds";
   d1 << game->D1Timer.getSecondsPlayed() << " seconds";
 
-  gameDisplay.drawBox(50, 18, 19, 6, 0);		// Top Left
+  gDisplay.drawBox(50, 18, 19, 6, 0);		// Top Left
   setText("B11","Texas Hold'em 1");
-  gameDisplay.drawBox(69, 18, 18, 6, 0);		// Top Middle
+  gDisplay.drawBox(69, 18, 18, 6, 0);		// Top Middle
   setText("B21","Texas Hold'em 2");
-  gameDisplay.drawBox(87, 18, 19, 6, 0);		// Top Right
+  gDisplay.drawBox(87, 18, 19, 6, 0);		// Top Right
   setText("B31","Five Card Draw");
-  gameDisplay.drawBox(69, 24, 18, 6, 0);		// Top Middle
+  gDisplay.drawBox(69, 24, 18, 6, 0);		// Top Middle
   setText("B22","Quit");
 
   setText("T1",t1.str());
