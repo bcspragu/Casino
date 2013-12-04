@@ -5,8 +5,7 @@ class GameObject;
 
 class T1{
   public:
-    T1();
-    void runGame(GameObject game);
+    void runGame(GameObject* game);
 };
 
 #endif

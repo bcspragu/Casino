@@ -11,6 +11,7 @@
 #include "DealerT1.h"
 #include "../GameObject.h"
 #include "User.h"
+#include "T1.h"
 #include "Computer.h"
 #include <signal.h>
 #include <ncursesw/ncurses.h>
@@ -30,7 +31,6 @@ std::map<string,int> longestStrings;
 // The gameDisplay object is global, because the static signal handler object
 // needs to access the dynamic object.
 displayT1 gameDisplay;
-GameObject* game;
 
 stringstream messageString;
 
@@ -46,9 +46,8 @@ void setText(string target, string text);
  * This is the main function that starts the driver artifact.
  * This function demonstrates some of the abilities of the Display class
  */
-int runGame(GameObject* g)
+void T1::runGame(GameObject* g)
 {
-  game = g;
   signal(SIGWINCH, detectResize); // enable the window resize signal
 
   // Player 1
@@ -134,8 +133,6 @@ int runGame(GameObject* g)
       }
     }
   }
-  return 0;
-
 }
 
 DealerT1::DealerT1(){

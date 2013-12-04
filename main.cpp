@@ -15,9 +15,6 @@ using namespace std;
 
 T2Display T2GameDisplay;	//global used in T2
 
-void runT2(int*, int*, Timer*);
-void runD1(GameObject game);
-
 GameObject game(500,0);
 
 int main (void) {
@@ -75,32 +72,10 @@ int main (void) {
 }
 
 void runT1(GameObject game){
-  T1 t1;
-  t1.runGame(game);
 }
 
 void runT2(GameObject game) {
-  //T2 t2;
-  //t2.runGame(game);
-	//string input= "T2/poker ";
-
-	//stringstream args;
-
-	//args << input;
-	//args << *playerBalance;	
-	
-	//cout << args.str() << endl;
-
-	//t2Timer->checkIn();	//start recording time played
-
-	////pass money to system call
-	//system(args.str().c_str());
-
-	//t2Timer->checkOut();	//stop recording time played
-
 }
 
 void runD1(GameObject game) {
-	Poker poker;
-	poker.runGame(&game);
 }
