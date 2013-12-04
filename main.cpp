@@ -17,11 +17,16 @@ void runT1(GameObject game);
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2);
 T2Display T2GameDisplay;	//global used in T2
 
-GameObject game(500,0);
+GameObject* game = new GameObject(500,0);
+
+void runT2(GameObject*);
+void runT1(GameObject*);
+void runD1(GameObject*);
 
 int main (void) {
 	//initial values
   display gameDisplay;
+
 	int initialBalance = 300;
 	int initialCards = 0;
 
@@ -31,7 +36,7 @@ int main (void) {
 
 	//create a time object to record time playing t2
 	Timer* t2Timer = new Timer();
-	//runT2(playerBalance, playedCards, t2Timer);
+
   gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
   T1::setText("B11","Texas Hold'em 1");
   gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
@@ -68,7 +73,9 @@ void runT1(GameObject game){
   t1.runGame(&game);
 }
 
-void runT2(GameObject game) {
+void runT2(GameObject* game) {
+    T2Poker t2;
+    t2.runGame(game);
 }
 
 void runD1(GameObject game) {
