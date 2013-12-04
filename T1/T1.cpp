@@ -134,11 +134,11 @@ void T1::runGame(GameObject* g)
         DealerT1 d;
         onGoing = false;
       }else if(hit(cardX,cardY,87,105,35,40)){
-        gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         return;
       }
     }
   }
+  gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
 }
 
 DealerT1::DealerT1(){
@@ -543,8 +543,14 @@ Move User::getMove(DealerT1* d){
         // Bottom Right
         // Quit
         else if(hit(cardX,cardY,87,105,35,40)){
-          gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
           onGoing = false;
+          gameDisplay.drawBox(35, 35, 13, 3, 0);		// Last action
+          mvprint_with_offset(36,36,"Fold");
+          messageString.str("");
+          messageString << "You Folded";
+          gameDisplay.bannerBottom(messageString.str());
+          lastMove = "Fold";
+          return FOLD;
         }
       }
     } 
