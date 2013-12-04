@@ -356,7 +356,7 @@ int Gui::getBetAmount() {
 void Gui::update(GameData data, int status) {
 
 	stringstream ss;
-	int time = 0;
+	unsigned int sec = 0;
 
 	//set layout and game data, and clear screen
 	gameData = data;
@@ -366,16 +366,16 @@ void Gui::update(GameData data, int status) {
 	case 0:	// No message or delay
 		break;
 	case 1:	// Dealing cards
-		time = 1;
+		sec = 1;
 		ss << "Dealing cards.";
 		break;
 	case 2: // A player's turn - show their bet
-		time = 15;
+		sec = 15;
 		ss << "Player " << gameData.getCurrent() << " "
 				<< gameData.getBet().print();
 		break;
 	case 3: // Show hands
-		time = 30;
+		sec = 30;
 		ss << "Round ended.";
 		break;
 	default:
@@ -384,23 +384,8 @@ void Gui::update(GameData data, int status) {
 
 	T2GameDisplay.bannerTop(ss.str());
 
-	delay(time);
+	sleep(secs);
 
-}
-
-void Gui::delay(int delayTime) {
-	char key;
-
-	if (delayTime >= 0) {
-		for (int i = 0; i < delayTime; i++) {
-			// calls the game display to capture some input
-			key = T2GameDisplay.captureInput();
-
-			// if a key was pressed
-			if (key == ' ')
-				return;
-		}
-	}
 }
 
 /*

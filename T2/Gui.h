@@ -10,6 +10,7 @@
 
 #include "Bet.h"
 #include "../Advertisement.h"
+ #include <unistd.h>
 
 class Bet;
 class GameData;
@@ -46,7 +47,6 @@ private:
 	static int userInputState;
 
 	// Functions for redrawing on resize
-	static void delay(int delayTime);
 	static void detectResize(int sig);
 	static void redraw();
 	static void drawCommon();
