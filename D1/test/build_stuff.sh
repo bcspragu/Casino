@@ -17,4 +17,5 @@ g++ Card.cpp -c
 g++ Hand.cpp -c
 g++ Deck.cpp -c
 g++ Player.cpp -c
+g++ AI.cpp -c
 
