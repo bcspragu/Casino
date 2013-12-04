@@ -369,7 +369,7 @@ void Poker::finalizeRound() {
     int input;
     while (1) {
         input = GAME_DISPLAY.captureInput();
-        if (input == 'c' || input == 'C') {
+        if (input == 'c' || input == 'C' || input == -1) {
             break;
         }
     }
@@ -396,7 +396,7 @@ void Poker::endGame(string endReason) {
     while (1) {
         input = GAME_DISPLAY.captureInput();
 
-        if (input == 'e' || input == 'E') {
+        if (input == 'e' || input == 'E' || input == -1) {
 			return;
         }
     }
