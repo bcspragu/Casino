@@ -17,7 +17,6 @@ T2Display T2GameDisplay;	//global used in T2
 
 void runT2(int*, int*, Timer*);
 void runD1(GameObject game);
-void setText(string target, string text);
 
 GameObject game(500,0);
 
@@ -35,18 +34,18 @@ int main (void) {
 	Timer* t2Timer = new Timer();
 	//runT2(playerBalance, playedCards, t2Timer);
 
-  gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
-  setText("B11","Check/Call");
-  gameDisplay.drawBox(50, 35, 19, 6, 0);		// Bottom Left
-  setText("B12","Start Game");
-  gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
-  setText("B21","Raise");
-  gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
-  setText("B22","All In");
-  gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
-  setText("B31","Fold");
-  gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
-  setText("B32","Quit");
+  //gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
+  //setText("B11","Check/Call");
+  //gameDisplay.drawBox(50, 35, 19, 6, 0);		// Bottom Left
+  //setText("B12","Start Game");
+  //gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
+  //setText("B21","Raise");
+  //gameDisplay.drawBox(69, 35, 18, 6, 0);		// Bottom Middle
+  //setText("B22","All In");
+  //gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
+  //setText("B31","Fold");
+  //gameDisplay.drawBox(87, 35, 19, 6, 0);		// Bottom Right
+  //setText("B32","Quit");
   int keynew = 0;
   char key;
   char key2;
@@ -104,75 +103,4 @@ void runT2(GameObject game) {
 void runD1(GameObject game) {
 	Poker poker;
 	poker.runGame(&game);
-}
-
-void setText(string target, string text){
-  int xpos,ypos;
-  //if(longestStrings[target] < text.length()){
-    //longestStrings[target] = text.length();
-  //}
-  if(target == "B11"){ //Box 1,1 top left
-    ypos = 30;
-    xpos = 55;
-  }else if(target == "B12"){ //Box 1,2 bottom left
-    ypos = 37;
-    xpos = 55;
-  }else if(target == "B21"){ //Box 2,1 top center
-    ypos = 30;
-    xpos = 75;
-  }else if(target == "B22"){ //Box 1,2 bottom center
-    ypos = 37;
-    xpos = 75;
-  }else if(target == "B31"){ //Box 3,1 top right
-    ypos = 30;
-    xpos = 94;
-  }else if(target == "B32"){ //Box 3,2 bottom right
-    ypos = 37;
-    xpos = 94;
-  }else if(target == "P1T"){ //Player 1 top box
-    ypos = 34;
-    xpos = 36;
-  }else if(target == "P1B"){ //Player 1 bottom box
-    ypos = 36;
-    xpos = 36;
-  }else if(target == "P2T"){ //Player 3 top box
-    ypos = 24;
-    xpos = 11;
-  }else if(target == "P2B"){ //Player 3 bottom box
-    ypos = 26;
-    xpos = 11;
-  }else if(target == "P3T"){ //Player 4 top box
-    ypos = 12;
-    xpos = 11;
-  }else if(target == "P3B"){ //Player 4 bottom box
-    ypos = 14;
-    xpos = 11;
-  }else if(target == "P4T"){ //Player 2 top box
-    ypos = 7;
-    xpos = 48;
-  }else if(target == "P4B"){ //Player 2 bottom box
-    ypos = 9;
-    xpos = 48;
-  }else if(target == "P5T"){ //Player 6 top box
-    ypos = 12;
-    xpos = 79;
-  }else if(target == "P5B"){ //Player 6 bottom box
-    ypos = 14;
-    xpos = 79;
-  }else if(target == "P6T"){ //Player 5 top box
-    ypos = 24;
-    xpos = 79;
-  }else if(target == "P6B"){ //Player 5 bottom box
-    ypos = 26;
-    xpos = 79;
-  }else if(target == "C"){ //Community header
-    ypos = 15;
-    xpos = 51;
-  }
-  //string spaceString = "";
-  //for(int i = 0; i < longestStrings[target]; i++){
-    //spaceString += " ";
-  //}
-  //mvprintw(ypos,xpos,spaceString.c_str());
-  mvprintw(ypos,xpos,text.c_str());
 }
