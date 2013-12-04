@@ -18,16 +18,14 @@
 using namespace std;
 
 extern T2Display T2GameDisplay;
-GameObject *game_object;
 
 int runGame(GameObject* g) {
-  game_object = g;
 	stringstream ss;
 
 	srand(time(NULL));
 
 	Game game;
-	if (game.startGame(game_object->cash)) {
+	if (game.startGame(g->cash)) {
 		while (true) {
 			if (game.playRound()) {
 				continue;
@@ -37,7 +35,7 @@ int runGame(GameObject* g) {
 			}
 		}
 	} else {
-		ss << "Current money: " << game_object->cash;
+		ss << "Current money: " << g->cash;
 	}
 
 	T2GameDisplay.eraseScreen(true);
