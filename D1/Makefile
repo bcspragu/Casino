@@ -15,9 +15,6 @@ CardD1.o: CardD1.cpp CardD1.h
 DeckD1.o: DeckD1.cpp DeckD1.h
 	$(CC) $(CFLAGS) DeckD1.cpp -o ../Objects/DeckD1.o
 
-DeckDriver.o: DeckDriver.cpp
-	$(CC) $(CFLAGS) DeckDriver.cpp -o ../Objects/DeckDriver.o
-
 displayD1.o: displayD1.cpp displayD1.h
 	$(CC) $(CFLAGS) displayD1.cpp -o ../Objects/displayD1.o
 
