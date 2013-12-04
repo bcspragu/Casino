@@ -11,7 +11,7 @@ AI::AI(int displayPos, int initialMoney, string name) : PlayerD1(displayPos, ini
 }
 
 
-int AI::bet(int minimumbid, displayD1 gameDisplay)
+int AI::bet(int minimumbid, displayD1 &gameDisplay)
 {
 	stringstream bannerText;
 
@@ -62,7 +62,7 @@ int AI::bet(int minimumbid, displayD1 gameDisplay)
     //return minimumbid; //basic functionality. Use this result for testing
 }
 
-int AI::discard(displayD1 gameDisplay)
+int AI::discard(displayD1 &gameDisplay)
 {
 	stringstream bannerText;
 
@@ -81,7 +81,7 @@ int AI::discard(displayD1 gameDisplay)
     return discardCount;
 }
 
-int AI::ante(int anteamount, displayD1 gameDisplay)
+int AI::ante(int anteamount, displayD1 &gameDisplay)
 {
 	stringstream bannerText;
 

@@ -13,7 +13,7 @@ HumanPlayer::HumanPlayer(int displayPos, int initialMoney, string name) : Player
 * remove them from the game. If they call, proceed normally.
 *  - Alex
 */
-int HumanPlayer::ante(int minimumAnte, displayD1 gameDisplay) {
+int HumanPlayer::ante(int minimumAnte, displayD1 &gameDisplay) {
     int input;
 
     stringstream bannerText;
@@ -57,7 +57,7 @@ int HumanPlayer::ante(int minimumAnte, displayD1 gameDisplay) {
  * returns the amount bid, unless the player folds, in which case Player::FOLD is returned
  */
 
-int HumanPlayer::bet(int minimumBet, displayD1 gameDisplay) {
+int HumanPlayer::bet(int minimumBet, displayD1 &gameDisplay) {
 	int currentBid = 0;
 	int input;
 
@@ -169,7 +169,7 @@ int HumanPlayer::bet(int minimumBet, displayD1 gameDisplay) {
  * Set the discard flag for each card the player wants to discard
  * Return the number of cards the player wants to discard
  */
-int HumanPlayer::discard(displayD1 gameDisplay) {
+int HumanPlayer::discard(displayD1 &gameDisplay) {
     int input;
     stringstream bannerText;
     bannerText << "Cards to discard: <Press ENTER or (d) when done>";
