@@ -15,11 +15,16 @@ using namespace std;
 
 T2Display T2GameDisplay;	//global used in T2
 
-GameObject game(500,0);
+GameObject* game = new GameObject(500,0);
+
+void runT2(GameObject*);
+void runT1(GameObject*);
+void runD1(GameObject*);
 
 int main (void) {
 	//initial values
   display gameDisplay;
+
 	int initialBalance = 300;
 	int initialCards = 0;
 
@@ -29,7 +34,7 @@ int main (void) {
 
 	//create a time object to record time playing t2
 	Timer* t2Timer = new Timer();
-	//runT2(playerBalance, playedCards, t2Timer);
+	//runT2(game);
 
   //gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
   //setText("B11","Check/Call");
@@ -74,7 +79,9 @@ int main (void) {
 void runT1(GameObject game){
 }
 
-void runT2(GameObject game) {
+void runT2(GameObject* game) {
+    T2Poker t2;
+    t2.runGame(game);
 }
 
 void runD1(GameObject game) {
