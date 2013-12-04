@@ -60,10 +60,10 @@ int main (void) {
         gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         signal(SIGWINCH, redrawD1);
         runD1(game);
-		signal(SIGWINCH, SIG_DFL);
+        signal(SIGWINCH, SIG_DFL);
         initScreen(gameDisplay);
       }
-      else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
+      else if(inHitBox(cardX,cardY,69,87,24,30)){
         exit(0);
       }
     }
@@ -101,12 +101,33 @@ bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
 void initScreen(display gameDisplay){
   gameDisplay.eraseBox(0,0,gameDisplay.getCols(), gameDisplay.getLines());
 
+  gameDisplay.drawBox(50, 15, 56, 3, 0);		// Top Left
+
+  stringstream message;
+
+  message << "Money: $" << game->cash;
+  message << "         Cards Played: " << game->cardsPlayed;
+
+  setText("DISP",message.str());
+  setText("AD",game->advertisement.getAd());
+
+  stringstream t1, t2, d1;
+  t1 << game->T1Timer.getSecondsPlayed() << " seconds";
+  t2 << game->T2Timer.getSecondsPlayed() << " seconds";
+  d1 << game->D1Timer.getSecondsPlayed() << " seconds";
+
+  setText("T1",t1.str());
+  setText("T2",t2.str());
+  setText("D1",d1.str());
+
   gameDisplay.drawBox(50, 18, 19, 6, 0);		// Top Left
   setText("B11","Texas Hold'em 1");
   gameDisplay.drawBox(69, 18, 18, 6, 0);		// Top Middle
   setText("B21","Texas Hold'em 2");
   gameDisplay.drawBox(87, 18, 19, 6, 0);		// Top Right
   setText("B31","Five Card Draw");
+  gameDisplay.drawBox(69, 24, 18, 6, 0);		// Top Middle
+  setText("B22","Quit");
 }
 
 void setText(string target, string text){
@@ -117,60 +138,30 @@ void setText(string target, string text){
   if(target == "B11"){ //Box 1,1 top left
     ypos = 20;
     xpos = 52;
-  }else if(target == "B12"){ //Box 1,2 bottom left
-    ypos = 27;
-    xpos = 50;
   }else if(target == "B21"){ //Box 2,1 top center
     ypos = 20;
     xpos = 70;
-  }else if(target == "B22"){ //Box 1,2 bottom center
-    ypos = 27;
-    xpos = 70;
-  }else if(target == "B31"){ //Box 3,1 top right
+  }else if(target == "B31"){ //Box 2,1 top center
     ypos = 20;
     xpos = 89;
-  }else if(target == "B32"){ //Box 3,2 bottom right
-    ypos = 27;
-    xpos = 89;
-  }else if(target == "P1T"){ //Player 1 top box
-    ypos = 34;
-    xpos = 36;
-  }else if(target == "P1B"){ //Player 1 bottom box
-    ypos = 36;
-    xpos = 36;
-  }else if(target == "P2T"){ //Player 3 top box
-    ypos = 24;
-    xpos = 11;
-  }else if(target == "P2B"){ //Player 3 bottom box
+  }else if(target == "B22"){ //Box 1,2 bottom center
     ypos = 26;
-    xpos = 11;
-  }else if(target == "P3T"){ //Player 4 top box
-    ypos = 12;
-    xpos = 11;
-  }else if(target == "P3B"){ //Player 4 bottom box
-    ypos = 14;
-    xpos = 11;
-  }else if(target == "P4T"){ //Player 2 top box
-    ypos = 7;
-    xpos = 48;
-  }else if(target == "P4B"){ //Player 2 bottom box
-    ypos = 9;
-    xpos = 48;
-  }else if(target == "P5T"){ //Player 6 top box
-    ypos = 12;
-    xpos = 79;
-  }else if(target == "P5B"){ //Player 6 bottom box
-    ypos = 14;
-    xpos = 79;
-  }else if(target == "P6T"){ //Player 5 top box
-    ypos = 24;
-    xpos = 79;
-  }else if(target == "P6B"){ //Player 5 bottom box
-    ypos = 26;
-    xpos = 79;
-  }else if(target == "C"){ //Community header
-    ypos = 15;
+    xpos = 75;
+  }else if(target == "DISP"){ //Box 3,2 bottom right
+    ypos = 16;
     xpos = 51;
+  }else if(target == "AD"){ //Box 3,2 bottom right
+    ypos = 14;
+    xpos = 61;
+  }else if(target == "T1"){
+    ypos = 22;
+    xpos = 52;
+  }else if(target == "T2"){
+    ypos = 22;
+    xpos = 70;
+  }else if(target == "D1"){
+    ypos = 22;
+    xpos = 89;
   }
   string spaceString = "";
   for(int i = 0; i < longStr[target]; i++){
