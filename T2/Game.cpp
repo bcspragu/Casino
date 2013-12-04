@@ -55,7 +55,7 @@ Game::~Game() {
  *
  */
 bool Game::startGame(int startMoney) {
-
+	playerMoney = startMoney;
 	// Make sure user wants to start a new game
 	if (gui.startGui()) {
 
