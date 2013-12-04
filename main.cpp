@@ -1,7 +1,7 @@
 #include "display.h"
 #include "Timer.h"
 #include "T1/T1.h"
-#include "T2/Poker.cpp"
+#include "T2/T2Poker.cpp"
 #include "T2/T2Display.h"
 #include "GameObject.h"
 #include <iostream>
