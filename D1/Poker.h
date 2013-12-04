@@ -50,6 +50,8 @@ class Poker {
 
 		void runGame(GameObject *game);
 
+		void mostlyRedraw(int sig);
+
     protected:
     private:
         void initializeDisplay();

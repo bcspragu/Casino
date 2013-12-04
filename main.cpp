@@ -7,18 +7,24 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <map>
 #include <cstdlib>
 #include <sstream>
+#include <csignal>
 #include "D1/Poker.h"
 
 using namespace std;
 
 void initScreen(display gameDisplay);
+map<string,int> longStr;
+void setText(string target, string text);
 void runT1(GameObject* game);
 void runT2(GameObject* game);
 void runD1(GameObject* game);
+void redrawD1(int sig);
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2);
 T2Display T2GameDisplay;	//global used in T2
+Poker* poker;
 
 GameObject* game = new GameObject(500,0);
 
@@ -43,11 +49,18 @@ int main (void) {
       cardY = gameDisplay.getMouseEventY();
       //Start game
       if(inHitBox(cardX,cardY,50,69,28,34)){
+        gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         runT1(game);
+        initScreen(gameDisplay);
       }else if(inHitBox(cardX,cardY,69,87,28,34)){
+        gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         runT2(game);
+        initScreen(gameDisplay);
       }else if(inHitBox(cardX,cardY,87,106,28,34)){
+        gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
+        signal(SIGWINCH, redrawD1);
         runD1(game);
+        initScreen(gameDisplay);
       }
       else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
         exit(0);
@@ -63,23 +76,100 @@ void runT1(GameObject* game){
 }
 
 void runT2(GameObject* game) {
-    T2Poker t2;
-    t2.runGame(game);
+  T2Poker t2;
+  t2.runGame(game);
 }
 
 void runD1(GameObject* game) {
-	Poker poker;
-	poker.runGame(game);
+	poker = new Poker();
+	poker->runGame(game);
+	delete poker;
+}
+
+void redrawD1(int sig) {
+	poker->mostlyRedraw(sig);
 }
 
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
     return (cardX >= x1) && (cardX <= x2) && (cardY >= y1) && (cardY <= y2);
 }
+
 void initScreen(display gameDisplay){
   gameDisplay.drawBox(50, 28, 19, 6, 0);		// Top Left
-  T1::setText("B11","Texas Hold'em 1");
+  setText("B11","Texas Hold'em 1");
   gameDisplay.drawBox(69, 28, 18, 6, 0);		// Top Middle
-  T1::setText("B21","Texas Hold'em 2");
+  setText("B21","Texas Hold'em 2");
   gameDisplay.drawBox(87, 28, 19, 6, 0);		// Top Right
-  T1::setText("B31","Five Card Draw");
+  setText("B31","Five Card Draw");
+}
+
+void setText(string target, string text){
+  int xpos,ypos;
+  if(longStr[target] < text.length()){
+    longStr[target] = text.length();
+  }
+  if(target == "B11"){ //Box 1,1 top left
+    ypos = 30;
+    xpos = 55;
+  }else if(target == "B12"){ //Box 1,2 bottom left
+    ypos = 37;
+    xpos = 55;
+  }else if(target == "B21"){ //Box 2,1 top center
+    ypos = 30;
+    xpos = 75;
+  }else if(target == "B22"){ //Box 1,2 bottom center
+    ypos = 37;
+    xpos = 75;
+  }else if(target == "B31"){ //Box 3,1 top right
+    ypos = 30;
+    xpos = 94;
+  }else if(target == "B32"){ //Box 3,2 bottom right
+    ypos = 37;
+    xpos = 94;
+  }else if(target == "P1T"){ //Player 1 top box
+    ypos = 34;
+    xpos = 36;
+  }else if(target == "P1B"){ //Player 1 bottom box
+    ypos = 36;
+    xpos = 36;
+  }else if(target == "P2T"){ //Player 3 top box
+    ypos = 24;
+    xpos = 11;
+  }else if(target == "P2B"){ //Player 3 bottom box
+    ypos = 26;
+    xpos = 11;
+  }else if(target == "P3T"){ //Player 4 top box
+    ypos = 12;
+    xpos = 11;
+  }else if(target == "P3B"){ //Player 4 bottom box
+    ypos = 14;
+    xpos = 11;
+  }else if(target == "P4T"){ //Player 2 top box
+    ypos = 7;
+    xpos = 48;
+  }else if(target == "P4B"){ //Player 2 bottom box
+    ypos = 9;
+    xpos = 48;
+  }else if(target == "P5T"){ //Player 6 top box
+    ypos = 12;
+    xpos = 79;
+  }else if(target == "P5B"){ //Player 6 bottom box
+    ypos = 14;
+    xpos = 79;
+  }else if(target == "P6T"){ //Player 5 top box
+    ypos = 24;
+    xpos = 79;
+  }else if(target == "P6B"){ //Player 5 bottom box
+    ypos = 26;
+    xpos = 79;
+  }else if(target == "C"){ //Community header
+    ypos = 15;
+    xpos = 51;
+  }
+  string spaceString = "";
+  for(int i = 0; i < longStr[target]; i++){
+    spaceString += " ";
+  }
+  mvprintw(ypos,xpos,spaceString.c_str());
+  mvprintw(ypos,xpos,text.c_str());
 }

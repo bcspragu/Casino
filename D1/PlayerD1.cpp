@@ -71,7 +71,7 @@ int PlayerD1::getDisplayPosition() {
     return displayPosition;
 }
 
-int PlayerD1::ante(int anteAmount, displayD1 gameDisplay) {
+int PlayerD1::ante(int anteAmount, displayD1 &gameDisplay) {
     int ante = (money > anteAmount) ? anteAmount : money;
     money -= ante;
     moneyInPot += ante;
