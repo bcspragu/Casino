@@ -5,7 +5,7 @@
 #include <map>
 #include <cstring>
 #include "Dealer.h"
-#include "Player.h"
+#include "PlayerT1.h"
 #include "User.h"
 #include "Computer.h"
 #include "Move.h"
@@ -16,20 +16,20 @@ using std::endl;
 
 
 //A royal flush is just a straight flush from 10-ACE
-bool Dealer::royalFlush(std::vector<Card> hand){
+bool Dealer::royalFlush(std::vector<CardT1> hand){
   return straightFlush(hand) && highestValue(hand) == ACE;
 }
 
 //A straight flush is just a straight and a flush
-bool Dealer::straightFlush(std::vector<Card> hand){
+bool Dealer::straightFlush(std::vector<CardT1> hand){
   return straight(hand) && flush(hand); }
 
-  bool Dealer::fourOfAKind(std::vector<Card> hand){
+  bool Dealer::fourOfAKind(std::vector<CardT1> hand){
     //Map from Card value to the number of those cards you have
     std::map<Value, int> cardCounts;
 
     //Iterate over cards and initialize the map to zero at those values
-    std::vector<Card>::iterator itr;
+    std::vector<CardT1>::iterator itr;
     for(itr = hand.begin(); itr != hand.end(); ++itr){
       cardCounts[(*itr).value] = 0;
     }
@@ -49,12 +49,12 @@ bool Dealer::straightFlush(std::vector<Card> hand){
     return false;
   }
 
-Value Dealer::valueOfFourOfAKind(std::vector<Card> hand){
+Value Dealer::valueOfFourOfAKind(std::vector<CardT1> hand){
   //Map from Card value to the number of those cards you have
   std::map<Value, int> cardCounts;
 
   //Iterate over cards and initialize the map to zero at those values
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     cardCounts[(*itr).value] = 0;
   }
@@ -75,15 +75,15 @@ Value Dealer::valueOfFourOfAKind(std::vector<Card> hand){
   return TWO;
 }
 
-bool Dealer::fullHouse(std::vector<Card> hand){
+bool Dealer::fullHouse(std::vector<CardT1> hand){
   return threeOfAKind(hand) && pair(hand);
 }
 
-bool Dealer::flush(std::vector<Card> hand){
+bool Dealer::flush(std::vector<CardT1> hand){
   Suit target = hand.front().suit;
 
   //Iterate over cards and see if they all have the same sui
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     if((*itr).suit != target){
       return false;
@@ -92,12 +92,12 @@ bool Dealer::flush(std::vector<Card> hand){
   return true;
 }
 
-bool Dealer::straight(std::vector<Card> hand){
+bool Dealer::straight(std::vector<CardT1> hand){
   std::sort(hand.begin(),hand.end());
   Value lowest = hand.front().value;
   Value previous = lowest;
   //Iterate starting with the second card
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin()+1; itr != hand.end(); ++itr){
     //Those final conditions handle ACE as a low value
     if(((*itr).value - previous) != 1 && !(previous == FIVE && (*itr).value == ACE)){
@@ -109,12 +109,12 @@ bool Dealer::straight(std::vector<Card> hand){
   return true;
 }
 
-bool Dealer::threeOfAKind(std::vector<Card> hand){
+bool Dealer::threeOfAKind(std::vector<CardT1> hand){
   //Map from Card value to the number of those cards you have
   std::map<Value, int> cardCounts;
 
   //Iterate over cards and initialize the map to zero at those values
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     cardCounts[(*itr).value] = 0;
   }
@@ -134,12 +134,12 @@ bool Dealer::threeOfAKind(std::vector<Card> hand){
   return false;
 }
 
-Value Dealer::valueOfThreeOfAKind(std::vector<Card> hand){
+Value Dealer::valueOfThreeOfAKind(std::vector<CardT1> hand){
   //Map from Card value to the number of those cards you have
   std::map<Value, int> cardCounts;
 
   //Iterate over cards and initialize the map to zero at those values
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     cardCounts[(*itr).value] = 0;
   }
@@ -160,12 +160,12 @@ Value Dealer::valueOfThreeOfAKind(std::vector<Card> hand){
   return TWO;
 }
 
-bool Dealer::twoPair(std::vector<Card> hand){
+bool Dealer::twoPair(std::vector<CardT1> hand){
   //Map from Card value to the number of those cards you have
   std::map<Value, int> cardCounts;
 
   //Iterate over cards and initialize the map to zero at those values
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     cardCounts[(*itr).value] = 0;
   }
@@ -186,12 +186,12 @@ bool Dealer::twoPair(std::vector<Card> hand){
   return numPairs == 2;
 }
 
-Value Dealer::higherPair(std::vector<Card> hand){
+Value Dealer::higherPair(std::vector<CardT1> hand){
   //Map from Card value to the number of those cards you have
   std::map<Value, int> cardCounts;
 
   //Iterate over cards and initialize the map to zero at those values
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     cardCounts[(*itr).value] = 0;
   }
@@ -213,12 +213,12 @@ Value Dealer::higherPair(std::vector<Card> hand){
   return highestValue;
 }
 
-Value Dealer::lowerPair(std::vector<Card> hand){
+Value Dealer::lowerPair(std::vector<CardT1> hand){
   //Map from Card value to the number of those cards you have
   std::map<Value, int> cardCounts;
 
   //Iterate over cards and initialize the map to zero at those values
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     cardCounts[(*itr).value] = 0;
   }
@@ -239,12 +239,12 @@ Value Dealer::lowerPair(std::vector<Card> hand){
   return lowestValue;
 }
 
-bool Dealer::pair(std::vector<Card> hand){
+bool Dealer::pair(std::vector<CardT1> hand){
   //Map from Card value to the number of those cards you have
   std::map<Value, int> cardCounts;
 
   //Iterate over cards and initialize the map to zero at those values
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     cardCounts[(*itr).value] = 0;
   }
@@ -265,12 +265,12 @@ bool Dealer::pair(std::vector<Card> hand){
   return numPairs == 1;
 }
 
-Value Dealer::valueOfPair(std::vector<Card> hand){
+Value Dealer::valueOfPair(std::vector<CardT1> hand){
   //Map from Card value to the number of those cards you have
   std::map<Value, int> cardCounts;
 
   //Iterate over cards and initialize the map to zero at those values
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = hand.begin(); itr != hand.end(); ++itr){
     cardCounts[(*itr).value] = 0;
   }
@@ -291,12 +291,12 @@ Value Dealer::valueOfPair(std::vector<Card> hand){
   return TWO;
 }
 
-Value Dealer::highestValue(std::vector<Card> hand){
+Value Dealer::highestValue(std::vector<CardT1> hand){
   std::sort(hand.begin(),hand.end());
   return hand.back().value;
 }
 
-int Dealer::scoreHand(std::vector<Card> hand){
+int Dealer::scoreHand(std::vector<CardT1> hand){
   int primary = 0;
   int secondary = 0;
   int tertiary = 0;
@@ -354,8 +354,8 @@ int Dealer::scoreHand(std::vector<Card> hand){
   return primary*10000+secondary*100+tertiary;
 }
 
-int Dealer::scoreBestHand(std::vector<Card> hand){
-  std::vector<Card> moreThanFiveCardHand;
+int Dealer::scoreBestHand(std::vector<CardT1> hand){
+  std::vector<CardT1> moreThanFiveCardHand;
   moreThanFiveCardHand.insert(moreThanFiveCardHand.end(), hand.begin(), hand.end());
   moreThanFiveCardHand.insert(moreThanFiveCardHand.end(), community.begin(), community.end());
   int index1 = 0;
@@ -385,10 +385,10 @@ int Dealer::scoreBestHand(std::vector<Card> hand){
   return highestScore;
 }
 
-std::vector<Card> Dealer::bestHand(std::vector<Card> hand){
-  std::vector<Card> moreThanFiveCardHand;
-  std::vector<Card> highestHand;
-  std::vector<Card> tempHand;
+std::vector<CardT1> Dealer::bestHand(std::vector<CardT1> hand){
+  std::vector<CardT1> moreThanFiveCardHand;
+  std::vector<CardT1> highestHand;
+  std::vector<CardT1> tempHand;
   moreThanFiveCardHand.insert(moreThanFiveCardHand.end(), hand.begin(), hand.end());
   moreThanFiveCardHand.insert(moreThanFiveCardHand.end(), community.begin(), community.end());
   int index1 = 0;
@@ -423,9 +423,9 @@ std::vector<Card> Dealer::bestHand(std::vector<Card> hand){
 }
 
 
-std::vector<Player*> Dealer::determineWinner(){
-  std::vector<Player*> winners;
-  std::vector<Player*>::iterator itr;
+std::vector<PlayerT1*> Dealer::determineWinner(){
+  std::vector<PlayerT1*> winners;
+  std::vector<PlayerT1*>::iterator itr;
   int highestScore = 0;
   //Find the highest score
   for(itr = currentRound.begin(); itr != currentRound.end(); ++itr){
@@ -448,8 +448,8 @@ std::vector<Player*> Dealer::determineWinner(){
   return winners;
 }
 
-std::vector<Card> Dealer::fiveCardHand(std::vector<Card> largeHand, int i1, int i2){
-  std::vector<Card> newHand;
+std::vector<CardT1> Dealer::fiveCardHand(std::vector<CardT1> largeHand, int i1, int i2){
+  std::vector<CardT1> newHand;
   int length = largeHand.size();
   for(int i = 0; i < length; i++){
     if(i != i1 && i != i2){
@@ -459,9 +459,9 @@ std::vector<Card> Dealer::fiveCardHand(std::vector<Card> largeHand, int i1, int 
   return newHand;
 }
 
-int Dealer::playersStillIn(std::vector<Player*> current){
+int Dealer::playersStillIn(std::vector<PlayerT1*> current){
   int count = 0;
-  std::vector<Player*>::iterator itr;
+  std::vector<PlayerT1*>::iterator itr;
   for(itr = current.begin(); itr != current.end(); ++itr){
     if(*itr != NULL){
       count++;

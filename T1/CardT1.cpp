@@ -1,14 +1,14 @@
 #include <string>
-#include "Card.h"
+#include "CardT1.h"
 
 using std::string;
 
-Card::Card(Suit s, Value v){
+CardT1::CardT1(Suit s, Value v){
   suit = s;
   value = v;
 }
 
-Card::Card(string s){
+CardT1::CardT1(string s){
   string su;
   string va;
   va += s[0];
@@ -55,9 +55,9 @@ Card::Card(string s){
   }
 }
 
-Card::~Card(){}
+CardT1::~CardT1(){}
 
-Suit Card::suitFromInt(int i){
+Suit CardT1::suitFromInt(int i){
   Suit s;
   switch(i){
     case 0:
@@ -76,7 +76,7 @@ Suit Card::suitFromInt(int i){
   return s;
 }
 
-Value Card::valueFromInt(int i){
+Value CardT1::valueFromInt(int i){
   Value v;
   switch(i){
     case 0:
@@ -122,7 +122,7 @@ Value Card::valueFromInt(int i){
   return v;
 }
 
-string Card::cardString(){
+string CardT1::cardString(){
   string suitString;
   switch(suit){
     case HEARTS:
@@ -185,8 +185,8 @@ string Card::cardString(){
 }
 
 //Take the original cardString, and shorten it. ex King of Hearts = KH
-string Card::shortCardString(){
-  string cardString = Card::cardString();
+string CardT1::shortCardString(){
+  string cardString = CardT1::cardString();
   string shortString;
   int spaceCount = 0;
   string::iterator itr;
@@ -207,6 +207,6 @@ string Card::shortCardString(){
   return shortString;
 }
 
-bool Card::operator<(const Card &other) const {
+bool CardT1::operator<(const CardT1 &other) const {
   return value < other.value;
 }

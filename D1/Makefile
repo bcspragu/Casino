@@ -4,16 +4,16 @@ LFLAGS = -lncursesw
 
 all: poker
 
-poker: displayD1.o Frame.o Card.o Hand.o Deck.o Player.o HumanPlayer.o AI.o Poker.o
+poker: displayD1.o Frame.o CardD1.o HandD1.o DeckD1.o Player.o HumanPlayer.o AI.o Poker.o
 
 AI.o: AI.cpp AI.h
 	$(CC) $(CFLAGS) AI.cpp
 
-Card.o: Card.cpp Card.h
-	$(CC) $(CFLAGS) Card.cpp
+CardD1.o: CardD1.cpp CardD1.h
+	$(CC) $(CFLAGS) CardD1.cpp
 
-Deck.o: Deck.cpp Deck.h
-	$(CC) $(CFLAGS) Deck.cpp
+DeckD1.o: DeckD1.cpp DeckD1.h
+	$(CC) $(CFLAGS) DeckD1.cpp
 
 DeckDriver.o: DeckDriver.cpp
 	$(CC) $(CFLAGS) DeckDriver.cpp
@@ -24,8 +24,8 @@ displayD1.o: displayD1.cpp displayD1.h
 Frame.o: Frame.cpp Frame.h
 	$(CC) $(CFLAGS) Frame.cpp
 
-Hand.o: Hand.cpp Hand.h
-	$(CC) $(CFLAGS) Hand.cpp
+HandD1.o: HandD1.cpp HandD1.h
+	$(CC) $(CFLAGS) HandD1.cpp
 
 HumanPlayer.o: HumanPlayer.cpp HumanPlayer.h
 	$(CC) $(CFLAGS) HumanPlayer.cpp

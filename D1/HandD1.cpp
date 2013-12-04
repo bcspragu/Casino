@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
-#include "Hand.h"
-#include "Card.h"
+#include "HandD1.h"
+#include "CardD1.h"
 
 using namespace std;
 
-Hand::Hand(Card *c1, Card *c2, Card *c3, Card *c4, Card *c5){
+HandD1::HandD1(CardD1 *c1, CardD1 *c2, CardD1 *c3, CardD1 *c4, CardD1 *c5){
 	for(int i = 0; i < 13; i++)		// Initializes ranks array
 		ranks[i] = 0;
 
@@ -23,7 +23,7 @@ Hand::Hand(Card *c1, Card *c2, Card *c3, Card *c4, Card *c5){
 	}
 }
 
-bool Hand::isHigherScore(int secondScore[15]){
+bool HandD1::isHigherScore(int secondScore[15]){
 	int *score = getScore();
 
 	// int temp[] = {0,0,0,0,0,0,0,0,0,0,6,5,4,3,2};
@@ -38,8 +38,8 @@ bool Hand::isHigherScore(int secondScore[15]){
 	return true;
 }
 
-Card* Hand::exchange(Card* c, int placeOfCard){
-	Card* temp = hand[placeOfCard];
+CardD1* HandD1::exchange(CardD1* c, int placeOfCard){
+	CardD1* temp = hand[placeOfCard];
 	hand[placeOfCard] = c;
 
 	for(int i = 0; i < 13; i++)				// The following is a repeat of the constructor
@@ -55,7 +55,7 @@ Card* Hand::exchange(Card* c, int placeOfCard){
 	// From 0 -> 14 this is what each element of the array stands for
 	// Straight Flush, 4 of a Kind, Full House 3-pair, Full House 2-pair, Flush High-Card, Straight High Card, 3 of a Kind, 2 Pair High-Pair, 2 Pair Low-Pair, Double, Last 5 High Cards in descending
 	// 0 ------------> 1 ----------> 2 ---------------> 3 ----------------> 4 ------------> 5 ---------------> 6 ---------> 7 ---------------> 8 -------------> 9 ----> 10, 11, 12, 13, 14
-int* Hand::getScore(){
+int* HandD1::getScore(){
 	int *score = new int[15];
 
 	for(int i = 0; i < 15; i++)	// Initializes all spots in the array as zero
@@ -87,7 +87,7 @@ int* Hand::getScore(){
 	// return temp;
 }
 
-void Hand::highCard(int *score){
+void HandD1::highCard(int *score){
 	// High Card Calculation
 	int currentHC = 0; // Allows me to keep track how many high cards I've recorded
 	for(int i = 12; i >= 0; i--){
@@ -101,7 +101,7 @@ void Hand::highCard(int *score){
 	// score = temp;
 }
 
-bool Hand::isDouble(int *score){
+bool HandD1::isDouble(int *score){
 	for(int i = 0; i < 13; i++){
 		if(ranks[i] == 2){	//If there are two of a rank in the hand then there is a double
 			score[9] = i + 2;
@@ -116,7 +116,7 @@ bool Hand::isDouble(int *score){
 	** return true;	*/
 }
 
-bool Hand::isTwoPair(int *score){
+bool HandD1::isTwoPair(int *score){
 	for(int i = 0; i < 13; i++){
 		if(ranks[i] == 2){	// If there is atleast a double in the for hand it will check for another double
 			for(int k = i + 1; k < 13; k++){
@@ -136,7 +136,7 @@ bool Hand::isTwoPair(int *score){
 	** return true;	*/
 }
 
-bool Hand::isThreeofaKind(int *score){
+bool HandD1::isThreeofaKind(int *score){
 	for(int i = 0; i < 13; i++){
 		if(ranks[i] == 3){
 			score[6] = i + 2;
@@ -151,7 +151,7 @@ bool Hand::isThreeofaKind(int *score){
 	** return true;	*/
 }
 
-bool Hand::isStraight(int *score){
+bool HandD1::isStraight(int *score){
 	int cardsInARow = 0;	// Keeps track of how many cards are in a row
 	int highestCard = 0;	// Keeps track of the highest card in a straight if there is a straight
 	for(int i = 12; i >= 0; i--){
@@ -180,7 +180,7 @@ bool Hand::isStraight(int *score){
 	** return true;	*/
 }
 
-bool Hand::isFlush(int *score){
+bool HandD1::isFlush(int *score){
 	int suits[] = {0,0,0,0};
 	for(int i = 0; i < 5; i++)	// Counts how many of each suit are in a hand
 		suits[hand.at(i)->getSuit()]++;
@@ -205,7 +205,7 @@ bool Hand::isFlush(int *score){
 	** return true;	*/
 }
 
-bool Hand::isFullHouse(int *score){
+bool HandD1::isFullHouse(int *score){
 	for(int i = 0; i < 13; i++){
 		if(ranks[i] == 2){	// If there is atleast a double in the for hand it will then check for a triple
 			for(int k = 0; k < 13; k++){
@@ -225,7 +225,7 @@ bool Hand::isFullHouse(int *score){
 	** return true;	*/
 }
 
-bool Hand::isFourofaKind(int *score){
+bool HandD1::isFourofaKind(int *score){
 	for(int i = 0; i < 13; i++){
 		if(ranks[i] == 4){
 			score[1] = i+2;
@@ -241,7 +241,7 @@ bool Hand::isFourofaKind(int *score){
 	** return true;	*/
 }
 
-bool Hand::isStraightFlush(int *score){
+bool HandD1::isStraightFlush(int *score){
 	if(isFlush(score) && isStraight(score)){
 		score[0] = score[4];
 		score[4] = 0;
@@ -256,6 +256,6 @@ bool Hand::isStraightFlush(int *score){
 	** return true;	*/
 }
 
-Card* Hand::getCard(int element){
+Card* HandD1::getCard(int element){
 	return hand[element];
 }

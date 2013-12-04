@@ -1,43 +1,43 @@
 #include <algorithm>
 #include <time.h>
-#include "Deck.h"
-#include "Card.h"
+#include "DeckT1.h"
+#include "CardT1.h"
 #include "SuitValue.h"
 
-Deck::Deck(){
+DeckT1::DeckT1(){
   fill();
 }
 
-Deck::~Deck(){}
+DeckT1::~DeckT1(){}
 
-void Deck::fill(){
+void DeckT1::fill(){
   cards.clear();
   for(int i = 0; i < 52; i++){
-    Suit s = Card::suitFromInt(i/13);
-    Value v = Card::valueFromInt(i % 13);
-    cards.push_back(Card(s,v));
+    Suit s = CardT1::suitFromInt(i/13);
+    Value v = CardT1::valueFromInt(i % 13);
+    cards.push_back(CardT1(s,v));
   }
 
 }
 
-void Deck::shuffle(){
+void DeckT1::shuffle(){
   std::srand(time(0));
   std::random_shuffle(cards.begin(),cards.end());
 }
 
-Card Deck::dealCard(){
-  Card top = cards.front();
+CardT1 DeckT1::dealCard(){
+  CardT1 top = cards.front();
   cards.erase(cards.begin());
   return top;
 }
 
-int Deck::cardCount(){
+int DeckT1::cardCount(){
   return cards.size();
 }
 
-string Deck::displayHand(std::vector<Card> cards){
+string DeckT1::displayHand(std::vector<CardT1> cards){
   string handString = "";
-  std::vector<Card>::iterator itr;
+  std::vector<CardT1>::iterator itr;
   for(itr = cards.begin(); itr != cards.end(); ++itr){
     handString += (*itr).shortCardString() + " ";
   }

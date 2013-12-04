@@ -2,15 +2,15 @@
 #define PLAYER_H
 
 #include <vector>
-#include "Card.h"
+#include "CardT1.h"
 #include "Move.h"
 
 class Dealer;
 
-class Player {
+class PlayerT1 {
   public:
-    Player(int startingAmount);
-    std::vector<Card> hand;
+    PlayerT1(int startingAmount);
+    std::vector<CardT1> hand;
     int wallet;
     int ID;
     int currentContribution;
