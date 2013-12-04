@@ -60,6 +60,7 @@ int main (void) {
         gameDisplay.eraseBox(0,0,gameDisplay.getCols(),gameDisplay.getLines());
         signal(SIGWINCH, redrawD1);
         runD1(game);
+		signal(SIGWINCH, SIG_DFL);
         initScreen(gameDisplay);
       }
       else if((cardX >= 87) && (cardX <= 105) && (cardY >= 35) && (cardY <= 40)){
@@ -84,10 +85,13 @@ void runD1(GameObject* game) {
 	poker = new Poker();
 	poker->runGame(game);
 	delete poker;
+	poker = NULL;
 }
 
 void redrawD1(int sig) {
-	poker->mostlyRedraw(sig);
+	if (poker) {
+		poker->mostlyRedraw(sig);
+	}
 }
 
 bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
@@ -95,6 +99,8 @@ bool inHitBox(int cardX, int cardY, int x1, int x2, int y1, int y2){
 }
 
 void initScreen(display gameDisplay){
+  gameDisplay.eraseBox(0,0,gameDisplay.getCols(), gameDisplay.getLines());
+
   gameDisplay.drawBox(50, 18, 19, 6, 0);		// Top Left
   setText("B11","Texas Hold'em 1");
   gameDisplay.drawBox(69, 18, 18, 6, 0);		// Top Middle
