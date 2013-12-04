@@ -9,15 +9,15 @@
 #include "SuitValue.h"
 #include "PlayerT1.h"
 
-class Dealer;
+class DealerT1;
 class Computer: public PlayerT1 {
   public:
     Computer(int startingAmount);
     static int ratePocketCards(std::vector<CardT1> hand);
 
-    Move getMove(Dealer* d);
-    int getAmountForMove(Dealer* d);    
-    int getRaiseAmount(Dealer* d);
+    Move getMove(DealerT1* d);
+    int getAmountForMove(DealerT1* d);    
+    int getRaiseAmount(DealerT1* d);
     static int getDecision(int handValue);
     int raiseAmount;
     bool alreadyFolded;
