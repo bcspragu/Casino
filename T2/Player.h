@@ -39,7 +39,6 @@ public:
 
 	// functions for game play
 	virtual Bet makeBet(SmallDeck comm, int minBet, GameState state);
-	virtual bool isHuman() {return false;}
 	Bet makeBig(int minBet);
 	Bet makeLittle(int minBet);
 	void giveCard(Card * card);

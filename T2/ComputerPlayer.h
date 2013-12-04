@@ -18,7 +18,6 @@ class ComputerPlayer : public Player {
 public:
 	ComputerPlayer(int num);
 	Bet makeBet(SmallDeck comm, int minBet, GameState state);
-	bool isHuman() {false;}
 private:
 	Bet calculateBet(SmallDeck C, int minBet, GameState state);
 };
