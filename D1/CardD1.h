@@ -2,7 +2,7 @@
 #include "Frame.h"
 using namespace std;
 
-class Card
+class CardD1
 {
 private:
 	int suit;

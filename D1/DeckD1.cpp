@@ -12,7 +12,7 @@ DeckD1::DeckD1()
     deckIndex = 51;
     for (int rank = 2; rank < 15; rank++) {     //14 card rankings
         for (int suit = 0; suit < 4; suit++){   //4 suits
-        	Card* c1 = new Card(suit,rank);
+        	CardD1* c1 = new CardD1(suit,rank);
             deck.push_back(c1);
         }
     }
@@ -35,7 +35,7 @@ DeckD1::~DeckD1()
 /*
 Sends a pointer to a Card to the discard pile
 */
-void DeckD1::discardCard(Card* c1)
+void DeckD1::discardCard(CardD1* c1)
 {
     if (discard.size() < 53)
     {
@@ -63,11 +63,11 @@ Returns a five card hand from the deck. Used only at the start of new rounds.
 */
 HandD1* DeckD1::dealHand()
 {
-	/*Card* temp0 = deck.at(deckIndex);
-	Card* temp1 = deck.at(deckIndex-1);
-	Card* temp2 = deck.at(deckIndex-2);
-	Card* temp3 = deck.at(deckIndex-3);
-	Card* temp4 = deck.at(deckIndex-4);
+	/*CardD1* temp0 = deck.at(deckIndex);
+	CardD1* temp1 = deck.at(deckIndex-1);
+	CardD1* temp2 = deck.at(deckIndex-2);
+	CardD1* temp3 = deck.at(deckIndex-3);
+	CardD1* temp4 = deck.at(deckIndex-4);
 	return new HandD1(temp0,temp1,temp2,temp3,temp4);*/
     HandD1 *h1 = new HandD1(deck[deckIndex], deck[deckIndex-1], deck[deckIndex-2], deck[deckIndex-3], deck[deckIndex-4]);
     deckIndex-=5;
@@ -77,11 +77,11 @@ HandD1* DeckD1::dealHand()
 /*
 Draws a single card from a deck that has at least one card remaining. Used for replacement cards.
 */
-Card* DeckD1::drawCard()
+CardD1* DeckD1::drawCard()
 {
     deckIndex--;
     return deck[deckIndex+1];
-    //return new Card(rand() % 4, 5); //always return a 5 of a random suit. Test.
+    //return new CardD1(rand() % 4, 5); //always return a 5 of a random suit. Test.
 }
 
 /*
