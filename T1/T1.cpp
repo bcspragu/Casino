@@ -158,7 +158,7 @@ DealerT1::DealerT1(){
   smallBlindLoc = -1;
   //Game loop
 
-  while((*players.front()).wallet > largeBlind){
+  while((*players.front()).wallet > largeBlind && onGoing){
 
     //Fill and shuffle the deck before each hand
     deck.fill();
@@ -634,8 +634,7 @@ void DealerT1::showAllCards(){
   }
 
   T1::setText("B12","New Hand?");
-  bool onGoing = true;
-  while(onGoing){
+  while(true){
     key = gameDisplay.captureInput();
     keynew = key - 48;
     // if a mouse event occurred
@@ -649,10 +648,11 @@ void DealerT1::showAllCards(){
         messageString.str("");
         messageString << "Playing";
         gameDisplay.bannerBottom(messageString.str());
-        onGoing = false;
+        break;
       //Quit
       }else if(hit(cardX,cardY,87,105,35,40)){
-        exit(0);
+        onGoing = false;
+        return;
       }
     }
   }
