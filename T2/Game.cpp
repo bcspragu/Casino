@@ -88,6 +88,7 @@ bool Game::startGame(int startMoney) {
 bool Game::playRound() {
 	numFolded = 0;
 	gui.newAd();
+	playerMoney = gameData.getPlayerMoney(0);
 	if (newRound()) {
 		if (!initialTurns()) {
 			if (!flop()) {
@@ -95,13 +96,15 @@ bool Game::playRound() {
 					if (!river()) {
 						updateGui(3);	// Show cards
 						compareHands();
+						playerMoney = gameData.getPlayerMoney(0);
 					}
 				}
 			}
 		}
+		playerMoney = gameData.getPlayerMoney(0);
 		return endRound();
 	}
-
+	playerMoney = gameData.getPlayerMoney(0);
 	return false;
 }
 
@@ -363,8 +366,6 @@ bool Game::purge() {
 	// Loop around the player list once and remove players
 	for (i = 0; i < size; i++) {
 		//keep track of player money after bet
-		if(player->isHuman())
-				playerMoney = player->getMoney();
 		if (player->getMoney() < minBet || player->getMoney() <= 0) {
 			centerPot += player->getMoney();
 			if (playerList.remove() == button) {	// advance the button

@@ -32,8 +32,10 @@ int T2Poker::runGame(GameObject* g) {
 	T2GameDisplay.eraseScreen(true);
 
 	//pass values back to menu
-	g->cardsPlayed = game.getCardsPlayed();
+	g->cardsPlayed += game.getCardsPlayed();
+
 	g->cash = game.getPlayerMoney();
+	//game.getGui();
 
 	return 0;
 }
