@@ -34,3 +34,8 @@ games:
 
 debug_games:
 	cd D1; make debug; cd ../T1; make debug; cd ../T2; make debug; cd ../Objects; cp ../T1/*.o .; cp ../T2/*.o .; cp ../D1/*.o .; cp ../*.o .; g++ *.o -o ../Casino -lncursesw
+
+test: .FORCE
+
+.FORCE:
+	cd D1; make test; cd ../T1; make test; cd ../T2; make test;
